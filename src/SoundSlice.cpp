@@ -11,6 +11,7 @@
 void SoundSlice::setup(vector<ofColor> &rainbow_colors_, ofColor* qualitative_colors_,string csv_line){
     rainbow_colors = rainbow_colors_;
     category_colors = qualitative_colors_;
+    current_pos_double.resize(2);
     parse_csv_line(csv_line);
 }
 
@@ -24,16 +25,22 @@ void SoundSlice::parse_csv_line(string csv_line){
     //cout << values[0] << endl;
 }
 
-void SoundSlice::draw(int x_off, int y_off, int width, int height, int x_index, int y_index, int c_index){
+vector<double> SoundSlice::draw(int x_off, int y_off, int width, int height, int x_index, int y_index, int c_index){
     
     ofFill();
     
     ofSetColor(rainbow_colors[int(values[c_index] * 255.f)]);
+    
+    current_pos_double[0] = values[x_index];
+    current_pos_double[1] = values[y_index];
+    
     current_pos.set(values[x_index], values[y_index]);
     
     int x = x_off + (width * current_pos.x);
     int y = y_off + (height * (1.f - current_pos.y));
     ofDrawCircle(x,y, 3);
+    
+    return current_pos_double;
 }
 
 void SoundSlice::post(){

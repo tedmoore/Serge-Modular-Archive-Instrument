@@ -4,6 +4,7 @@
 #include "SoundSlice.hpp"
 #include "ofxGui.h"
 #include "ofxDatGui.h"
+#include "ofxKDTree.h"
 
 class ofApp : public ofBaseApp{
     
@@ -50,4 +51,6 @@ public:
     
     int plot_x, plot_y, plot_w, plot_h;
     int margin = 10;
+    
+    ofxKDTree kdTree;
 };

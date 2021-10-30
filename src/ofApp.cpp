@@ -138,9 +138,13 @@ void ofApp::drawPlot(){
 
     ofFill();
     
+    kdTree.clear();
+    
     for(SoundSlice *slice : slices){
-        slice->draw(0,0,plot_fbo.getWidth(),plot_fbo.getHeight(),x_index_sl,y_index_sl,c_index_sl);
+        kdTree.addPoint(slice->draw(0,0,plot_fbo.getWidth(),plot_fbo.getHeight(),x_index_sl,y_index_sl,c_index_sl));
     }
+    
+    kdTree.constructKDTree();
     
     plot_fbo.end();
 }
@@ -149,6 +153,14 @@ void ofApp::find_nearest(int x, int y){
     float scaled_x = ofMap(x,plot_x,plot_x + plot_w,0.f,1.f);
     float scaled_y = ofMap(y,plot_y,plot_y + plot_h,1.f,0.f);
     cout << scaled_x << " " << scaled_y << endl;
+    
+    vector<double> query_pt = {scaled_x,scaled_y};
+    vector<size_t> indexes;
+    vector<double> dists;
+    kdTree.getKNN(query_pt, 1, indexes, dists);
+    
+    cout << indexes[0] << endl;
+    slices[indexes[0]]->post();
 }
 
 //--------------------------------------------------------------
