@@ -24,12 +24,17 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
-    void drawPlot();
+    void drawPlot(bool buildKDTree);
     void find_nearest(int x, int y);
-    
-    ofxDatGuiDropdown* menu;
-    void onDropdownEvent(ofxDatGuiDropdownEvent e);
-    
+
+    ofxDatGui* gui;
+    ofxDatGuiDropdown* x_menu;
+    ofxDatGuiDropdown* y_menu;
+    ofxDatGuiDropdown* c_menu;
+    void onDropdownEventX(ofxDatGuiDropdownEvent e);
+    void onDropdownEventY(ofxDatGuiDropdownEvent e);
+    void onDropdownEventC(ofxDatGuiDropdownEvent e);
+
     ofxDatGuiSlider* mySlider0;
     ofxDatGuiSlider* mySlider1;
     
@@ -51,6 +56,7 @@ public:
     
     int plot_x, plot_y, plot_w, plot_h;
     int margin = 10;
+    int menu_width = 300;
     
     ofxKDTree kdTree;
 };

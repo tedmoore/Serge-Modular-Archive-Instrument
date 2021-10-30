@@ -64,7 +64,7 @@ void ofApp::setup(){
     labels.push_back("loudness norm");
     labels.push_back("num params");
     
-    int n_params = int(slices[0]->values[10]);
+    int n_params = int(slices[0]->values[18]);
     for(int i = 0; i < n_params; i++){
         labels.push_back("param " + ofToString(i) + " raw");
     }
@@ -73,51 +73,45 @@ void ofApp::setup(){
         labels.push_back("param " + ofToString(i) + " int");
     }
     
-    // instantiate the dropdown //
-    menu = new ofxDatGuiDropdown("Dimension", labels);
     
-    // and position it in the middle of the screen //
-    menu->setPosition(50,50);
+    gui = new ofxDatGui(margin,margin);
+    gui->setWidth(menu_width);
+
+    gui->addLabel("X Dimension");
+    x_menu = gui->addDropdown("X",labels);
+    x_menu->onDropdownEvent(this, &ofApp::onDropdownEventX);
+
+    gui->addLabel("Y Dimension");
+    y_menu = gui->addDropdown("Y",labels);
+    y_menu->onDropdownEvent(this, &ofApp::onDropdownEventY);
     
-    cout << menu->size() << endl;
+    gui->addLabel("Color");
+    c_menu = gui->addDropdown("C",labels);
+    c_menu->onDropdownEvent(this, &ofApp::onDropdownEventC);
     
-    // register to listen for change events //
-    menu->onDropdownEvent(this, &ofApp::onDropdownEvent);
-    
-    // finally let's have it open by default //
-    //        menu->expand();
-    
-//    mySlider0 = new ofxDatGuiSlider("test0", 0.f, 1.f, 0.f);
-//    mySlider0->setPosition(10,10);
-//    mySlider0->onSliderEvent([&](ofxDatGuiSliderEvent e)
-//                             {
-//        cout << "A slider 0 was moved! " << e.value << endl;
-//    });
-//
-//    mySlider1 = new ofxDatGuiSlider("test1", 0.f, 1.f, 0.f);
-//    mySlider1->setPosition(10,50);
-//    mySlider1->onSliderEvent([&](ofxDatGuiSliderEvent e)
-//                             {
-//        cout << "A slider 1 was moved! " << e.value << endl;
-//    });
-    
-    plot_fbo.allocate(1920, 1080);
     windowResized(ofGetWidth(),ofGetHeight());
-    drawPlot();
+    drawPlot(true);
 }
 
-void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e){
+void ofApp::onDropdownEventX(ofxDatGuiDropdownEvent e){
     x_index_sl = e.child;
-    
-    cout << e.parent << " " << x_index_sl << "\n";
-    
-    drawPlot();
+    drawPlot(true);
+}
+
+void ofApp::onDropdownEventY(ofxDatGuiDropdownEvent e){
+    y_index_sl = e.child;
+    drawPlot(true);
+}
+
+void ofApp::onDropdownEventC(ofxDatGuiDropdownEvent e){
+    c_index_sl = e.child;
+    drawPlot(true);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    menu->update();
+    gui->update();
 //    mySlider0->update();
 //    mySlider1->update();
 }
@@ -128,25 +122,21 @@ void ofApp::draw(){
     //drawPlot(200,50,ofGetWidth()-300,ofGetHeight()-100);
     
     plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
-    menu->draw();
+    gui->draw();
 }
 
-void ofApp::drawPlot(){
+void ofApp::drawPlot(bool buildKDTree){
+    if(buildKDTree) kdTree.clear();
     
+    plot_fbo.allocate(plot_w, plot_h);
     plot_fbo.begin();
     ofClear(255,255,255,255);
-
     ofFill();
-    
-    kdTree.clear();
-    
     for(SoundSlice *slice : slices){
         kdTree.addPoint(slice->draw(0,0,plot_fbo.getWidth(),plot_fbo.getHeight(),x_index_sl,y_index_sl,c_index_sl));
     }
-    
-    kdTree.constructKDTree();
-    
     plot_fbo.end();
+    if(buildKDTree) kdTree.constructKDTree();
 }
 
 void ofApp::find_nearest(int x, int y){
@@ -205,10 +195,12 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-    plot_x = 300;
+    plot_x = menu_width + margin + margin;
     plot_y = margin;
     plot_w = w - (plot_x + margin);
     plot_h = h - (margin * 2);
+    
+    drawPlot(false);
 }
 
 //--------------------------------------------------------------
