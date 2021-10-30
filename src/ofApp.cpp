@@ -44,49 +44,78 @@ void ofApp::setup(){
     
     data.close();
     
-    labels.push_back("param 1d index");
-    labels.push_back("file num");
-    labels.push_back("start sample");
-    labels.push_back("num samples");
-    labels.push_back("umap x norm");
-    labels.push_back("umap y norm");
-    labels.push_back("grid x norm");
-    labels.push_back("grid y norm");
-    labels.push_back("spec cent");
-    labels.push_back("spec flatness");
-    labels.push_back("pitch");
-    labels.push_back("pitch conf");
-    labels.push_back("loudness");
-    labels.push_back("spec cent norm");
-    labels.push_back("spec flatness norm");
-    labels.push_back("pitch norm");
-    labels.push_back("pitch conf norm");
-    labels.push_back("loudness norm");
-    labels.push_back("num params");
+    vector<string> values_headers;
     
+    values_headers.push_back("param 1d index");     // 0
+    values_headers.push_back("file num");           // 1
+    values_headers.push_back("start sample");       // 2
+    values_headers.push_back("num samples");        // 3
+    values_headers.push_back("umap x norm");        // 4
+    
+    dropdown_options.push_back("UMAP 1");
+    dropdown_index_lookup.push_back(4);
+    
+    values_headers.push_back("umap y norm");        // 5
+    
+    dropdown_options.push_back("UMAP 2");
+    dropdown_index_lookup.push_back(5);
+    
+    values_headers.push_back("grid x norm");        // 6
+    values_headers.push_back("grid y norm");        // 7
+    values_headers.push_back("spec cent");          // 8
+    values_headers.push_back("spec flatness");      // 9
+    values_headers.push_back("pitch");              // 10
+    values_headers.push_back("pitch conf");         // 11
+    values_headers.push_back("loudness");           // 12
+    values_headers.push_back("spec cent norm");     // 13
+    
+    dropdown_options.push_back("Spectral Centroid");
+    dropdown_index_lookup.push_back(13);
+    
+    values_headers.push_back("spec flatness norm"); // 14
+    
+    dropdown_options.push_back("Spectral Flatness");
+    dropdown_index_lookup.push_back(14);
+    
+    values_headers.push_back("pitch norm");         // 15
+    
+    dropdown_options.push_back("Pitch");
+    dropdown_index_lookup.push_back(15);
+    
+    values_headers.push_back("pitch conf norm");    // 16
+    
+    dropdown_options.push_back("Pitch Confidence");
+    dropdown_index_lookup.push_back(16);
+    
+    values_headers.push_back("loudness norm");      // 17
+    
+    dropdown_options.push_back("Loudness");
+    dropdown_index_lookup.push_back(17);
+    
+    values_headers.push_back("num params");         // 18
+
     int n_params = int(slices[0]->values[18]);
     for(int i = 0; i < n_params; i++){
-        labels.push_back("param " + ofToString(i) + " raw");
+        values_headers.push_back("param " + ofToString(i) + " raw");
     }
     
     for(int i = 0; i < n_params; i++){
-        labels.push_back("param " + ofToString(i) + " int");
+        values_headers.push_back("param " + ofToString(i) + " int");
     }
-    
     
     gui = new ofxDatGui(margin,margin);
     gui->setWidth(menu_width);
 
     gui->addLabel("X Dimension");
-    x_menu = gui->addDropdown("X",labels);
+    x_menu = gui->addDropdown("X",dropdown_options);
     x_menu->onDropdownEvent(this, &ofApp::onDropdownEventX);
 
     gui->addLabel("Y Dimension");
-    y_menu = gui->addDropdown("Y",labels);
+    y_menu = gui->addDropdown("Y",dropdown_options);
     y_menu->onDropdownEvent(this, &ofApp::onDropdownEventY);
     
     gui->addLabel("Color");
-    c_menu = gui->addDropdown("C",labels);
+    c_menu = gui->addDropdown("C",dropdown_options);
     c_menu->onDropdownEvent(this, &ofApp::onDropdownEventC);
     
     windowResized(ofGetWidth(),ofGetHeight());
@@ -94,17 +123,17 @@ void ofApp::setup(){
 }
 
 void ofApp::onDropdownEventX(ofxDatGuiDropdownEvent e){
-    x_index_sl = e.child;
+    x_index_sl = dropdown_index_lookup[e.child];
     drawPlot(true);
 }
 
 void ofApp::onDropdownEventY(ofxDatGuiDropdownEvent e){
-    y_index_sl = e.child;
+    y_index_sl = dropdown_index_lookup[e.child];
     drawPlot(true);
 }
 
 void ofApp::onDropdownEventC(ofxDatGuiDropdownEvent e){
-    c_index_sl = e.child;
+    c_index_sl = dropdown_index_lookup[e.child];
     drawPlot(true);
 }
 

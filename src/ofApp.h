@@ -52,7 +52,8 @@ public:
     int y_index_sl = 5;
     int c_index_sl = 4;
     
-    vector<string> labels;
+    vector<string> dropdown_options;
+    vector<int> dropdown_index_lookup;
     
     int plot_x, plot_y, plot_w, plot_h;
     int margin = 10;
