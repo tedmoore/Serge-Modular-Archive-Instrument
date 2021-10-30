@@ -23,6 +23,8 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
+    void drawPlot();
+    void find_nearest(int x, int y);
     
     ofxDatGuiDropdown* menu;
     void onDropdownEvent(ofxDatGuiDropdownEvent e);
@@ -35,6 +37,8 @@ public:
     
     ofColor qualitative_colors[12];
     
+    ofFbo plot_fbo;
+    
     bool is_moving = false;
     float interp = 0;
     
@@ -43,4 +47,7 @@ public:
     int c_index_sl = 4;
     
     vector<string> labels;
+    
+    int plot_x, plot_y, plot_w, plot_h;
+    int margin = 10;
 };

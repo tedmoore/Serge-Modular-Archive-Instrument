@@ -32,7 +32,7 @@ void SoundSlice::draw(int x_off, int y_off, int width, int height, int x_index, 
     current_pos.set(values[x_index], values[y_index]);
     
     int x = x_off + (width * current_pos.x);
-    int y = y_off + (height * current_pos.y);
+    int y = y_off + (height * (1.f - current_pos.y));
     ofDrawCircle(x,y, 3);
 }
 

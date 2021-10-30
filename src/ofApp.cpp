@@ -25,7 +25,7 @@ void ofApp::setup(){
         rainbow_colors.push_back(ofColor(ofToInt(vals[0]),ofToInt(vals[1]),ofToInt(vals[2])));
     }
     
-    cout << rainbow_colors.size() << endl;
+//    cout << rainbow_colors.size() << endl;
     
     data.close();
     
@@ -72,11 +72,14 @@ void ofApp::setup(){
     for(int i = 0; i < n_params; i++){
         labels.push_back("param " + ofToString(i) + " int");
     }
+    
     // instantiate the dropdown //
     menu = new ofxDatGuiDropdown("Dimension", labels);
     
     // and position it in the middle of the screen //
-    menu->setPosition(ofGetWidth()/2 - menu->getWidth()/2, ofGetHeight()/2 - menu->getHeight()/2 - 100);
+    menu->setPosition(50,50);
+    
+    cout << menu->size() << endl;
     
     // register to listen for change events //
     menu->onDropdownEvent(this, &ofApp::onDropdownEvent);
@@ -84,54 +87,68 @@ void ofApp::setup(){
     // finally let's have it open by default //
     //        menu->expand();
     
-    mySlider0 = new ofxDatGuiSlider("test0", 0.f, 1.f, 0.f);
-    mySlider0->setPosition(10,10);
-    mySlider0->onSliderEvent([&](ofxDatGuiSliderEvent e)
-                             {
-        cout << "A slider 0 was moved! " << e.value << endl;
-    });
+//    mySlider0 = new ofxDatGuiSlider("test0", 0.f, 1.f, 0.f);
+//    mySlider0->setPosition(10,10);
+//    mySlider0->onSliderEvent([&](ofxDatGuiSliderEvent e)
+//                             {
+//        cout << "A slider 0 was moved! " << e.value << endl;
+//    });
+//
+//    mySlider1 = new ofxDatGuiSlider("test1", 0.f, 1.f, 0.f);
+//    mySlider1->setPosition(10,50);
+//    mySlider1->onSliderEvent([&](ofxDatGuiSliderEvent e)
+//                             {
+//        cout << "A slider 1 was moved! " << e.value << endl;
+//    });
     
-    mySlider1 = new ofxDatGuiSlider("test1", 0.f, 1.f, 0.f);
-    mySlider1->setPosition(10,50);
-    mySlider1->onSliderEvent([&](ofxDatGuiSliderEvent e)
-                             {
-        cout << "A slider 1 was moved! " << e.value << endl;
-    });
+    plot_fbo.allocate(1920, 1080);
+    windowResized(ofGetWidth(),ofGetHeight());
+    drawPlot();
 }
 
 void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e){
     x_index_sl = e.child;
     
     cout << e.parent << " " << x_index_sl << "\n";
+    
+    drawPlot();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    // cout << ofGetFrameNum() << endl;
-    //    x_label.operator=(labels[x_index_sl]);
-    //    y_label.operator=(labels[y_index_sl]);
-    //    c_label.operator=(labels[c_index_sl]);
+    
     menu->update();
-    mySlider0->update();
-    mySlider1->update();
+//    mySlider0->update();
+//    mySlider1->update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    ofVec2f wh_vec(ofGetWidth(),ofGetHeight());
+    //drawPlot(200,50,ofGetWidth()-300,ofGetHeight()-100);
     
+    plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
+    menu->draw();
+}
+
+void ofApp::drawPlot(){
+    
+    plot_fbo.begin();
+    ofClear(255,255,255,255);
+
     ofFill();
-    ofSetColor(255,255,255);
-    ofDrawRectangle(300,50,1200,900);
     
     for(SoundSlice *slice : slices){
-        slice->draw(300,50,1200,900,x_index_sl,y_index_sl,c_index_sl);
+        slice->draw(0,0,plot_fbo.getWidth(),plot_fbo.getHeight(),x_index_sl,y_index_sl,c_index_sl);
     }
     
-    menu->draw();
-    mySlider0->draw();
-    mySlider1->draw();
+    plot_fbo.end();
+}
+
+void ofApp::find_nearest(int x, int y){
+    float scaled_x = ofMap(x,plot_x,plot_x + plot_w,0.f,1.f);
+    float scaled_y = ofMap(y,plot_y,plot_y + plot_h,1.f,0.f);
+    cout << scaled_x << " " << scaled_y << endl;
 }
 
 //--------------------------------------------------------------
@@ -151,12 +168,12 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-    
+    find_nearest(x,y);
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    
+    find_nearest(x,y);
 }
 
 //--------------------------------------------------------------
@@ -176,7 +193,10 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-    
+    plot_x = 300;
+    plot_y = margin;
+    plot_w = w - (plot_x + margin);
+    plot_h = h - (margin * 2);
 }
 
 //--------------------------------------------------------------
