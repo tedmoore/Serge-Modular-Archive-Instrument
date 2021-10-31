@@ -5,6 +5,8 @@
 #include "ofxGui.h"
 #include "ofxDatGui.h"
 #include "ofxKDTree.h"
+#include "ofxPortSF.h"
+#include "SoundFile.hpp"
 
 class ofApp : public ofBaseApp{
     
@@ -60,4 +62,6 @@ public:
     int menu_width = 300;
     
     ofxKDTree kdTree;
+    
+    vector<SoundFile> soundFiles;
 };

@@ -25,7 +25,7 @@ void ofApp::setup(){
         rainbow_colors.push_back(ofColor(ofToInt(vals[0]),ofToInt(vals[1]),ofToInt(vals[2])));
     }
     
-//    cout << rainbow_colors.size() << endl;
+    //    cout << rainbow_colors.size() << endl;
     
     data.close();
     
@@ -33,10 +33,10 @@ void ofApp::setup(){
     
     while(!data.eof()){
         getline(data, line);
-
-//        vector<string> tokens = ofSplitString(line," ,");
-//        cout << tokens[0] << endl;
-
+        
+        //        vector<string> tokens = ofSplitString(line," ,");
+        //        cout << tokens[0] << endl;
+        
         SoundSlice* soundSlice = new SoundSlice;
         soundSlice->setup(rainbow_colors,qualitative_colors,line);
         slices.push_back(soundSlice);
@@ -93,7 +93,7 @@ void ofApp::setup(){
     dropdown_index_lookup.push_back(17);
     
     values_headers.push_back("num params");         // 18
-
+    
     int n_params = int(slices[0]->values[18]);
     for(int i = 0; i < n_params; i++){
         values_headers.push_back("param " + ofToString(i) + " raw");
@@ -105,11 +105,11 @@ void ofApp::setup(){
     
     gui = new ofxDatGui(margin,margin);
     gui->setWidth(menu_width);
-
+    
     gui->addLabel("X Dimension");
     x_menu = gui->addDropdown("X",dropdown_options);
     x_menu->onDropdownEvent(this, &ofApp::onDropdownEventX);
-
+    
     gui->addLabel("Y Dimension");
     y_menu = gui->addDropdown("Y",dropdown_options);
     y_menu->onDropdownEvent(this, &ofApp::onDropdownEventY);
@@ -120,6 +120,16 @@ void ofApp::setup(){
     
     windowResized(ofGetWidth(),ofGetHeight());
     drawPlot(true);
+    
+    if (psf_init()) {//initialize the portSF library
+        cout << "unable to initalize port sound file ):" << endl;//warn if initialization fails
+    }
+    
+    soundFiles.resize(3);
+    
+    for(int i = 0; i < 3; i++){
+        soundFiles[i].load(ofToDataPath("audio_files/part"+ofToString(i+1)+"_44k_16b.wav"));
+    }
 }
 
 void ofApp::onDropdownEventX(ofxDatGuiDropdownEvent e){
@@ -141,8 +151,8 @@ void ofApp::onDropdownEventC(ofxDatGuiDropdownEvent e){
 void ofApp::update(){
     
     gui->update();
-//    mySlider0->update();
-//    mySlider1->update();
+    //    mySlider0->update();
+    //    mySlider1->update();
 }
 
 //--------------------------------------------------------------
@@ -219,7 +229,8 @@ void ofApp::mouseEntered(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::mouseExited(int x, int y){
-    
+    ofSoundStreamClose();
+    psf_finish();
 }
 
 //--------------------------------------------------------------
