@@ -28,6 +28,8 @@ public:
     void gotMessage(ofMessage msg);
     void drawPlot(bool buildKDTree);
     void find_nearest(int x, int y);
+    bool mouseInPlot(int x, int y);
+    void onSliderEvent(ofxDatGuiSliderEvent e);
 
     ofxDatGui* gui;
     ofxDatGuiDropdown* x_menu;
@@ -37,8 +39,7 @@ public:
     void onDropdownEventY(ofxDatGuiDropdownEvent e);
     void onDropdownEventC(ofxDatGuiDropdownEvent e);
 
-    ofxDatGuiSlider* mySlider0;
-    ofxDatGuiSlider* mySlider1;
+    ofxDatGuiSlider* sliders[4];
     
     vector<SoundSlice*> slices;
     vector<ofColor> rainbow_colors;
@@ -63,5 +64,9 @@ public:
     
     ofxKDTree kdTree;
     
+//    ofxKDTree params_kdTree;
+    
     vector<SoundFile> soundFiles;
+    
+//    int highlighted_index = 0;
 };

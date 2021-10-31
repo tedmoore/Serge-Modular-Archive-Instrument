@@ -44,6 +44,16 @@ void ofApp::setup(){
     
     data.close();
     
+//    vector<double> point;
+//    point.resize(4);
+//    for(int i = 0; i < slices.size(); i++){
+//        for(int j = 0; j < 4; j++){
+//            point[j] = slices[i]->values[19 + j];
+//        }
+//
+//        params_kdTree.addPoint(point);
+//    }
+    
     vector<string> values_headers;
     
     values_headers.push_back("param 1d index");     // 0
@@ -118,6 +128,17 @@ void ofApp::setup(){
     c_menu = gui->addDropdown("C",dropdown_options);
     c_menu->onDropdownEvent(this, &ofApp::onDropdownEventC);
     
+    
+    sliders[0] = gui->addSlider("param0", 0.f, 0.9f);
+    sliders[1] = gui->addSlider("param1", 0.f, 1.f);
+    sliders[2] = gui->addSlider("param2", -1.f, 0.7f);
+    sliders[3] = gui->addSlider("param3", -1.f, 0.7f);
+    
+    for(int i = 0; i < 4; i++){
+        sliders[i]->onSliderEvent(this, &ofApp::onSliderEvent);
+    }
+
+    
     windowResized(ofGetWidth(),ofGetHeight());
     drawPlot(true);
     
@@ -127,9 +148,26 @@ void ofApp::setup(){
     
     soundFiles.resize(3);
     
-    for(int i = 0; i < 3; i++){
-        soundFiles[i].load(ofToDataPath("audio_files/part"+ofToString(i+1)+"_44k_16b.wav"));
-    }
+//    for(int i = 0; i < 3; i++){
+//        soundFiles[i].load(ofToDataPath("audio_files/part"+ofToString(i+1)+"_44k_16b.wav"));
+//    }
+}
+
+void ofApp::onSliderEvent(ofxDatGuiSliderEvent e){
+//    vector<double> point;
+//    point.resize(4);
+//    for(int i = 0; i < 4; i++){
+//        point[i] = sliders[i]->getValue();
+//    }
+//
+//    vector<size_t> indexes;
+//    vector<double> distances;
+//
+//    params_kdTree.getKNN(point,1, indexes, distances);
+//
+//    cout << indexes[0] << endl;
+    
+//    highlighted_index = indexes[0];
 }
 
 void ofApp::onDropdownEventX(ofxDatGuiDropdownEvent e){
@@ -162,6 +200,10 @@ void ofApp::draw(){
     
     plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
     gui->draw();
+    
+//    ofVec2f highlighted_pos = slices[highlighted_index]->current_pos.operator*(ofVec2f(ofGetWidth(),ofGetHeight()));
+//
+//    ofDrawCircle(highlighted_pos, 5);
 }
 
 void ofApp::drawPlot(bool buildKDTree){
@@ -186,10 +228,17 @@ void ofApp::find_nearest(int x, int y){
     vector<double> query_pt = {scaled_x,scaled_y};
     vector<size_t> indexes;
     vector<double> dists;
+    
     kdTree.getKNN(query_pt, 1, indexes, dists);
     
     cout << indexes[0] << endl;
-    slices[indexes[0]]->post();
+//    slices[indexes[0]]->post();
+    
+//    highlighted_index = indexes[0];
+    
+    for(int i = 0; i < 4; i++){
+        sliders[i]->setValue(slices[indexes[0]]->values[19 + i]);
+    }
 }
 
 //--------------------------------------------------------------
@@ -207,14 +256,22 @@ void ofApp::mouseMoved(int x, int y ){
     
 }
 
+bool ofApp::mouseInPlot(int x, int y){
+    bool left = x >= plot_x;
+    bool right = x <= (plot_x + plot_w);
+    bool top = y >= plot_y;
+    bool bottom = y <= (plot_y + plot_h);
+    return left && right && top && bottom;
+}
+
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-    find_nearest(x,y);
+    if(mouseInPlot(x,y)) find_nearest(x,y);
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    find_nearest(x,y);
+    if(mouseInPlot(x,y)) find_nearest(x,y);
 }
 
 //--------------------------------------------------------------
