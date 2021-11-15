@@ -25,17 +25,12 @@ void ofApp::setup(){
         rainbow_colors.push_back(ofColor(ofToInt(vals[0]),ofToInt(vals[1]),ofToInt(vals[2])));
     }
     
-    //    cout << rainbow_colors.size() << endl;
-    
     data.close();
     
     data.open(ofToDataPath(csv_path));
     
     while(!data.eof()){
         getline(data, line);
-        
-        //        vector<string> tokens = ofSplitString(line," ,");
-        //        cout << tokens[0] << endl;
         
         SoundSlice* soundSlice = new SoundSlice;
         soundSlice->setup(rainbow_colors,qualitative_colors,line);
@@ -44,15 +39,17 @@ void ofApp::setup(){
     
     data.close();
     
-//    vector<double> point;
-//    point.resize(4);
-//    for(int i = 0; i < slices.size(); i++){
-//        for(int j = 0; j < 4; j++){
-//            point[j] = slices[i]->values[19 + j];
-//        }
-//
-//        params_kdTree.addPoint(point);
-//    }
+    vector<double> point;
+    point.resize(4);
+    for(int i = 0; i < slices.size(); i++){
+        for(int j = 0; j < 4; j++){
+            point[j] = slices[i]->values[19 + j];
+        }
+
+        kdTree_params.addPoint(point);
+    }
+    
+    kdTree_params.constructKDTree();
     
     vector<string> values_headers;
     
@@ -146,28 +143,30 @@ void ofApp::setup(){
         cout << "unable to initalize port sound file ):" << endl;//warn if initialization fails
     }
     
-    soundFiles.resize(3);
-    
+//    soundFiles.resize(3);
+//
 //    for(int i = 0; i < 3; i++){
 //        soundFiles[i].load(ofToDataPath("audio_files/part"+ofToString(i+1)+"_44k_16b.wav"));
 //    }
 }
 
-void ofApp::onSliderEvent(ofxDatGuiSliderEvent e){
-//    vector<double> point;
-//    point.resize(4);
-//    for(int i = 0; i < 4; i++){
-//        point[i] = sliders[i]->getValue();
-//    }
-//
-//    vector<size_t> indexes;
-//    vector<double> distances;
-//
-//    params_kdTree.getKNN(point,1, indexes, distances);
-//
-//    cout << indexes[0] << endl;
+void ofApp::audioOut(float *output, int bufferSize, int nChannels){
     
-//    highlighted_index = indexes[0];
+}
+
+void ofApp::onSliderEvent(ofxDatGuiSliderEvent e){
+    vector<double> point;
+    point.resize(4);
+    for(int i = 0; i < 4; i++){
+        point[i] = sliders[i]->getValue();
+    }
+
+    vector<size_t> indexes;
+    vector<double> distances;
+
+    kdTree_params.getKNN(point,1, indexes, distances);
+    
+    highlighted_index = indexes[0];
 }
 
 void ofApp::onDropdownEventX(ofxDatGuiDropdownEvent e){
@@ -187,54 +186,46 @@ void ofApp::onDropdownEventC(ofxDatGuiDropdownEvent e){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
     gui->update();
-    //    mySlider0->update();
-    //    mySlider1->update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    //drawPlot(200,50,ofGetWidth()-300,ofGetHeight()-100);
-    
     plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
     gui->draw();
     
-//    ofVec2f highlighted_pos = slices[highlighted_index]->current_pos.operator*(ofVec2f(ofGetWidth(),ofGetHeight()));
-//
-//    ofDrawCircle(highlighted_pos, 5);
+    if(highlighted_index >= 0){
+        ofVec2f highlighted_pos = slices[highlighted_index]->current_pos.operator*(ofVec2f(ofGetWidth(),ofGetHeight()));
+        ofDrawCircle(highlighted_pos, 5);
+    }
 }
 
 void ofApp::drawPlot(bool buildKDTree){
-    if(buildKDTree) kdTree.clear();
+    if(buildKDTree) kdTree_2d.clear();
     
     plot_fbo.allocate(plot_w, plot_h);
     plot_fbo.begin();
     ofClear(255,255,255,255);
     ofFill();
     for(SoundSlice *slice : slices){
-        kdTree.addPoint(slice->draw(0,0,plot_fbo.getWidth(),plot_fbo.getHeight(),x_index_sl,y_index_sl,c_index_sl));
+        kdTree_2d.addPoint(slice->draw(0,0,plot_fbo.getWidth(),plot_fbo.getHeight(),x_index_sl,y_index_sl,c_index_sl));
     }
     plot_fbo.end();
-    if(buildKDTree) kdTree.constructKDTree();
+    if(buildKDTree) kdTree_2d.constructKDTree();
 }
 
 void ofApp::find_nearest(int x, int y){
     float scaled_x = ofMap(x,plot_x,plot_x + plot_w,0.f,1.f);
     float scaled_y = ofMap(y,plot_y,plot_y + plot_h,1.f,0.f);
-    cout << scaled_x << " " << scaled_y << endl;
     
     vector<double> query_pt = {scaled_x,scaled_y};
     vector<size_t> indexes;
     vector<double> dists;
     
-    kdTree.getKNN(query_pt, 1, indexes, dists);
+    kdTree_2d.getKNN(query_pt, 1, indexes, dists);
     
-    cout << indexes[0] << endl;
-//    slices[indexes[0]]->post();
-    
-//    highlighted_index = indexes[0];
+    highlighted_index = indexes[0];
     
     for(int i = 0; i < 4; i++){
         sliders[i]->setValue(slices[indexes[0]]->values[19 + i]);

@@ -62,11 +62,13 @@ public:
     int margin = 10;
     int menu_width = 300;
     
-    ofxKDTree kdTree;
+    ofxKDTree kdTree_2d;
     
-//    ofxKDTree params_kdTree;
+    ofxKDTree kdTree_params;
     
     vector<SoundFile> soundFiles;
     
-//    int highlighted_index = 0;
+    int highlighted_index = -1;
+    
+    
 };
