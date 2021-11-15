@@ -30,6 +30,7 @@ public:
     void find_nearest(int x, int y);
     bool mouseInPlot(int x, int y);
     void onSliderEvent(ofxDatGuiSliderEvent e);
+    void audioOut(float *output, int bufferSize, int nChannels);
 
     ofxDatGui* gui;
     ofxDatGuiDropdown* x_menu;
@@ -70,5 +71,5 @@ public:
     
     int highlighted_index = -1;
     
-    
+    ofSoundStream soundstream;
 };

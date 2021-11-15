@@ -2,6 +2,8 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    cout.precision(17);
+    
     ofSetFrameRate(60);
     //    ofxGuiEnableHiResDisplay();
     ofBackground(100);
@@ -148,10 +150,19 @@ void ofApp::setup(){
 //    for(int i = 0; i < 3; i++){
 //        soundFiles[i].load(ofToDataPath("audio_files/part"+ofToString(i+1)+"_44k_16b.wav"));
 //    }
+    
+    soundFiles[0].load(ofToDataPath("audio_files/part1_44k_16b.wav"));
+    
+    soundstream.setup(2, 0, 44100, 256, 4);
 }
 
 void ofApp::audioOut(float *output, int bufferSize, int nChannels){
-    
+    for(int i = 0; i < bufferSize; i++){
+        float val = soundFiles[0].tick();
+        for(int j = 0; j < nChannels; j++){
+            output[(i * nChannels) + j] = val;
+        }
+    }
 }
 
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e){
@@ -192,12 +203,20 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
+    ofSetColor(255);
     plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
     gui->draw();
     
     if(highlighted_index >= 0){
-        ofVec2f highlighted_pos = slices[highlighted_index]->current_pos.operator*(ofVec2f(ofGetWidth(),ofGetHeight()));
-        ofDrawCircle(highlighted_pos, 5);
+        ofSetColor(0,0,0);
+        ofVec2f highlighted_pos = slices[highlighted_index]->current_pos;
+        highlighted_pos.operator*=(ofVec2f(plot_w,plot_h));
+        highlighted_pos.operator+=(ofVec2f(plot_x,plot_y));
+        ofDrawCircle(highlighted_pos,6);
+        for(int i = 1; i < 4; i++){
+            cout << slices[highlighted_index]->values[i] << " " ;
+        }
+        cout << endl;
     }
 }
 
@@ -217,7 +236,7 @@ void ofApp::drawPlot(bool buildKDTree){
 
 void ofApp::find_nearest(int x, int y){
     float scaled_x = ofMap(x,plot_x,plot_x + plot_w,0.f,1.f);
-    float scaled_y = ofMap(y,plot_y,plot_y + plot_h,1.f,0.f);
+    float scaled_y = ofMap(y,plot_y,plot_y + plot_h,0.f,1.f);
     
     vector<double> query_pt = {scaled_x,scaled_y};
     vector<size_t> indexes;

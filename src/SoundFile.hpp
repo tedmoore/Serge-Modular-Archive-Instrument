@@ -16,11 +16,19 @@
 class SoundFile {
 public:
     void load(string path);
+    float tick();
     
     vector<float> soundFile;
     unsigned int playIndices[2] = {0,0};
     
     PSF_PROPS soundFileProperties;
 };
+
+inline float SoundFile::tick(){
+    
+    if(playIndices[0] >= soundFile.size()) playIndices[0] = 0;
+    
+    return soundFile[playIndices[0]++];
+}
 
 #endif /* SoundFile_hpp */

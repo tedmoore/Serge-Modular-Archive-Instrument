@@ -19,7 +19,7 @@ public:
     void post();
     vector<double> draw(int x_off, int y_off, int width, int height, int x_index, int y_index, int c_index);
     
-    vector<float> values;
+    vector<double> values;
     
     ofVec2f prev_pos;
     ofVec2f target_pos;
