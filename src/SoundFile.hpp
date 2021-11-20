@@ -10,25 +10,29 @@
 
 #include <stdio.h>
 #include "ofMain.h"
-#include "ofxMaxim.h"
-#include "ofxPortSF.h"
+#include "ofxAudioFile.h"
+#undef PI
+#undef TWO_PI
+#include "ADSR.h"
 
 class SoundFile {
 public:
     void load(string path);
     float tick();
+    void init();
     
-    vector<float> soundFile;
+    ofxAudioFile audiofile;
+    
     unsigned int playIndices[2] = {0,0};
     
-    PSF_PROPS soundFileProperties;
+    stk::ADSR adsr[2];
 };
 
 inline float SoundFile::tick(){
     
-    if(playIndices[0] >= soundFile.size()) playIndices[0] = 0;
+    if(playIndices[0] >= audiofile.length()) playIndices[0] = 0;
     
-    return soundFile[playIndices[0]++];
+    return audiofile.sample(playIndices[0]++,0) * adsr[0].tick();
 }
 
 #endif /* SoundFile_hpp */

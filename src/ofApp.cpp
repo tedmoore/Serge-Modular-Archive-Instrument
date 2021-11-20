@@ -1,5 +1,7 @@
 #include "ofApp.h"
 
+#define SAMPLERATE 44100
+
 //--------------------------------------------------------------
 void ofApp::setup(){
     cout.precision(17);
@@ -141,11 +143,7 @@ void ofApp::setup(){
     windowResized(ofGetWidth(),ofGetHeight());
     drawPlot(true);
     
-    if (psf_init()) {//initialize the portSF library
-        cout << "unable to initalize port sound file ):" << endl;//warn if initialization fails
-    }
-    
-//    soundFiles.resize(3);
+    soundFiles.resize(3);
 //
 //    for(int i = 0; i < 3; i++){
 //        soundFiles[i].load(ofToDataPath("audio_files/part"+ofToString(i+1)+"_44k_16b.wav"));
@@ -153,7 +151,9 @@ void ofApp::setup(){
     
     soundFiles[0].load(ofToDataPath("audio_files/part1_44k_16b.wav"));
     
-    soundstream.setup(2, 0, 44100, 256, 4);
+    //sf.load(ofToDataPath("audio_files/part2_44k_16b.wav"));
+    
+    soundstream.setup(2, 0, SAMPLERATE, 256, 4);
 }
 
 void ofApp::audioOut(float *output, int bufferSize, int nChannels){
@@ -165,19 +165,52 @@ void ofApp::audioOut(float *output, int bufferSize, int nChannels){
     }
 }
 
+void ofApp::find_nearest(int x, int y){
+    float scaled_x = ofMap(x,plot_x,plot_x + plot_w,0.f,1.f);
+    float scaled_y = ofMap(y,plot_y,plot_y + plot_h,0.f,1.f);
+    
+    vector<double> query_pt = {scaled_x,scaled_y};
+    vector<size_t> indexes;
+    vector<double> dists;
+    
+    kdTree_2d.getKNN(query_pt, 1, indexes, dists);
+    
+    setPlayingIndex(indexes[0],true);
+}
+
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e){
     vector<double> point;
     point.resize(4);
     for(int i = 0; i < 4; i++){
         point[i] = sliders[i]->getValue();
     }
-
+    
     vector<size_t> indexes;
     vector<double> distances;
-
+    
     kdTree_params.getKNN(point,1, indexes, distances);
     
-    highlighted_index = indexes[0];
+    setPlayingIndex(indexes[0],false);
+}
+
+void ofApp::setPlayingIndex(int index, bool updateSliders){
+    if(index != playing_index){
+        playing_index = index;
+        
+        int file = 0; // slices[playing_index]->values[1];
+        int start_frame = slices[playing_index]->values[2];
+        int n_frames = slices[playing_index]->values[3];
+        
+        for(int i = 0; i < soundFiles.size(); i++){
+
+        }
+        
+        if(updateSliders){
+            for(int i = 0; i < 4; i++){
+                sliders[i]->setValue(slices[playing_index]->values[19 + i]);
+            }
+        }
+    }
 }
 
 void ofApp::onDropdownEventX(ofxDatGuiDropdownEvent e){
@@ -202,19 +235,18 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    
     ofSetColor(255);
     plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
     gui->draw();
     
-    if(highlighted_index >= 0){
+    if(playing_index >= 0){
         ofSetColor(0,0,0);
-        ofVec2f highlighted_pos = slices[highlighted_index]->current_pos;
+        ofVec2f highlighted_pos = slices[playing_index]->current_pos;
         highlighted_pos.operator*=(ofVec2f(plot_w,plot_h));
         highlighted_pos.operator+=(ofVec2f(plot_x,plot_y));
         ofDrawCircle(highlighted_pos,6);
         for(int i = 1; i < 4; i++){
-            cout << slices[highlighted_index]->values[i] << " " ;
+            cout << slices[playing_index]->values[i] << " " ;
         }
         cout << endl;
     }
@@ -232,23 +264,6 @@ void ofApp::drawPlot(bool buildKDTree){
     }
     plot_fbo.end();
     if(buildKDTree) kdTree_2d.constructKDTree();
-}
-
-void ofApp::find_nearest(int x, int y){
-    float scaled_x = ofMap(x,plot_x,plot_x + plot_w,0.f,1.f);
-    float scaled_y = ofMap(y,plot_y,plot_y + plot_h,0.f,1.f);
-    
-    vector<double> query_pt = {scaled_x,scaled_y};
-    vector<size_t> indexes;
-    vector<double> dists;
-    
-    kdTree_2d.getKNN(query_pt, 1, indexes, dists);
-    
-    highlighted_index = indexes[0];
-    
-    for(int i = 0; i < 4; i++){
-        sliders[i]->setValue(slices[indexes[0]]->values[19 + i]);
-    }
 }
 
 //--------------------------------------------------------------
@@ -297,7 +312,7 @@ void ofApp::mouseEntered(int x, int y){
 //--------------------------------------------------------------
 void ofApp::mouseExited(int x, int y){
     ofSoundStreamClose();
-    psf_finish();
+//    psf_finish();
 }
 
 //--------------------------------------------------------------

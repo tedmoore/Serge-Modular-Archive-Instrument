@@ -31,6 +31,7 @@ public:
     bool mouseInPlot(int x, int y);
     void onSliderEvent(ofxDatGuiSliderEvent e);
     void audioOut(float *output, int bufferSize, int nChannels);
+    void setPlayingIndex(int index, bool updateSliders);
 
     ofxDatGui* gui;
     ofxDatGuiDropdown* x_menu;
@@ -69,7 +70,7 @@ public:
     
     vector<SoundFile> soundFiles;
     
-    int highlighted_index = -1;
+    int playing_index = -1;
     
     ofSoundStream soundstream;
 };
