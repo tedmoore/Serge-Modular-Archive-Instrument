@@ -9,7 +9,6 @@
 #define Slice_hpp
 
 #include <stdio.h>
-//#include "ofApp.h"
 #include "ofMain.h"
 
 class SoundSlice {

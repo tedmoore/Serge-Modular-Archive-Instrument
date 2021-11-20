@@ -7,20 +7,21 @@
 
 #include "SoundFile.hpp"
 
-void SoundFile::load(string path){
+void SoundFile::load(string path,int samplerate){
     if(ofFile::doesFileExist(path)){
         audiofile.load(path);
         if (!audiofile.loaded()){
             ofLogError()<<"error loading file, double check the file path";
         }else{
             cout << "successfully loaded " << path << endl;
-            init();
+            init(samplerate);
         }
         
         cout << "loaded: " + path << endl;
     }
 }
 
-void SoundFile::init(){
-    
+void SoundFile::init(int samplerate){
+    env[0].setup(samplerate * 0.03);
+    env[1].setup(samplerate * 0.03);
 }

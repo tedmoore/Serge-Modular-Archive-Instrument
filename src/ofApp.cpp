@@ -1,7 +1,6 @@
 #include "ofApp.h"
 
 #define SAMPLERATE 44100
-
 //--------------------------------------------------------------
 void ofApp::setup(){
     cout.precision(17);
@@ -149,10 +148,8 @@ void ofApp::setup(){
 //        soundFiles[i].load(ofToDataPath("audio_files/part"+ofToString(i+1)+"_44k_16b.wav"));
 //    }
     
-    soundFiles[0].load(ofToDataPath("audio_files/part1_44k_16b.wav"));
-    
-    //sf.load(ofToDataPath("audio_files/part2_44k_16b.wav"));
-    
+    soundFiles[0].load(ofToDataPath("audio_files/part1_44k_16b.wav"),SAMPLERATE);
+        
     soundstream.setup(2, 0, SAMPLERATE, 256, 4);
 }
 

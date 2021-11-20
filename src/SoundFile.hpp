@@ -11,28 +11,26 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "ofxAudioFile.h"
-#undef PI
-#undef TWO_PI
-#include "ADSR.h"
+#include "SergeEnv.hpp"
 
 class SoundFile {
 public:
-    void load(string path);
+    void load(string path, int samplerate);
     float tick();
-    void init();
+    void init(int samplerate);
     
     ofxAudioFile audiofile;
     
     unsigned int playIndices[2] = {0,0};
     
-    stk::ADSR adsr[2];
+    SergeEnv env[2];
 };
 
 inline float SoundFile::tick(){
     
     if(playIndices[0] >= audiofile.length()) playIndices[0] = 0;
     
-    return audiofile.sample(playIndices[0]++,0) * adsr[0].tick();
+    return audiofile.sample(playIndices[0]++,0);
 }
 
 #endif /* SoundFile_hpp */

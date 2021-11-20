@@ -4,4 +4,3 @@ ofxGui
 ofxKDTree
 ofxMidi
 ofxOsc
-ofxStk

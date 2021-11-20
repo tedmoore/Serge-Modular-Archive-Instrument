@@ -6,7 +6,6 @@
 //
 
 #include "SoundSlice.hpp"
-//#include "ofApp.h"
 
 void SoundSlice::setup(vector<ofColor> &rainbow_colors_, ofColor* qualitative_colors_,string csv_line){
     rainbow_colors = rainbow_colors_;
