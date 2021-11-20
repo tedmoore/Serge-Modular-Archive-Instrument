@@ -143,23 +143,24 @@ void ofApp::setup(){
     drawPlot(true);
     
     soundFiles.resize(3);
-//
-//    for(int i = 0; i < 3; i++){
-//        soundFiles[i].load(ofToDataPath("audio_files/part"+ofToString(i+1)+"_44k_16b.wav"));
-//    }
+    for(int i = 0; i < 3; i++){
+        soundFiles[i].load(ofToDataPath("audio_files/part"+ofToString(i+1)+"_44k_16b.wav"),SAMPLERATE);
+    }
     
-    soundFiles[0].load(ofToDataPath("audio_files/part1_44k_16b.wav"),SAMPLERATE);
-        
     soundstream.setup(2, 0, SAMPLERATE, 256, 4);
 }
 
 void ofApp::audioOut(float *output, int bufferSize, int nChannels){
     for(int i = 0; i < bufferSize; i++){
-        float val = soundFiles[0].tick();
-        for(int j = 0; j < nChannels; j++){
-            output[(i * nChannels) + j] = val;
+        for(int k = 0; k < soundFiles.size(); k++){
+            float val = soundFiles[k].tick();
+            for(int j = 0; j < nChannels; j++){
+                output[(i * nChannels) + j] += val;
+            }
         }
     }
+    
+    cout << soundFiles[0].env[0].value << " " << soundFiles[0].env[1].value << endl;
 }
 
 void ofApp::find_nearest(int x, int y){
@@ -171,41 +172,52 @@ void ofApp::find_nearest(int x, int y){
     vector<double> dists;
     
     kdTree_2d.getKNN(query_pt, 1, indexes, dists);
+
+//    cout << x << " " << y << " " << scaled_x << " " << scaled_y << endl;
+//    cout << indexes[0] << endl;
     
     setPlayingIndex(indexes[0],true);
 }
 
 void ofApp::onSliderEvent(ofxDatGuiSliderEvent e){
-    vector<double> point;
-    point.resize(4);
-    for(int i = 0; i < 4; i++){
-        point[i] = sliders[i]->getValue();
+    if(allow_slider_callback){
+        vector<double> point;
+        point.resize(4);
+        for(int i = 0; i < 4; i++){
+            point[i] = sliders[i]->getValue();
+        }
+        
+        vector<size_t> indexes;
+        vector<double> distances;
+        
+        kdTree_params.getKNN(point,1, indexes, distances);
+        
+//        cout << "slider event, new playing index: " << indexes[0] << endl;
+        
+        setPlayingIndex(indexes[0],false);
     }
-    
-    vector<size_t> indexes;
-    vector<double> distances;
-    
-    kdTree_params.getKNN(point,1, indexes, distances);
-    
-    setPlayingIndex(indexes[0],false);
 }
 
-void ofApp::setPlayingIndex(int index, bool updateSliders){
+void ofApp::setPlayingIndex(size_t index, bool updateSliders){
     if(index != playing_index){
         playing_index = index;
         
-        int file = 0; // slices[playing_index]->values[1];
+        int file = slices[playing_index]->values[1];
         int start_frame = slices[playing_index]->values[2];
         int n_frames = slices[playing_index]->values[3];
         
+        cout << playing_index << " " << file << " " << start_frame << " " << n_frames << endl;
+        
         for(int i = 0; i < soundFiles.size(); i++){
-
+            soundFiles[i].setPosGate(start_frame,n_frames,file == i);
         }
         
         if(updateSliders){
+            allow_slider_callback = false;
             for(int i = 0; i < 4; i++){
                 sliders[i]->setValue(slices[playing_index]->values[19 + i]);
             }
+            allow_slider_callback = true;
         }
     }
 }
@@ -242,10 +254,10 @@ void ofApp::draw(){
         highlighted_pos.operator*=(ofVec2f(plot_w,plot_h));
         highlighted_pos.operator+=(ofVec2f(plot_x,plot_y));
         ofDrawCircle(highlighted_pos,6);
-        for(int i = 1; i < 4; i++){
-            cout << slices[playing_index]->values[i] << " " ;
-        }
-        cout << endl;
+//        for(int i = 1; i < 4; i++){
+//            cout << slices[playing_index]->values[i] << " " ;
+//        }
+//        cout << endl;
     }
 }
 

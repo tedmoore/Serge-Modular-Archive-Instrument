@@ -16,12 +16,21 @@ void SoundFile::load(string path,int samplerate){
             cout << "successfully loaded " << path << endl;
             init(samplerate);
         }
-        
-        cout << "loaded: " + path << endl;
     }
 }
 
+void SoundFile::setPosGate(int sample, int n_frames_, int gate){
+
+    startPoint = sample;
+    endPoint = sample + (n_frames_ - fade_dur_samps);
+//    masterEnv.setTarget(gate);
+    masterEnv.setValue(gate);
+    flipPlayer();
+}
+
 void SoundFile::init(int samplerate){
-    env[0].setup(samplerate * 0.03);
-    env[1].setup(samplerate * 0.03);
+    fade_dur_samps = samplerate * 0.05;
+    env[0].setup(fade_dur_samps);
+    env[1].setup(fade_dur_samps);
+    masterEnv.setup(fade_dur_samps);
 }

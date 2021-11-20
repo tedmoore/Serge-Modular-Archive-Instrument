@@ -9,6 +9,7 @@
 #define SergeEnv_hpp
 
 #include <stdio.h>
+#include "ofMain.h"
 
 enum EnvPosition {STILL, UP, DOWN};
 
@@ -19,6 +20,7 @@ public:
     void setup(int durSamples);
     float tick();
     void setTarget(float target_);
+    void setValue(float value_);
     
     float target = 0;
     int dur; // in samples (ticks)
@@ -26,6 +28,20 @@ public:
     float rate;
     EnvPosition mode = STILL;
 };
+
+void inline SergeEnv::setValue(float value_){
+    value = value_;
+    mode = STILL;
+}
+
+void inline SergeEnv::setTarget(float target_){
+    target = target_;
+    
+    rate = fabs(target - value) / dur;
+    
+    if(target > value) mode = UP;
+    if(target < value) mode = DOWN;
+}
 
 float inline SergeEnv::tick(){
     switch (mode) {

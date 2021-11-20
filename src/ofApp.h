@@ -30,7 +30,7 @@ public:
     bool mouseInPlot(int x, int y);
     void onSliderEvent(ofxDatGuiSliderEvent e);
     void audioOut(float *output, int bufferSize, int nChannels);
-    void setPlayingIndex(int index, bool updateSliders);
+    void setPlayingIndex(size_t index, bool updateSliders);
 
     ofxDatGui* gui;
     ofxDatGuiDropdown* x_menu;
@@ -41,6 +41,7 @@ public:
     void onDropdownEventC(ofxDatGuiDropdownEvent e);
 
     ofxDatGuiSlider* sliders[4];
+    bool allow_slider_callback = true;
     
     vector<SoundSlice*> slices;
     vector<ofColor> rainbow_colors;
