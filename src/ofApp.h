@@ -6,6 +6,7 @@
 #include "ofxDatGui.h"
 #include "ofxKDTree.h"
 #include "SoundFile.hpp"
+#include "ofxSvg.h"
 #include "ofxOsc.h"
 
 class ofApp : public ofBaseApp{
@@ -32,6 +33,9 @@ public:
     void onSliderEvent(ofxDatGuiSliderEvent e);
     void audioOut(float *output, int bufferSize, int nChannels);
     void setPlayingIndex(size_t index, bool updateSliders);
+    
+    void drawSkeuomorph(ofEventArgs & args);
+    void setupSkeuomorph();
 
     ofxDatGui* gui;
     ofxDatGuiDropdown* x_menu;
@@ -75,8 +79,6 @@ public:
     
     ofSoundStream soundstream;
     
-    ofxOscReceiver osc_receiver;
-    
-    float osc_x = 0;
-    float osc_y = 0;
+    ofImage mockup;
+    ofxSVG mockup_svg;
 };

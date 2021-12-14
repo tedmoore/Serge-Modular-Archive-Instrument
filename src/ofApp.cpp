@@ -152,6 +152,17 @@ void ofApp::setup(){
     soundstream.setup(2, 0, SAMPLERATE, 256, 4);
 }
 
+void ofApp::setupSkeuomorph(){
+    mockup.load(ofToDataPath("mockup.png"));
+    mockup_svg.load(ofToDataPath("mockup.svg"));
+}
+
+void ofApp::drawSkeuomorph(ofEventArgs &args){
+    mockup.draw(0,0);
+    mockup_svg.draw();
+//    mockup_svg.draw(100,100,300,300);
+}
+
 void ofApp::audioOut(float *output, int bufferSize, int nChannels){
     for(int i = 0; i < bufferSize; i++){
         for(int k = 0; k < soundFiles.size(); k++){
