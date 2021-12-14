@@ -3,7 +3,9 @@
 #define SAMPLERATE 44100
 //--------------------------------------------------------------
 void ofApp::setup(){
-    cout.precision(17);
+    //cout.precision(17);
+    
+    osc_receiver.setup(2884);
     
     ofSetFrameRate(60);
     //    ofxGuiEnableHiResDisplay();
@@ -160,7 +162,7 @@ void ofApp::audioOut(float *output, int bufferSize, int nChannels){
         }
     }
     
-    cout << soundFiles[0].env[0].value << " " << soundFiles[0].env[1].value << endl;
+    //cout << soundFiles[0].env[0].value << " " << soundFiles[0].env[1].value << endl;
 }
 
 void ofApp::find_nearest(int x, int y){
@@ -239,6 +241,33 @@ void ofApp::onDropdownEventC(ofxDatGuiDropdownEvent e){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    
+    // ==================== OSC ================================
+    while(osc_receiver.hasWaitingMessages()){
+        ofxOscMessage oscMsg;
+        osc_receiver.getNextMessage(oscMsg);
+
+        string address = oscMsg.getAddress();
+        
+        cout << "ofApp::update() address: " << address << endl;
+        
+        if(address == "/x"){
+            osc_x = oscMsg.getArgAsFloat(0);
+            find_nearest(osc_x, osc_y);
+        } else if (address == "/y"){
+            osc_y = oscMsg.getArgAsFloat(0);
+            find_nearest(osc_x, osc_y);
+        } else if (address == "/param1"){
+            sliders[0]->setValue(oscMsg.getArgAsFloat(0));
+        } else if (address == "/param2"){
+            sliders[1]->setValue(oscMsg.getArgAsFloat(0));
+        } else if (address == "/param3"){
+            sliders[2]->setValue(oscMsg.getArgAsFloat(0));
+        } else if (address == "/param4"){
+            sliders[3]->setValue(oscMsg.getArgAsFloat(0));
+        }
+    }
+    
     gui->update();
 }
 

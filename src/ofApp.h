@@ -6,6 +6,7 @@
 #include "ofxDatGui.h"
 #include "ofxKDTree.h"
 #include "SoundFile.hpp"
+#include "ofxOsc.h"
 
 class ofApp : public ofBaseApp{
     
@@ -73,4 +74,9 @@ public:
     int playing_index = -1;
     
     ofSoundStream soundstream;
+    
+    ofxOscReceiver osc_receiver;
+    
+    float osc_x = 0;
+    float osc_y = 0;
 };
