@@ -130,6 +130,10 @@ void ofApp::setup(){
     c_menu = gui->addDropdown("C",dropdown_options);
     c_menu->onDropdownEvent(this, &ofApp::onDropdownEventC);
     
+    gui->addLabel("MIDI In");
+    midi_in_menu = gui->addDropdown("MIDI In",midiIn.getInPortList());
+    midi_in_menu->onDropdownEvent(this, &ofApp::onDropdownEventMIDIIN);
+    
     
     sliders[0] = gui->addSlider("param0", 0.f, 0.9f);
     sliders[1] = gui->addSlider("param1", 0.f, 1.f);
@@ -150,6 +154,26 @@ void ofApp::setup(){
     }
     
     soundstream.setup(2, 0, SAMPLERATE, 256, 4);
+    
+    // MIDI
+    
+    // print input ports to console
+    midiIn.listInPorts();
+
+    // open port by number (you may need to change this)
+    midiIn.openPort(0);
+    //midiIn.openPort("IAC Pure Data In");    // by name
+    //midiIn.openVirtualPort("ofxMidiIn Input"); // open a virtual port
+
+    // don't ignore sysex, timing, & active sense messages,
+    // these are ignored by default
+    midiIn.ignoreTypes(false, false, false);
+
+    // add ofApp as a listener
+    midiIn.addListener(this);
+
+    // print received messages to the console
+    midiIn.setVerbose(true);
 }
 
 void ofApp::setupSkeuomorph(){
@@ -250,9 +274,22 @@ void ofApp::onDropdownEventC(ofxDatGuiDropdownEvent e){
     drawPlot(true);
 }
 
+void ofApp::onDropdownEventMIDIIN(ofxDatGuiDropdownEvent e){
+    midiIn.closePort();
+    midiIn.openPort(e.child);
+}
+
 //--------------------------------------------------------------
 void ofApp::update(){
     
+    processOSC();
+    
+    processMIDI();
+    
+    gui->update();
+}
+
+void ofApp::processOSC(){
     // ==================== OSC ================================
     while(osc_receiver.hasWaitingMessages()){
         ofxOscMessage oscMsg;
@@ -278,8 +315,79 @@ void ofApp::update(){
             sliders[3]->setValue(oscMsg.getArgAsFloat(0));
         }
     }
-    
-    gui->update();
+}
+
+void ofApp::processMIDI(){
+    for(unsigned int i = 0; i < midiMessages.size(); ++i) {
+
+        ofxMidiMessage &message = midiMessages[i];
+        int x = 10;
+        int y = i*40 + 40;
+
+        // draw the last recieved message contents to the screen,
+        // this doesn't print all the data from every status type
+        // but you should get the general idea
+        stringstream text;
+        text << ofxMidiMessage::getStatusString(message.status);
+        while(text.str().length() < 16) { // pad status width
+            text << " ";
+        }
+
+        ofSetColor(127);
+        if(message.status < MIDI_SYSEX) {
+            text << "chan: " << message.channel;
+            if(message.status == MIDI_NOTE_ON ||
+               message.status == MIDI_NOTE_OFF) {
+                text << "\tpitch: " << message.pitch;
+//                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
+//                    ofMap(message.pitch, 0, 127, 0, ofGetWidth()*0.2), 10);
+                text << "\tvel: " << message.velocity;
+//                ofDrawRectangle(x + (ofGetWidth()*0.2 * 2), y + 12,
+//                    ofMap(message.velocity, 0, 127, 0, ofGetWidth()*0.2), 10);
+            }
+            if(message.status == MIDI_CONTROL_CHANGE) {
+                text << "\tctl: " << message.control;
+//                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
+//                    ofMap(message.control, 0, 127, 0, ofGetWidth()*0.2), 10);
+                text << "\tval: " << message.value;
+//                ofDrawRectangle(x + ofGetWidth()*0.2 * 2, y + 12,
+//                    ofMap(message.value, 0, 127, 0, ofGetWidth()*0.2), 10);
+            }
+            else if(message.status == MIDI_PROGRAM_CHANGE) {
+                text << "\tpgm: " << message.value;
+//                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
+//                    ofMap(message.value, 0, 127, 0, ofGetWidth()*0.2), 10);
+            }
+            else if(message.status == MIDI_PITCH_BEND) {
+                text << "\tval: " << message.value;
+//                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
+//                    ofMap(message.value, 0, MIDI_MAX_BEND, 0, ofGetWidth()*0.2), 10);
+            }
+            else if(message.status == MIDI_AFTERTOUCH) {
+                text << "\tval: " << message.value;
+//                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
+//                    ofMap(message.value, 0, 127, 0, ofGetWidth()*0.2), 10);
+            }
+            else if(message.status == MIDI_POLY_AFTERTOUCH) {
+                text << "\tpitch: " << message.pitch;
+//                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
+//                    ofMap(message.pitch, 0, 127, 0, ofGetWidth()*0.2), 10);
+                text << "\tval: " << message.value;
+//                ofDrawRectangle(x + ofGetWidth()*0.2 * 2, y + 12,
+//                    ofMap(message.value, 0, 127, 0, ofGetWidth()*0.2), 10);
+            }
+            text << " "; // pad for delta print
+        }
+        else {
+            text << message.bytes.size() << " bytes ";
+        }
+
+        text << "delta: " << message.deltatime;
+        ofSetColor(0);
+        cout << text.str() << endl;
+//        ofDrawBitmapString(text.str(), x, y);
+        text.str(""); // clear
+    }
 }
 
 //--------------------------------------------------------------
@@ -294,10 +402,6 @@ void ofApp::draw(){
         highlighted_pos.operator*=(ofVec2f(plot_w,plot_h));
         highlighted_pos.operator+=(ofVec2f(plot_x,plot_y));
         ofDrawCircle(highlighted_pos,6);
-//        for(int i = 1; i < 4; i++){
-//            cout << slices[playing_index]->values[i] << " " ;
-//        }
-//        cout << endl;
     }
 }
 
@@ -318,6 +422,18 @@ void ofApp::drawPlot(bool buildKDTree){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     cout << key << "\n";
+//    switch(key){
+//        case 48:
+//            midiIn.closePort();
+//            midiIn.openPort(0);
+//            break;
+//        case 49:
+//            midiIn.closePort();
+//            midiIn.openPort(1);
+//            break;
+//    }
+//    midiIn.listInPorts();
+//    cout << midiIn.getPort() << " " << midiIn.getName() << endl;
 }
 
 //--------------------------------------------------------------
@@ -382,4 +498,16 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){
     
+}
+
+//--------------------------------------------------------------
+void ofApp::newMidiMessage(ofxMidiMessage& msg) {
+
+    // add the latest message to the message queue
+    midiMessages.push_back(msg);
+
+    // remove any old messages if we have too many
+    while(midiMessages.size() > maxMessages) {
+        midiMessages.erase(midiMessages.begin());
+    }
 }

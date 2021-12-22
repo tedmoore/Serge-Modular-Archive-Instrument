@@ -8,8 +8,10 @@
 #include "SoundFile.hpp"
 #include "ofxSvg.h"
 #include "ofxOsc.h"
+#include "ofxMidi.h"
+#include "MIDIManager.hpp"
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp, public ofxMidiListener {
     
 public:
     void setup();
@@ -36,14 +38,18 @@ public:
     
     void drawSkeuomorph(ofEventArgs & args);
     void setupSkeuomorph();
+    void processMIDI();
+    void processOSC();
 
     ofxDatGui* gui;
     ofxDatGuiDropdown* x_menu;
     ofxDatGuiDropdown* y_menu;
     ofxDatGuiDropdown* c_menu;
+    ofxDatGuiDropdown* midi_in_menu;
     void onDropdownEventX(ofxDatGuiDropdownEvent e);
     void onDropdownEventY(ofxDatGuiDropdownEvent e);
     void onDropdownEventC(ofxDatGuiDropdownEvent e);
+    void onDropdownEventMIDIIN(ofxDatGuiDropdownEvent e);
 
     ofxDatGuiSlider* sliders[4];
     bool allow_slider_callback = true;
@@ -86,4 +92,10 @@ public:
     
     float osc_x = 0;
     float osc_y = 0;
+    
+    // MIDI
+    void newMidiMessage(ofxMidiMessage& eventArgs);
+    ofxMidiIn midiIn;
+    std::vector<ofxMidiMessage> midiMessages;
+    std::size_t maxMessages = 10; //< max number of messages to keep track of
 };
