@@ -81,4 +81,9 @@ public:
     
     ofImage mockup;
     ofxSVG mockup_svg;
+    
+    ofxOscReceiver osc_receiver;
+    
+    float osc_x = 0;
+    float osc_y = 0;
 };

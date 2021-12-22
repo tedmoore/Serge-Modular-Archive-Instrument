@@ -153,8 +153,8 @@ void ofApp::setup(){
 }
 
 void ofApp::setupSkeuomorph(){
-    mockup.load(ofToDataPath("mockup.png"));
-    mockup_svg.load(ofToDataPath("mockup.svg"));
+    mockup.load(ofToDataPath("images/mockup.png"));
+    mockup_svg.load(ofToDataPath("images/mockup.svg"));
 }
 
 void ofApp::drawSkeuomorph(ofEventArgs &args){
