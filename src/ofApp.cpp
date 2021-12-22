@@ -157,6 +157,8 @@ void ofApp::setup(){
     
     // MIDI
     
+    midi_manager.setup();
+    
     // print input ports to console
     midiIn.listInPorts();
 
@@ -277,6 +279,7 @@ void ofApp::onDropdownEventC(ofxDatGuiDropdownEvent e){
 void ofApp::onDropdownEventMIDIIN(ofxDatGuiDropdownEvent e){
     midiIn.closePort();
     midiIn.openPort(e.child);
+    cout << midiIn.getPort() << endl;
 }
 
 //--------------------------------------------------------------
@@ -284,7 +287,7 @@ void ofApp::update(){
     
     processOSC();
     
-    processMIDI();
+//    processMIDI();
     
     gui->update();
 }
@@ -300,11 +303,11 @@ void ofApp::processOSC(){
         cout << "ofApp::update() address: " << address << endl;
         
         if(address == "/x"){
-            osc_x = oscMsg.getArgAsFloat(0);
-            find_nearest(osc_x, osc_y);
+            hid_x = oscMsg.getArgAsFloat(0);
+            find_nearest(hid_x, hid_y);
         } else if (address == "/y"){
-            osc_y = oscMsg.getArgAsFloat(0);
-            find_nearest(osc_x, osc_y);
+            hid_y = oscMsg.getArgAsFloat(0);
+            find_nearest(hid_x, hid_y);
         } else if (address == "/param1"){
             sliders[0]->setValue(oscMsg.getArgAsFloat(0));
         } else if (address == "/param2"){
@@ -317,78 +320,78 @@ void ofApp::processOSC(){
     }
 }
 
-void ofApp::processMIDI(){
-    for(unsigned int i = 0; i < midiMessages.size(); ++i) {
-
-        ofxMidiMessage &message = midiMessages[i];
-        int x = 10;
-        int y = i*40 + 40;
-
-        // draw the last recieved message contents to the screen,
-        // this doesn't print all the data from every status type
-        // but you should get the general idea
-        stringstream text;
-        text << ofxMidiMessage::getStatusString(message.status);
-        while(text.str().length() < 16) { // pad status width
-            text << " ";
-        }
-
-        ofSetColor(127);
-        if(message.status < MIDI_SYSEX) {
-            text << "chan: " << message.channel;
-            if(message.status == MIDI_NOTE_ON ||
-               message.status == MIDI_NOTE_OFF) {
-                text << "\tpitch: " << message.pitch;
-//                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
-//                    ofMap(message.pitch, 0, 127, 0, ofGetWidth()*0.2), 10);
-                text << "\tvel: " << message.velocity;
-//                ofDrawRectangle(x + (ofGetWidth()*0.2 * 2), y + 12,
-//                    ofMap(message.velocity, 0, 127, 0, ofGetWidth()*0.2), 10);
-            }
-            if(message.status == MIDI_CONTROL_CHANGE) {
-                text << "\tctl: " << message.control;
-//                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
-//                    ofMap(message.control, 0, 127, 0, ofGetWidth()*0.2), 10);
-                text << "\tval: " << message.value;
-//                ofDrawRectangle(x + ofGetWidth()*0.2 * 2, y + 12,
-//                    ofMap(message.value, 0, 127, 0, ofGetWidth()*0.2), 10);
-            }
-            else if(message.status == MIDI_PROGRAM_CHANGE) {
-                text << "\tpgm: " << message.value;
-//                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
-//                    ofMap(message.value, 0, 127, 0, ofGetWidth()*0.2), 10);
-            }
-            else if(message.status == MIDI_PITCH_BEND) {
-                text << "\tval: " << message.value;
-//                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
-//                    ofMap(message.value, 0, MIDI_MAX_BEND, 0, ofGetWidth()*0.2), 10);
-            }
-            else if(message.status == MIDI_AFTERTOUCH) {
-                text << "\tval: " << message.value;
-//                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
-//                    ofMap(message.value, 0, 127, 0, ofGetWidth()*0.2), 10);
-            }
-            else if(message.status == MIDI_POLY_AFTERTOUCH) {
-                text << "\tpitch: " << message.pitch;
-//                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
-//                    ofMap(message.pitch, 0, 127, 0, ofGetWidth()*0.2), 10);
-                text << "\tval: " << message.value;
-//                ofDrawRectangle(x + ofGetWidth()*0.2 * 2, y + 12,
-//                    ofMap(message.value, 0, 127, 0, ofGetWidth()*0.2), 10);
-            }
-            text << " "; // pad for delta print
-        }
-        else {
-            text << message.bytes.size() << " bytes ";
-        }
-
-        text << "delta: " << message.deltatime;
-        ofSetColor(0);
-        cout << text.str() << endl;
-//        ofDrawBitmapString(text.str(), x, y);
-        text.str(""); // clear
-    }
-}
+//void ofApp::processMIDI(){
+//    for(unsigned int i = 0; i < midiMessages.size(); ++i) {
+//
+//        ofxMidiMessage &message = midiMessages[i];
+//        int x = 10;
+//        int y = i*40 + 40;
+//
+//        // draw the last recieved message contents to the screen,
+//        // this doesn't print all the data from every status type
+//        // but you should get the general idea
+//        stringstream text;
+//        text << ofxMidiMessage::getStatusString(message.status);
+//        while(text.str().length() < 16) { // pad status width
+//            text << " ";
+//        }
+//
+//        ofSetColor(127);
+//        if(message.status < MIDI_SYSEX) {
+//            text << "chan: " << message.channel;
+//            if(message.status == MIDI_NOTE_ON ||
+//               message.status == MIDI_NOTE_OFF) {
+//                text << "\tpitch: " << message.pitch;
+////                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
+////                    ofMap(message.pitch, 0, 127, 0, ofGetWidth()*0.2), 10);
+//                text << "\tvel: " << message.velocity;
+////                ofDrawRectangle(x + (ofGetWidth()*0.2 * 2), y + 12,
+////                    ofMap(message.velocity, 0, 127, 0, ofGetWidth()*0.2), 10);
+//            }
+//            if(message.status == MIDI_CONTROL_CHANGE) {
+//                text << "\tctl: " << message.control;
+////                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
+////                    ofMap(message.control, 0, 127, 0, ofGetWidth()*0.2), 10);
+//                text << "\tval: " << message.value;
+////                ofDrawRectangle(x + ofGetWidth()*0.2 * 2, y + 12,
+////                    ofMap(message.value, 0, 127, 0, ofGetWidth()*0.2), 10);
+//            }
+//            else if(message.status == MIDI_PROGRAM_CHANGE) {
+//                text << "\tpgm: " << message.value;
+////                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
+////                    ofMap(message.value, 0, 127, 0, ofGetWidth()*0.2), 10);
+//            }
+//            else if(message.status == MIDI_PITCH_BEND) {
+//                text << "\tval: " << message.value;
+////                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
+////                    ofMap(message.value, 0, MIDI_MAX_BEND, 0, ofGetWidth()*0.2), 10);
+//            }
+//            else if(message.status == MIDI_AFTERTOUCH) {
+//                text << "\tval: " << message.value;
+////                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
+////                    ofMap(message.value, 0, 127, 0, ofGetWidth()*0.2), 10);
+//            }
+//            else if(message.status == MIDI_POLY_AFTERTOUCH) {
+//                text << "\tpitch: " << message.pitch;
+////                ofDrawRectangle(x + ofGetWidth()*0.2, y + 12,
+////                    ofMap(message.pitch, 0, 127, 0, ofGetWidth()*0.2), 10);
+//                text << "\tval: " << message.value;
+////                ofDrawRectangle(x + ofGetWidth()*0.2 * 2, y + 12,
+////                    ofMap(message.value, 0, 127, 0, ofGetWidth()*0.2), 10);
+//            }
+//            text << " "; // pad for delta print
+//        }
+//        else {
+//            text << message.bytes.size() << " bytes ";
+//        }
+//
+//        text << "delta: " << message.deltatime;
+//        ofSetColor(0);
+//        cout << text.str() << endl;
+////        ofDrawBitmapString(text.str(), x, y);
+//        text.str(""); // clear
+//    }
+//}
 
 //--------------------------------------------------------------
 void ofApp::draw(){
@@ -421,19 +424,12 @@ void ofApp::drawPlot(bool buildKDTree){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    cout << key << "\n";
-//    switch(key){
-//        case 48:
-//            midiIn.closePort();
-//            midiIn.openPort(0);
-//            break;
-//        case 49:
-//            midiIn.closePort();
-//            midiIn.openPort(1);
-//            break;
-//    }
-//    midiIn.listInPorts();
-//    cout << midiIn.getPort() << " " << midiIn.getName() << endl;
+    cout << "key " << key << "\n";
+    int hid = key - 48;
+    cout << "hid number: " << hid << endl;
+    if(hid >= 0 && hid < 6){
+        midi_manager.waitForAssignment(hid);
+    }
 }
 
 //--------------------------------------------------------------
@@ -477,7 +473,6 @@ void ofApp::mouseEntered(int x, int y){
 //--------------------------------------------------------------
 void ofApp::mouseExited(int x, int y){
     ofSoundStreamClose();
-//    psf_finish();
 }
 
 //--------------------------------------------------------------
@@ -503,11 +498,22 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 //--------------------------------------------------------------
 void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 
-    // add the latest message to the message queue
-    midiMessages.push_back(msg);
-
-    // remove any old messages if we have too many
-    while(midiMessages.size() > maxMessages) {
-        midiMessages.erase(midiMessages.begin());
+    cout << "midi msg: " << msg.channel << " " << msg.control << " " << msg.value << endl;
+    
+    int learned_midi = midi_manager.processIncomingMIDI(msg.channel,msg.control);
+    
+    cout << "learned midi: " << learned_midi << endl;
+    
+    if(learned_midi == 0){
+        hid_x = msg.value / 127.f;
+        cout << "hid x: " << hid_x << endl;
+        find_nearest(hid_x, hid_y);
+    } else if (learned_midi == 1){
+        hid_y = msg.value / 127.f;
+        cout << "hid y: " << hid_y << endl;
+        find_nearest(hid_x, hid_y);
+    } else if(learned_midi < 6 && learned_midi > 1){
+        cout << "msg val / 127: " << msg.value / 127.f << endl;
+        sliders[learned_midi - 2]->setValue(msg.value / 127.f);
     }
 }

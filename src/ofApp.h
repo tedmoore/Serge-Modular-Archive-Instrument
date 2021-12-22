@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "MIDIManager.hpp"
 #include "SoundSlice.hpp"
 #include "ofxGui.h"
 #include "ofxDatGui.h"
@@ -9,7 +10,6 @@
 #include "ofxSvg.h"
 #include "ofxOsc.h"
 #include "ofxMidi.h"
-#include "MIDIManager.hpp"
 
 class ofApp : public ofBaseApp, public ofxMidiListener {
     
@@ -90,12 +90,13 @@ public:
     
     ofxOscReceiver osc_receiver;
     
-    float osc_x = 0;
-    float osc_y = 0;
+    float hid_x = 0;
+    float hid_y = 0;
     
     // MIDI
     void newMidiMessage(ofxMidiMessage& eventArgs);
     ofxMidiIn midiIn;
-    std::vector<ofxMidiMessage> midiMessages;
-    std::size_t maxMessages = 10; //< max number of messages to keep track of
+//    std::vector<ofxMidiMessage> midiMessages;
+//    std::size_t maxMessages = 10; //< max number of messages to keep track of
+    MIDIManager midi_manager;
 };
