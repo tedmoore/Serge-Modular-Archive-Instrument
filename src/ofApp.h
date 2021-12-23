@@ -10,6 +10,7 @@
 #include "ofxSvg.h"
 #include "ofxOsc.h"
 #include "ofxMidi.h"
+#include "SergeHandle.hpp"
 
 class ofApp : public ofBaseApp, public ofxMidiListener {
     
@@ -35,6 +36,9 @@ public:
     void onSliderEvent(ofxDatGuiSliderEvent e);
     void audioOut(float *output, int bufferSize, int nChannels);
     void setPlayingIndex(size_t index, bool updateSliders);
+    void createColors();
+    void readSoundSlicesData(string csv_path, double* ranges);
+    void createHeadersAndDropdownOptions();
     
     void drawSkeuomorph(ofEventArgs & args);
     void setupSkeuomorph();
@@ -51,7 +55,8 @@ public:
     void onDropdownEventC(ofxDatGuiDropdownEvent e);
     void onDropdownEventMIDIIN(ofxDatGuiDropdownEvent e);
 
-    ofxDatGuiSlider* sliders[4];
+    //ofxDatGuiSlider* sliders[4];
+    SergeHandle handles[4];
     bool allow_slider_callback = true;
     
     vector<SoundSlice*> slices;
