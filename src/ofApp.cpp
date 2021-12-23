@@ -114,22 +114,12 @@ void ofApp::audioOut(float *output, int bufferSize, int nChannels){
     //cout << soundFiles[0].env[0].value << " " << soundFiles[0].env[1].value << endl;
 }
 
-void ofApp::find_nearest(double x, double y, bool normalized){
+void ofApp::find_nearest(){
     
-    double scaled_x = 0, scaled_y = 0;
-    
-    if(!normalized){
-        scaled_x = ofMap(x,plot_x,plot_x + plot_w,0.f,1.f);
-        scaled_y = ofMap(y,plot_y,plot_y + plot_h,0.f,1.f);
-    } else {
-        scaled_x = x;
-        scaled_y = y;
-    }
-    vector<double> query_pt = {scaled_x,scaled_y};
     vector<size_t> indexes;
     vector<double> dists;
     
-    kdTree_2d.getKNN(query_pt, 1, indexes, dists);
+    kdTree_2d.getKNN(hid_xy, 1, indexes, dists);
 
 //    cout << x << " " << y << " " << scaled_x << " " << scaled_y << endl;
 //    cout << indexes[0] << endl;
@@ -218,11 +208,11 @@ void ofApp::processOSC(){
         cout << "ofApp::processOSC() address: " << address << endl;
         
         if(address == "/x"){
-            hid_x = oscMsg.getArgAsFloat(0);
-            find_nearest(hid_x, hid_y,true);
+            hid_xy[0] = oscMsg.getArgAsFloat(0);
+            find_nearest();
         } else if (address == "/y"){
-            hid_y = 1.f - oscMsg.getArgAsFloat(0);
-            find_nearest(hid_x, hid_y,true);
+            hid_xy[1] = 1.f - oscMsg.getArgAsFloat(0);
+            find_nearest();
         } else if (address == "/param1"){
             handles[0].setValueFromNormalized(oscMsg.getArgAsFloat(0));
         } else if (address == "/param2"){
@@ -294,12 +284,20 @@ bool ofApp::mouseInPlot(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-    if(mouseInPlot(x,y)) find_nearest(x,y);
+    processIncomingMouseXY(x,y);
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    if(mouseInPlot(x,y)) find_nearest(x,y);
+    processIncomingMouseXY(x,y);
+}
+
+void ofApp::processIncomingMouseXY(int x, int y){
+    if(mouseInPlot(x,y)){
+        hid_xy[0] = (double(x) - plot_x) / plot_w;
+        hid_xy[1] = (double(y) - plot_y) / plot_h;
+        find_nearest();
+    }
 }
 
 //--------------------------------------------------------------
@@ -347,13 +345,13 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
     cout << "learned midi: " << learned_midi << endl;
     
     if(learned_midi == 0){
-        hid_x = msg.value / 127.f;
-        cout << "hid x: " << hid_x << endl;
-        find_nearest(hid_x, hid_y,true);
+        hid_xy[0] = msg.value / 127.f;
+        cout << "hid x: " << hid_xy[0] << endl;
+        find_nearest();
     } else if (learned_midi == 1){
-        hid_y = 1.f - (msg.value / 127.f);
-        cout << "hid y: " << hid_y << endl;
-        find_nearest(hid_x, hid_y,true);
+        hid_xy[1] = 1.f - (msg.value / 127.f);
+        cout << "hid y: " << hid_xy[1] << endl;
+        find_nearest();
     } else if(learned_midi < 6 && learned_midi > 1){
         cout << "msg val / 127: " << msg.value / 127.f << endl;
         handles[learned_midi - 2].setValueFromNormalized(msg.value / 127.f);

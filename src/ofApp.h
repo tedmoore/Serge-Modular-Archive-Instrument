@@ -31,7 +31,7 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     void drawPlot(bool buildKDTree);
-    void find_nearest(double x, double y, bool normalized = false);
+    void find_nearest();
     bool mouseInPlot(int x, int y);
     void onSliderEvent(ofxDatGuiSliderEvent e);
     void audioOut(float *output, int bufferSize, int nChannels);
@@ -40,6 +40,7 @@ public:
     void readSoundSlicesData(string csv_path, double* ranges);
     void createHeadersAndDropdownOptions();
     void createPointKDTree();
+    void processIncomingMouseXY(int x, int y);
     
     void drawSkeuomorph(ofEventArgs & args);
     void setupSkeuomorph();
@@ -95,9 +96,8 @@ public:
     ofxSVG mockup_svg;
     
     ofxOscReceiver osc_receiver;
-    
-    float hid_x = 0;
-    float hid_y = 0;
+
+    vector<double> hid_xy = {0,0};
     
     // MIDI
     void newMidiMessage(ofxMidiMessage& eventArgs);
