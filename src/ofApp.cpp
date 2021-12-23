@@ -221,16 +221,16 @@ void ofApp::processOSC(){
             hid_x = oscMsg.getArgAsFloat(0);
             find_nearest(hid_x, hid_y,true);
         } else if (address == "/y"){
-            hid_y = oscMsg.getArgAsFloat(0);
+            hid_y = 1.f - oscMsg.getArgAsFloat(0);
             find_nearest(hid_x, hid_y,true);
         } else if (address == "/param1"){
-            handles[0].handle->setValue(oscMsg.getArgAsFloat(0));
+            handles[0].setValueFromNormalized(oscMsg.getArgAsFloat(0));
         } else if (address == "/param2"){
-            handles[1].handle->setValue(oscMsg.getArgAsFloat(0));
+            handles[1].setValueFromNormalized(oscMsg.getArgAsFloat(0));
         } else if (address == "/param3"){
-            handles[2].handle->setValue(oscMsg.getArgAsFloat(0));
+            handles[2].setValueFromNormalized(oscMsg.getArgAsFloat(0));
         } else if (address == "/param4"){
-            handles[3].handle->setValue(oscMsg.getArgAsFloat(0));
+            handles[3].setValueFromNormalized(oscMsg.getArgAsFloat(0));
         }
     }
 }
