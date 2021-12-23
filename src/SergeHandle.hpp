@@ -14,9 +14,14 @@
 class SergeHandle {
 public:
     void setup(ofxDatGuiSlider* handle_, double min_, double max_);
-
-    float min;
-    float max;
+    double transform(double x);
+    double inverse_transform(double x);
+    double getNormalizedValue();
+    void setValueFromNormalized(double normalized_value);
+    
+    double min;
+    double max;
+    double range;
     ofxDatGuiSlider* handle;
 };
 #endif /* SergeHandle_hpp */

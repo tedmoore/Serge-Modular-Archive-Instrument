@@ -31,7 +31,7 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     void drawPlot(bool buildKDTree);
-    void find_nearest(int x, int y);
+    void find_nearest(double x, double y, bool normalized = false);
     bool mouseInPlot(int x, int y);
     void onSliderEvent(ofxDatGuiSliderEvent e);
     void audioOut(float *output, int bufferSize, int nChannels);
@@ -39,6 +39,7 @@ public:
     void createColors();
     void readSoundSlicesData(string csv_path, double* ranges);
     void createHeadersAndDropdownOptions();
+    void createPointKDTree();
     
     void drawSkeuomorph(ofEventArgs & args);
     void setupSkeuomorph();

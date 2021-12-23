@@ -24,10 +24,10 @@ void ofApp::setup(){
     
     readSoundSlicesData(csv_path,ranges);
     
-    for(int i = 0; i < 8; i++){
-        cout << ranges[i] << " ";
-    }
-    cout << endl;
+//    for(int i = 0; i < 8; i++){
+//        cout << ranges[i] << " ";
+//    }
+//    cout << endl;
     
     createHeadersAndDropdownOptions();
     
@@ -54,6 +54,8 @@ void ofApp::setup(){
         handles[i].setup(gui->addSlider("param"+ofToString(i),ranges[i*2],ranges[(i*2)+1]),ranges[i*2],ranges[(i*2)+1]);
         handles[i].handle->onSliderEvent(this, &ofApp::onSliderEvent);
     }
+    
+    createPointKDTree();
 
     windowResized(ofGetWidth(),ofGetHeight());
     drawPlot(true);
@@ -112,10 +114,17 @@ void ofApp::audioOut(float *output, int bufferSize, int nChannels){
     //cout << soundFiles[0].env[0].value << " " << soundFiles[0].env[1].value << endl;
 }
 
-void ofApp::find_nearest(int x, int y){
-    float scaled_x = ofMap(x,plot_x,plot_x + plot_w,0.f,1.f);
-    float scaled_y = ofMap(y,plot_y,plot_y + plot_h,0.f,1.f);
+void ofApp::find_nearest(double x, double y, bool normalized){
     
+    double scaled_x = 0, scaled_y = 0;
+    
+    if(!normalized){
+        scaled_x = ofMap(x,plot_x,plot_x + plot_w,0.f,1.f);
+        scaled_y = ofMap(y,plot_y,plot_y + plot_h,0.f,1.f);
+    } else {
+        scaled_x = x;
+        scaled_y = y;
+    }
     vector<double> query_pt = {scaled_x,scaled_y};
     vector<size_t> indexes;
     vector<double> dists;
@@ -133,7 +142,7 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e){
         vector<double> point;
         point.resize(4);
         for(int i = 0; i < 4; i++){
-            point[i] = handles[i].handle->getValue();
+            point[i] = handles[i].getNormalizedValue();
         }
         
         vector<size_t> indexes;
@@ -206,14 +215,14 @@ void ofApp::processOSC(){
 
         string address = oscMsg.getAddress();
         
-        cout << "ofApp::update() address: " << address << endl;
+        cout << "ofApp::processOSC() address: " << address << endl;
         
         if(address == "/x"){
             hid_x = oscMsg.getArgAsFloat(0);
-            find_nearest(hid_x, hid_y);
+            find_nearest(hid_x, hid_y,true);
         } else if (address == "/y"){
             hid_y = oscMsg.getArgAsFloat(0);
-            find_nearest(hid_x, hid_y);
+            find_nearest(hid_x, hid_y,true);
         } else if (address == "/param1"){
             handles[0].handle->setValue(oscMsg.getArgAsFloat(0));
         } else if (address == "/param2"){
@@ -305,7 +314,7 @@ void ofApp::mouseEntered(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::mouseExited(int x, int y){
-    ofSoundStreamClose();
+
 }
 
 //--------------------------------------------------------------
@@ -340,14 +349,14 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
     if(learned_midi == 0){
         hid_x = msg.value / 127.f;
         cout << "hid x: " << hid_x << endl;
-        find_nearest(hid_x, hid_y);
+        find_nearest(hid_x, hid_y,true);
     } else if (learned_midi == 1){
-        hid_y = msg.value / 127.f;
+        hid_y = 1.f - (msg.value / 127.f);
         cout << "hid y: " << hid_y << endl;
-        find_nearest(hid_x, hid_y);
+        find_nearest(hid_x, hid_y,true);
     } else if(learned_midi < 6 && learned_midi > 1){
         cout << "msg val / 127: " << msg.value / 127.f << endl;
-        handles[learned_midi - 2].handle->setValue(msg.value / 127.f);
+        handles[learned_midi - 2].setValueFromNormalized(msg.value / 127.f);
     }
 }
 
@@ -397,19 +406,21 @@ void ofApp::readSoundSlicesData(string csv_path, double* ranges){
     }
     
     data.close();
-    
+}
+
+void ofApp::createPointKDTree(){
     vector<double> point;
     point.resize(4);
+    
     for(int i = 0; i < slices.size(); i++){
         for(int j = 0; j < 4; j++){
-            point[j] = slices[i]->values[19 + j];
+            point[j] = handles[j].transform(slices[i]->values[19 + j]);
         }
 
         kdTree_params.addPoint(point);
     }
     
     kdTree_params.constructKDTree();
-
 }
 
 void ofApp::createHeadersAndDropdownOptions(){
