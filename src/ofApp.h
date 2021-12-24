@@ -47,6 +47,7 @@ public:
     void gui_keyPressed(ofKeyEventArgs& args);
     void gui_mousePressed(ofMouseEventArgs& args);
     void gui_mouseDragged(ofMouseEventArgs& args);
+    void gui_windowResized(ofResizeEventArgs& args);
     
     void processMIDI();
     void processOSC();
@@ -91,7 +92,6 @@ public:
     
     ofxKDTree kdTree_params;
     
-//    vector<SoundFile> soundFiles;
     int n_soundFiles = 3;
     SoundFile soundFiles[3];
     
@@ -99,8 +99,7 @@ public:
     
     ofSoundStream soundstream;
     
-    ofImage mockup;
-    ofxSVG mockup_svg;
+    ofImage three_panel;
     
     ofxOscReceiver osc_receiver;
 
@@ -112,4 +111,6 @@ public:
 //    std::vector<ofxMidiMessage> midiMessages;
 //    std::size_t maxMessages = 10; //< max number of messages to keep track of
     MIDIManager midi_manager;
+    
+    int gui_w = 1920, gui_h = 1080;
 };

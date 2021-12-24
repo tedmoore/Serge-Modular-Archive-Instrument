@@ -4,12 +4,9 @@
 //--------------------------------------------------------------
 
 void ofApp::setup(){
-    //cout.precision(17);
-    
     osc_receiver.setup(2884);
     
     ofSetFrameRate(60);
-    //    ofxGuiEnableHiResDisplay();
     ofBackground(100);
     ofEnableAntiAliasing();
     string csv_path = "211030_183738.csv";
@@ -23,11 +20,6 @@ void ofApp::setup(){
     }
     
     readSoundSlicesData(csv_path,ranges);
-    
-//    for(int i = 0; i < 8; i++){
-//        cout << ranges[i] << " ";
-//    }
-//    cout << endl;
     
     createHeadersAndDropdownOptions();
     
@@ -93,15 +85,7 @@ void ofApp::setup(){
 }
 
 void ofApp::setupSkeuomorph(){
-    mockup.load(ofToDataPath("images/mockup.png"));
-    mockup_svg.load(ofToDataPath("images/mockup.svg"));
-}
-
-void ofApp::drawSkeuomorph(ofEventArgs &args){
-    if(loaded){
-        mockup.draw(0,0);
-        mockup_svg.draw();
-    }
+    three_panel.load(ofToDataPath("images/Serge GUI Layout/3-PANELS/With Knobs/SERGE 3PANEL5x.png"));
 }
 
 void ofApp::audioOut(float *output, int bufferSize, int nChannels){
@@ -198,7 +182,9 @@ void ofApp::update(){
         for(int i = 0; i < n_soundFiles; i++){
             sum += soundFiles[i].isThreadRunning();
         }
-        if(sum == 0) loaded = true;
+        if(sum == 0){
+            loaded = true;
+        }
     }
 }
 
@@ -247,6 +233,25 @@ void ofApp::draw(){
         ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
         ofSetColor(255);
         ofDrawBitmapString("Loading...", 20,20);
+    }
+}
+
+void ofApp::drawSkeuomorph(ofEventArgs &args){
+    if(loaded){
+        float three_panel_ratio = three_panel.getWidth() / float(three_panel.getHeight());
+        float gui_win_ratio = gui_w / float(gui_h);
+        
+        if(gui_win_ratio > three_panel_ratio){
+            float draw_ratio = gui_h / float(three_panel.getHeight());
+            float draw_w = draw_ratio * three_panel.getWidth();
+            float draw_x = (gui_w - draw_w) / 2.f;
+            three_panel.draw(draw_x,0,draw_w,gui_h);
+        } else {
+            float draw_ratio = gui_w / float(three_panel.getWidth());
+            float draw_h = draw_ratio * three_panel.getHeight();
+            float draw_y = (gui_h - draw_h) / 2.f;
+            three_panel.draw(0,draw_y,gui_w,draw_h);
+        }
     }
 }
 
@@ -310,7 +315,6 @@ void ofApp::gui_mouseDragged(ofMouseEventArgs& args){
     cout << "mouse dragged in gui window: " << args.x << " " << args.y << endl;
 }
 
-
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
     cout << "ofApp::mousePressed: " << x << " " << y << " " << button << endl;
@@ -348,6 +352,12 @@ void ofApp::windowResized(int w, int h){
     plot_h = h - (margin * 2);
     
     drawPlot(false);
+}
+
+void ofApp::gui_windowResized(ofResizeEventArgs& args){
+//    cout << "gui window resized: " << args.width << " " << args.height << endl;
+    gui_w = args.width;
+    gui_h = args.height;
 }
 
 //--------------------------------------------------------------
