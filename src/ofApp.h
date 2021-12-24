@@ -57,6 +57,7 @@ public:
     void onDropdownEventC(ofxDatGuiDropdownEvent e);
     void onDropdownEventMIDIIN(ofxDatGuiDropdownEvent e);
 
+    bool loaded = false;
     //ofxDatGuiSlider* sliders[4];
     SergeHandle handles[4];
     bool allow_slider_callback = true;
@@ -86,7 +87,9 @@ public:
     
     ofxKDTree kdTree_params;
     
-    vector<SoundFile> soundFiles;
+//    vector<SoundFile> soundFiles;
+    int n_soundFiles = 3;
+    SoundFile soundFiles[3];
     
     int playing_index = -1;
     

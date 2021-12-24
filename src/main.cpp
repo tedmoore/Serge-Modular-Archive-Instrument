@@ -14,9 +14,9 @@ int main( ){
     // skeuomorph window
     settings.setSize(1920,1080);
     settings.setPosition(glm::vec2(500,500));
-    settings.resizable = false;
+    settings.resizable = true;
     // uncomment next line to share main's OpenGL resources with gui
-    //settings.shareContextWith = mainWindow;
+    settings.shareContextWith = mainWindow;
     shared_ptr<ofAppBaseWindow> guiWindow = ofCreateWindow(settings);
     guiWindow->setVerticalSync(false);
 

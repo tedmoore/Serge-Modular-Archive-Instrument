@@ -60,9 +60,11 @@ void ofApp::setup(){
     windowResized(ofGetWidth(),ofGetHeight());
     drawPlot(true);
     
-    soundFiles.resize(3);
+    //soundFiles.resize(3);
+    
     for(int i = 0; i < 3; i++){
-        soundFiles[i].load(ofToDataPath("audio_files/part"+ofToString(i+1)+"_44k_16b.wav"),SAMPLERATE);
+        soundFiles[i].setup(ofToDataPath("audio_files/part"+ofToString(i+1)+"_44k_16b.wav"),SAMPLERATE);
+        soundFiles[i].startThread();
     }
     
     soundstream.setup(2, 0, SAMPLERATE, 256, 4);
@@ -96,22 +98,23 @@ void ofApp::setupSkeuomorph(){
 }
 
 void ofApp::drawSkeuomorph(ofEventArgs &args){
-    mockup.draw(0,0);
-    mockup_svg.draw();
-//    mockup_svg.draw(100,100,300,300);
+    if(loaded){
+        mockup.draw(0,0);
+        mockup_svg.draw();
+    }
 }
 
 void ofApp::audioOut(float *output, int bufferSize, int nChannels){
-    for(int i = 0; i < bufferSize; i++){
-        for(int k = 0; k < soundFiles.size(); k++){
-            float val = soundFiles[k].tick();
-            for(int j = 0; j < nChannels; j++){
-                output[(i * nChannels) + j] += val;
+    if(loaded){
+        for(int i = 0; i < bufferSize; i++){
+            for(int k = 0; k < n_soundFiles; k++){
+                float val = soundFiles[k].tick();
+                for(int j = 0; j < nChannels; j++){
+                    output[(i * nChannels) + j] += val;
+                }
             }
         }
     }
-    
-    //cout << soundFiles[0].env[0].value << " " << soundFiles[0].env[1].value << endl;
 }
 
 void ofApp::find_nearest(){
@@ -120,9 +123,6 @@ void ofApp::find_nearest(){
     vector<double> dists;
     
     kdTree_2d.getKNN(hid_xy, 1, indexes, dists);
-
-//    cout << x << " " << y << " " << scaled_x << " " << scaled_y << endl;
-//    cout << indexes[0] << endl;
     
     setPlayingIndex(indexes[0],true);
 }
@@ -139,9 +139,7 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e){
         vector<double> distances;
         
         kdTree_params.getKNN(point,1, indexes, distances);
-        
-//        cout << "slider event, new playing index: " << indexes[0] << endl;
-        
+                
         setPlayingIndex(indexes[0],false);
     }
 }
@@ -153,10 +151,8 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
         int file = slices[playing_index]->values[1];
         int start_frame = slices[playing_index]->values[2];
         int n_frames = slices[playing_index]->values[3];
-        
-        cout << playing_index << " " << file << " " << start_frame << " " << n_frames << endl;
-        
-        for(int i = 0; i < soundFiles.size(); i++){
+    
+        for(int i = 0; i < n_soundFiles; i++){
             soundFiles[i].setPosGate(start_frame,n_frames,file == i);
         }
         
@@ -188,13 +184,22 @@ void ofApp::onDropdownEventC(ofxDatGuiDropdownEvent e){
 void ofApp::onDropdownEventMIDIIN(ofxDatGuiDropdownEvent e){
     midiIn.closePort();
     midiIn.openPort(e.child);
-    cout << midiIn.getPort() << endl;
+//    cout << midiIn.getPort() << endl;
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    processOSC();
-    gui->update();
+//    cout << "loaded: " << loaded << endl
+    if(loaded){
+        processOSC();
+        gui->update();
+    } else {
+        int sum = 0;
+        for(int i = 0; i < n_soundFiles; i++){
+            sum += soundFiles[i].isThreadRunning();
+        }
+        if(sum == 0) loaded = true;
+    }
 }
 
 void ofApp::processOSC(){
@@ -204,8 +209,6 @@ void ofApp::processOSC(){
         osc_receiver.getNextMessage(oscMsg);
 
         string address = oscMsg.getAddress();
-        
-        cout << "ofApp::processOSC() address: " << address << endl;
         
         if(address == "/x"){
             hid_xy[0] = oscMsg.getArgAsFloat(0);
@@ -227,16 +230,23 @@ void ofApp::processOSC(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofSetColor(255);
-    plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
-    gui->draw();
-    
-    if(playing_index >= 0){
-        ofSetColor(0,0,0);
-        ofVec2f highlighted_pos = slices[playing_index]->current_pos;
-        highlighted_pos.operator*=(ofVec2f(plot_w,plot_h));
-        highlighted_pos.operator+=(ofVec2f(plot_x,plot_y));
-        ofDrawCircle(highlighted_pos,6);
+    if(loaded){
+        ofSetColor(255);
+        plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
+        gui->draw();
+        
+        if(playing_index >= 0){
+            ofSetColor(0,0,0);
+            ofVec2f highlighted_pos = slices[playing_index]->current_pos;
+            highlighted_pos.operator*=(ofVec2f(plot_w,plot_h));
+            highlighted_pos.operator+=(ofVec2f(plot_x,plot_y));
+            ofDrawCircle(highlighted_pos,6);
+        }
+    } else {
+        ofSetColor(0);
+        ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+        ofSetColor(255);
+        ofDrawBitmapString("Loading...", 20,20);
     }
 }
 
@@ -284,11 +294,13 @@ bool ofApp::mouseInPlot(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
+    cout << "ofApp::mouseDragged: " << x << " " << y << " " << button << endl;
     processIncomingMouseXY(x,y);
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+    cout << "ofApp::mousePressed: " << x << " " << y << " " << button << endl;
     processIncomingMouseXY(x,y);
 }
 
@@ -338,22 +350,15 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 //--------------------------------------------------------------
 void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 
-    cout << "midi msg: " << msg.channel << " " << msg.control << " " << msg.value << endl;
-    
     int learned_midi = midi_manager.processIncomingMIDI(msg.channel,msg.control);
-    
-    cout << "learned midi: " << learned_midi << endl;
     
     if(learned_midi == 0){
         hid_xy[0] = msg.value / 127.f;
-        cout << "hid x: " << hid_xy[0] << endl;
         find_nearest();
     } else if (learned_midi == 1){
         hid_xy[1] = 1.f - (msg.value / 127.f);
-        cout << "hid y: " << hid_xy[1] << endl;
         find_nearest();
     } else if(learned_midi < 6 && learned_midi > 1){
-        cout << "msg val / 127: " << msg.value / 127.f << endl;
         handles[learned_midi - 2].setValueFromNormalized(msg.value / 127.f);
     }
 }

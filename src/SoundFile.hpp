@@ -13,18 +13,20 @@
 #include "ofxAudioFile.h"
 #include "SergeEnv.hpp"
 
-class SoundFile {
+class SoundFile : public ofThread {
 public:
-    void load(string path, int samplerate);
     float tick();
     void setPosGate(int sample, int n_frames_, int gate);
-    void init(int samplerate);
+    void setup(string path_, int samplerate_);
     void flipPlayer();
+    void threadedFunction();
     
     ofxAudioFile audiofile;
     
     unsigned int playIndices[2] = {0,0};
     
+    int samplerate;
+    string path;
     int playingIndex = 0;
     int endPoint = 0;
     int fade_dur_samps;
