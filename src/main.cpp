@@ -16,22 +16,18 @@ int main( ){
     settings.setPosition(glm::vec2(500,500));
     settings.resizable = true;
     // uncomment next line to share main's OpenGL resources with gui
-    settings.shareContextWith = mainWindow;
+//    settings.shareContextWith = mainWindow;
     shared_ptr<ofAppBaseWindow> guiWindow = ofCreateWindow(settings);
     guiWindow->setVerticalSync(false);
 
     shared_ptr<ofApp> mainApp(new ofApp);
     mainApp->setupSkeuomorph();
+    
     ofAddListener(guiWindow->events().draw,mainApp.get(),&ofApp::drawSkeuomorph);
+    ofAddListener(guiWindow->events().keyPressed,mainApp.get(),&ofApp::gui_keyPressed);
+    ofAddListener(guiWindow->events().mousePressed,mainApp.get(),&ofApp::gui_mousePressed);
+    ofAddListener(guiWindow->events().mouseDragged,mainApp.get(),&ofApp::gui_mouseDragged);
 
     ofRunApp(mainWindow, mainApp);
     ofRunMainLoop();
-    
-    //    ofSetupOpenGL(1920,1080,OF_WINDOW);            // <-------- setup the GL context
-//
-//    // this kicks off the running of my app
-//    // can be OF_WINDOW or OF_FULLSCREEN
-//    // pass in width and height too:
-//    ofRunApp(new ofApp());
-
 }

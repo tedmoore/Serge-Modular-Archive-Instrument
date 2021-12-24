@@ -44,6 +44,10 @@ public:
     
     void drawSkeuomorph(ofEventArgs & args);
     void setupSkeuomorph();
+    void gui_keyPressed(ofKeyEventArgs& args);
+    void gui_mousePressed(ofMouseEventArgs& args);
+    void gui_mouseDragged(ofMouseEventArgs& args);
+    
     void processMIDI();
     void processOSC();
 

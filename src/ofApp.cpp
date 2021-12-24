@@ -266,12 +266,16 @@ void ofApp::drawPlot(bool buildKDTree){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    cout << "key " << key << "\n";
+    cout << "main wndow key " << key << "\n";
     int hid = key - 48;
     cout << "hid number: " << hid << endl;
     if(hid >= 0 && hid < 6){
         midi_manager.waitForAssignment(hid);
     }
+}
+
+void ofApp::gui_keyPressed(ofKeyEventArgs& args){
+    cout << "gui wndow key " << args.key << "\n";
 }
 
 //--------------------------------------------------------------
@@ -282,6 +286,10 @@ void ofApp::keyReleased(int key){
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
     
+}
+
+void ofApp::gui_mousePressed(ofMouseEventArgs& args){
+    cout << "mouse pressed in gui window: " << args.x << " " << args.y << endl;
 }
 
 bool ofApp::mouseInPlot(int x, int y){
@@ -297,6 +305,11 @@ void ofApp::mouseDragged(int x, int y, int button){
     cout << "ofApp::mouseDragged: " << x << " " << y << " " << button << endl;
     processIncomingMouseXY(x,y);
 }
+
+void ofApp::gui_mouseDragged(ofMouseEventArgs& args){
+    cout << "mouse dragged in gui window: " << args.x << " " << args.y << endl;
+}
+
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
