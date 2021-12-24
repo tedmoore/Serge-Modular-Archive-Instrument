@@ -82,10 +82,17 @@ void ofApp::setup(){
 
     // print received messages to the console
     midiIn.setVerbose(true);
+    
+    // =========== GRAPHICS ================
+    tkb.load(ofToDataPath("images/Serge GUI Layout/UMAP CONTROLLER/With Knobs/Artboard 1@4x.png"));
 }
 
 void ofApp::setupSkeuomorph(){
     three_panel.load(ofToDataPath("images/Serge GUI Layout/3-PANELS/With Knobs/SERGE 3PANEL5x.png"));
+//    gui_w = three_panel.getViewWidth();
+//    gui_h = three_panel.getViewHeight();
+    gui_w = 1920;
+    gui_h = 1080;
 }
 
 void ofApp::audioOut(float *output, int bufferSize, int nChannels){
@@ -217,41 +224,37 @@ void ofApp::processOSC(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     if(loaded){
-        ofSetColor(255);
-        plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
-        gui->draw();
-        
-        if(playing_index >= 0){
-            ofSetColor(0,0,0);
-            ofVec2f highlighted_pos = slices[playing_index]->current_pos;
-            highlighted_pos.operator*=(ofVec2f(plot_w,plot_h));
-            highlighted_pos.operator+=(ofVec2f(plot_x,plot_y));
-            ofDrawCircle(highlighted_pos,6);
-        }
+        drawPlotWindow();
     } else {
-        ofSetColor(0);
-        ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
-        ofSetColor(255);
-        ofDrawBitmapString("Loading...", 20,20);
+        loadingScreen();
     }
+}
+
+void ofApp::drawPlotWindow(){
+    ofSetColor(255);
+    tkb.draw();
+    plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
+    gui->draw();
+    
+    if(playing_index >= 0){
+        ofSetColor(0,0,0);
+        ofVec2f highlighted_pos = slices[playing_index]->current_pos;
+        highlighted_pos.operator*=(ofVec2f(plot_w,plot_h));
+        highlighted_pos.operator+=(ofVec2f(plot_x,plot_y));
+        ofDrawCircle(highlighted_pos,6);
+    }
+}
+
+void ofApp::loadingScreen(){
+    ofSetColor(0);
+    ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+    ofSetColor(255);
+    ofDrawBitmapString("Loading...", 300,300);
 }
 
 void ofApp::drawSkeuomorph(ofEventArgs &args){
     if(loaded){
-        float three_panel_ratio = three_panel.getWidth() / float(three_panel.getHeight());
-        float gui_win_ratio = gui_w / float(gui_h);
-        
-        if(gui_win_ratio > three_panel_ratio){
-            float draw_ratio = gui_h / float(three_panel.getHeight());
-            float draw_w = draw_ratio * three_panel.getWidth();
-            float draw_x = (gui_w - draw_w) / 2.f;
-            three_panel.draw(draw_x,0,draw_w,gui_h);
-        } else {
-            float draw_ratio = gui_w / float(three_panel.getWidth());
-            float draw_h = draw_ratio * three_panel.getHeight();
-            float draw_y = (gui_h - draw_h) / 2.f;
-            three_panel.draw(0,draw_y,gui_w,draw_h);
-        }
+        three_panel.drawCenteredScaled(gui_w,gui_h);
     }
 }
 
@@ -346,18 +349,29 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
+    
+    cout << "tkb width:  " << tkb.getViewWidth() << endl;
+    cout << "tkb hegiht: " << tkb.getViewHeight() << endl;
+    
+    tkb.bottomScaled(w,h,margin);
+    
+    cout << "tkb dims: ";
+    tkb.postDims();
+    
     plot_x = menu_width + margin + margin;
     plot_y = margin;
     plot_w = w - (plot_x + margin);
-    plot_h = h - (margin * 2);
+    plot_h = h - ((margin * 3) + tkb.draw_h);
+    
+    cout << "plot dims: " << plot_x << " " << plot_y << " " << plot_w << " " << plot_h << endl;
     
     drawPlot(false);
 }
 
 void ofApp::gui_windowResized(ofResizeEventArgs& args){
-//    cout << "gui window resized: " << args.width << " " << args.height << endl;
     gui_w = args.width;
     gui_h = args.height;
+//    cout << "gui window resized: " << args.width << " " << args.height << endl;
 }
 
 //--------------------------------------------------------------

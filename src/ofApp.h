@@ -11,6 +11,7 @@
 #include "ofxOsc.h"
 #include "ofxMidi.h"
 #include "SergeHandle.hpp"
+#include "SergeSubView.hpp"
 
 class ofApp : public ofBaseApp, public ofxMidiListener {
     
@@ -41,6 +42,8 @@ public:
     void createHeadersAndDropdownOptions();
     void createPointKDTree();
     void processIncomingMouseXY(int x, int y);
+    void loadingScreen();
+    void drawPlotWindow();
     
     void drawSkeuomorph(ofEventArgs & args);
     void setupSkeuomorph();
@@ -99,7 +102,8 @@ public:
     
     ofSoundStream soundstream;
     
-    ofImage three_panel;
+    SergeImage three_panel;
+    SergeImage tkb;
     
     ofxOscReceiver osc_receiver;
 
@@ -112,5 +116,6 @@ public:
 //    std::size_t maxMessages = 10; //< max number of messages to keep track of
     MIDIManager midi_manager;
     
-    int gui_w = 1920, gui_h = 1080;
+    int gui_w = 1920;
+    int gui_h = 1080;
 };
