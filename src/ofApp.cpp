@@ -408,17 +408,32 @@ void ofApp::createColors(){
         qualitative_colors[i] = ofColor::fromHex(hexes[i]);
     }
     
-    string line;
-    ifstream data;
+    ofPixels rainbow_pixels;
+    ofLoadImage(rainbow_pixels, ofToDataPath("colormaps/color options-01.png"));
+    int hop = rainbow_pixels.getWidth() / 255.f;
     
-    data.open(ofToDataPath("colormaps/CET-R2.csv"));
-    while(!data.eof()){
-        getline(data,line);
-        vector<string> vals = ofSplitString(line,",");
-        rainbow_colors.push_back(ofColor(ofToInt(vals[0]),ofToInt(vals[1]),ofToInt(vals[2])));
+    int y = rainbow_pixels.getHeight() - 1;
+//    int y = rainbow_pixels.getHeight() * 0.3;
+    for(int x = 0; x < rainbow_pixels.getWidth(); x += hop){
+        ofColor c = rainbow_pixels.getColor(x,y);
+//        cout << "ofApp::createColors c = " << c << endl;
+        c.a = 255;
+        rainbow_colors.push_back(c);
     }
     
-    data.close();
+    cout << "rainbow colors size: " << rainbow_colors.size() << endl;
+    
+//    string line;
+//    ifstream data;
+//
+//    data.open(ofToDataPath("colormaps/CET-R2.csv"));
+//    while(!data.eof()){
+//        getline(data,line);
+//        vector<string> vals = ofSplitString(line,",");
+//        rainbow_colors.push_back(ofColor(ofToInt(vals[0]),ofToInt(vals[1]),ofToInt(vals[2])));
+//    }
+//
+//    data.close();
 }
 
 void ofApp::readSoundSlicesData(string csv_path, double* ranges){
