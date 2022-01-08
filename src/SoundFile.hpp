@@ -23,7 +23,7 @@ public:
     
     ofxAudioFile audiofile;
     
-    unsigned int playIndices[2] = {0,0};
+    unsigned long playIndices[2] = {0,0};
     
     int samplerate;
     string path;
