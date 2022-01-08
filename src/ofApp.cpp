@@ -84,13 +84,12 @@ void ofApp::setup(){
     midiIn.setVerbose(true);
     
     // =========== GRAPHICS ================
-    tkb.load(ofToDataPath("images/Serge GUI Layout/UMAP CONTROLLER/With Knobs/Artboard 1@4x.png"));
+    tkb.load(ofToDataPath("images/Serge GUI Layout/UMAP CONTROLLER/Without Knobs/TKB@4x.png"));
 }
 
 void ofApp::setupSkeuomorph(){
-    three_panel.load(ofToDataPath("images/Serge GUI Layout/3-PANELS/With Knobs/SERGE 3PANEL5x.png"));
-//    gui_w = three_panel.getViewWidth();
-//    gui_h = three_panel.getViewHeight();
+    three_panel.load(ofToDataPath("images/Serge GUI Layout/3-PANELS/Without Knobs/SERGE 3PANEL@5x.png"));
+    
     gui_w = 1920;
     gui_h = 1080;
 }
@@ -249,7 +248,7 @@ void ofApp::loadingScreen(){
     ofSetColor(0);
     ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
     ofSetColor(255);
-    ofDrawBitmapString("Loading...", 300,300);
+    ofDrawBitmapString("Loading...", 600,300);
 }
 
 void ofApp::drawSkeuomorph(ofEventArgs &args){
@@ -297,7 +296,8 @@ void ofApp::mouseMoved(int x, int y ){
 }
 
 void ofApp::gui_mousePressed(ofMouseEventArgs& args){
-    cout << "mouse pressed in gui window: " << args.x << " " << args.y << endl;
+//    cout << "mouse pressed in gui window: " << args.x << " " << args.y << endl;
+    three_panel.windowMousePressed(args.x,args.y);
 }
 
 bool ofApp::mouseInPlot(int x, int y){
@@ -315,7 +315,8 @@ void ofApp::mouseDragged(int x, int y, int button){
 }
 
 void ofApp::gui_mouseDragged(ofMouseEventArgs& args){
-    cout << "mouse dragged in gui window: " << args.x << " " << args.y << endl;
+//    cout << "mouse dragged in gui window: " << args.x << " " << args.y << endl;
+    three_panel.windowMouseDragged(args.x,args.y);
 }
 
 //--------------------------------------------------------------
