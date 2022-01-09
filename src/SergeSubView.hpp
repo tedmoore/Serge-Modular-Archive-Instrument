@@ -30,6 +30,10 @@ public:
         cout << "SergeSubView::draw in super class\n";
 
     };
+    virtual void findKnob(float x, float y){
+        cout << "SergeSubView::findKnob in super class\n";
+
+    };
     
     void drawCenteredScaled(int win_w, int win_h){
         float view_ratio = getViewWidth() / getViewHeight();
@@ -74,11 +78,13 @@ public:
         if(windowPointInFrame(x,y)){
             float offset_x = x - draw_x;
             float offset_y = y - draw_y;
-            float scaled_x = x / draw_ratio;
-            float scaled_y = y / draw_ratio;
+            float scaled_x = offset_x / draw_ratio;
+            float scaled_y = offset_y / draw_ratio;
             
-            cout << "mouse pressed: " << x << "\t" << offset_x << "\t" << scaled_x << endl;
-            cout << "mouse pressed: " << y << "\t" << offset_y << "\t" << scaled_y << "\n\n";
+//            cout << "mouse pressed: " << x << "\t" << offset_x << "\t" << scaled_x << endl;
+//            cout << "mouse pressed: " << y << "\t" << offset_y << "\t" << scaled_y << "\n\n";
+            
+            findKnob(scaled_x,scaled_y);
         }
     }
     
@@ -87,11 +93,8 @@ public:
         if(windowPointInFrame(x,y)){
             float offset_x = x - draw_x;
             float offset_y = y - draw_y;
-            float scaled_x = x / draw_ratio;
-            float scaled_y = y / draw_ratio;
-            
-            cout << "mouse dragged: " << x << "\t" << offset_x << "\t" << scaled_x << endl;
-            cout << "mouse dragged: " << y << "\t" << offset_y << "\t" << scaled_y << "\n\n";
+            float scaled_x = offset_x / draw_ratio;
+            float scaled_y = offset_y / draw_ratio;
         }
     }
     
@@ -170,6 +173,14 @@ public:
     }
     float getViewHeight(){
         return img.getHeight();
+    }
+    void findKnob(float scaledx, float scaledy){
+        for(int i = 0; i < knobs.size(); i++){
+            if(knobs[i]->inside(scaledx,scaledy)){
+                cout << "pressed knob: " << i << endl;
+                break;
+            }
+        }
     }
 };
 #endif /* SergeSubView_hpp */

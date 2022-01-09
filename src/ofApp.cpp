@@ -184,7 +184,6 @@ void ofApp::onDropdownEventMIDIIN(ofxDatGuiDropdownEvent e){
 void ofApp::update(){
 //    cout << "loaded: " << loaded << endl
     if(loaded){
-        windowResized(ofGetWidth(),ofGetHeight());
         processOSC();
         gui->update();
     } else {
@@ -194,6 +193,7 @@ void ofApp::update(){
         }
         if(sum == 0){
             loaded = true;
+            windowResized(ofGetWidth(),ofGetHeight());
         }
     }
 }
