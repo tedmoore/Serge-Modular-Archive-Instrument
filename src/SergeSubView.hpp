@@ -150,9 +150,11 @@ public:
         drawKnobs();
     }
     void drawKnobs(){
+        ofSetRectMode(OF_RECTMODE_CENTER);
         for(int i = 0; i < knobs.size(); i++){
             knobs[i]->draw(draw_x,draw_y,draw_ratio);
         }
+        ofSetRectMode(OF_RECTMODE_CORNER);
     }
     float getViewWidth(){
         return img.getWidth();
@@ -178,7 +180,8 @@ public:
     void windowMouseDragged(float x, float y){
         if(grabbed_knob != -1){
             cout << "knob " << grabbed_knob << " val: ";
-            if(knobs[grabbed_knob]->increment(grabbed_knob_y - y)) grabbed_knob_y = y;
+            knobs[grabbed_knob]->increment(grabbed_knob_y - y);
+            grabbed_knob_y = y;
         }
 //        float mouse[2] = {x,y};
 //        if(windowPointInFrame(mouse)){

@@ -25,18 +25,23 @@ public:
     }
     
     void draw(float xoff, float yoff, float ratio){
+        // rotate around center https://forum.openframeworks.cc/t/how-to-rotate-around-center-of-mass/3942/3
         float size = img.getWidth() * ratio;
-        img.draw((x * ratio) + xoff - (size/2.0),(y * ratio) + yoff - (size/2.0),size,size);
+        ofPushMatrix();
+        ofTranslate((x * ratio) + xoff,(y * ratio) + yoff);
+        ofRotateZDeg(normval * 270);
+        img.draw(0,0,size,size);
+        ofPopMatrix();
     }
     
     bool inside(float* scaledmouse){
         float d = sqrt(pow(x - scaledmouse[0],2.0) + pow(y - scaledmouse[1],2.0));
-        cout << d << "\n";
+//        cout << d << "\n";
         return d < (img.getWidth() * 0.5);
     }
     
     bool increment(float pixels){
-        normval = ofClamp( normval + (pixels * 0.0003), 0.0, 1.0 );
+        normval = ofClamp( normval + (pixels * 0.005), 0.0, 1.0 );
         cout << normval << endl;
         return (normval == 0) || (normval == 1);
     }
