@@ -369,10 +369,10 @@ void ofApp::windowResized(int w, int h){
 //    cout << "tkb dims: ";
     tkb.postDims();
     
-    plot_x = menu_width + margin + margin;
-    plot_y = margin;
+    plot_x = margin;
+    plot_y = menu_height + margin + margin;
     plot_w = w - (plot_x + margin);
-    plot_h = h - ((margin * 3) + tkb.draw_h);
+    plot_h = h - ((margin * 4) + tkb.draw_h + menu_height);
     
 //    cout << "plot dims: " << plot_x << " " << plot_y << " " << plot_w << " " << plot_h << endl;
     
