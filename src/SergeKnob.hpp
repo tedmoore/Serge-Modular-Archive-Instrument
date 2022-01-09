@@ -28,8 +28,8 @@ public:
         img.draw((x * ratio) + xoff - (size/2.0),(y * ratio) + yoff - (size/2.0),size,size);
     }
     
-    bool inside(float mousex, float mousey){
-        float d = sqrt(pow(x - mousex,2.0) + pow(y - mousey,2.0));
+    bool inside(float* scaledmouse){
+        float d = sqrt(pow(x - scaledmouse[0],2.0) + pow(y - scaledmouse[1],2.0));
         cout << d << "\n";
         return d < (img.getWidth() * 0.5);
     }

@@ -316,6 +316,7 @@ bool ofApp::mouseInPlot(int x, int y){
 void ofApp::mouseDragged(int x, int y, int button){
     cout << "ofApp::mouseDragged: " << x << " " << y << " " << button << endl;
     processIncomingMouseXY(x,y);
+    tkb.windowMouseDragged(x, y);
 }
 
 void ofApp::gui_mouseDragged(ofMouseEventArgs& args){
@@ -327,6 +328,7 @@ void ofApp::gui_mouseDragged(ofMouseEventArgs& args){
 void ofApp::mousePressed(int x, int y, int button){
     cout << "ofApp::mousePressed: " << x << " " << y << " " << button << endl;
     processIncomingMouseXY(x,y);
+    tkb.windowMousePressed(x,y);
 }
 
 void ofApp::processIncomingMouseXY(int x, int y){

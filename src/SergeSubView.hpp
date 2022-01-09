@@ -30,7 +30,7 @@ public:
         cout << "SergeSubView::draw in super class\n";
 
     };
-    virtual void findKnob(float x, float y){
+    virtual void findKnob(float* mouse){
         cout << "SergeSubView::findKnob in super class\n";
 
     };
@@ -75,37 +75,34 @@ public:
     }
     
     void windowMousePressed(float x, float y){
-        if(windowPointInFrame(x,y)){
-            float offset_x = x - draw_x;
-            float offset_y = y - draw_y;
-            float scaled_x = offset_x / draw_ratio;
-            float scaled_y = offset_y / draw_ratio;
-            
-//            cout << "mouse pressed: " << x << "\t" << offset_x << "\t" << scaled_x << endl;
-//            cout << "mouse pressed: " << y << "\t" << offset_y << "\t" << scaled_y << "\n\n";
-            
-            findKnob(scaled_x,scaled_y);
+        float mouse[2] = {x,y};
+        if(windowPointInFrame(mouse)){
+            scaleWindowPosToImage(mouse);
+            findKnob(mouse);
         }
     }
     
     void windowMouseDragged(float x, float y){
-        
-        if(windowPointInFrame(x,y)){
-            float offset_x = x - draw_x;
-            float offset_y = y - draw_y;
-            float scaled_x = offset_x / draw_ratio;
-            float scaled_y = offset_y / draw_ratio;
+        float mouse[2] = {x,y};
+        if(windowPointInFrame(mouse)){
+            scaleWindowPosToImage(mouse);
+            cout << "dragging: " << mouse[0] << " " << mouse[1] << endl;
         }
     }
     
-    bool windowPointInFrame(float x, float y){
+    void scaleWindowPosToImage(float* mouse){
+        mouse[0] = (mouse[0] - draw_x) / draw_ratio;
+        mouse[1] = (mouse[1] - draw_y) / draw_ratio;
+    }
+    
+    bool windowPointInFrame(float* mouse){
 //        cout << "SergeSubView::windowPointInFrame: " << x << " " << y << endl;
 //        cout << draw_x << " " << draw_w << "\n" << draw_y << " " << draw_h << "\n\n";
 //        return (x >= draw_x) && (x < (draw_x + draw_w)) && (y >= draw_h) && (y < (draw_y + draw_h));
-        bool left = x >= draw_x;
-        bool right = x < (draw_x + draw_w);
-        bool top = y >= draw_y;
-        bool bottom = y < (draw_y + draw_h);
+        bool left = mouse[0] >= draw_x;
+        bool right = mouse[0] < (draw_x + draw_w);
+        bool top = mouse[1] >= draw_y;
+        bool bottom = mouse[1] < (draw_y + draw_h);
         return left && right && top && bottom;
     }
 };
@@ -174,9 +171,9 @@ public:
     float getViewHeight(){
         return img.getHeight();
     }
-    void findKnob(float scaledx, float scaledy){
+    void findKnob(float* scaledmouse){
         for(int i = 0; i < knobs.size(); i++){
-            if(knobs[i]->inside(scaledx,scaledy)){
+            if(knobs[i]->inside(scaledmouse)){
                 cout << "pressed knob: " << i << endl;
                 break;
             }
