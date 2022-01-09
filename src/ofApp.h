@@ -12,6 +12,7 @@
 #include "ofxMidi.h"
 #include "SergeHandle.hpp"
 #include "SergeSubView.hpp"
+//#include "SergeKnob.hpp"
 
 class ofApp : public ofBaseApp, public ofxMidiListener {
     
@@ -118,4 +119,7 @@ public:
     
     int gui_w = 1920;
     int gui_h = 1080;
+    
+    ofImage knob_image_tkb;
+    ofImage knob_image_skeuomorph;
 };

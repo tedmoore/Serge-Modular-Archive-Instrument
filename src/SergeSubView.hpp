@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include "ofMain.h"
+#include "SergeKnob.hpp"
 
 class SergeSubView{
 public:
@@ -123,12 +124,15 @@ public:
 class SergeImage : public SergeSubView{
 public:
     ofImage img;
-    void load(string path){
+    
+    vector<SergeKnob*> knobs;
+    
+    void load(string path,ofImage knobImage){
         img.load(path);
         filesystem::path fs_path = filesystem::path(path);
-        readKnobPositions(fs_path.parent_path().parent_path().string() + "/Knobs Only/" + fs_path.stem().string() + "_knob_positions.csv");
+        readKnobPositions(fs_path.parent_path().parent_path().string() + "/Knobs Only/" + fs_path.stem().string() + "_knob_positions.csv",knobImage);
     }
-    void readKnobPositions(string path){
+    void readKnobPositions(string path,ofImage &knobImage){
 //        cout << path << endl;
 //        filesystem::path fspath = filesystem::path(path);
 //        cout << "exists: " << filesystem::exists(fspath) << endl;
@@ -139,17 +143,27 @@ public:
         
         while(!data.eof()){
             getline(data, line);
+            vector<string> tokens = ofSplitString(line,",");
             
+            cout << "new knob at: " << tokens[0] << "\t " << tokens[1] << endl;
+            
+            SergeKnob* knob = new SergeKnob;
+            knob->setup(ofToFloat(tokens[0]),ofToFloat(tokens[1]),knobImage);
+            knobs.push_back(knob);
         }
         
         data.close();
+        
+        knobs.resize(knobs.size()-1);
     }
     void draw(){
         img.draw(draw_x,draw_y,draw_w,draw_h);
         drawKnobs();
     }
     void drawKnobs(){
-        
+        for(int i = 0; i < knobs.size(); i++){
+            knobs[i]->draw(draw_x,draw_y,draw_ratio);
+        }
     }
     float getViewWidth(){
         return img.getWidth();

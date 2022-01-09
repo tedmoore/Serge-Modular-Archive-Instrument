@@ -14,6 +14,7 @@
 		1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 907C5B5E104864A2D3A25745 /* ofxToggle.cpp */; };
 		285A456A2772BCB5002E99B5 /* MIDIManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 285A45682772BCB5002E99B5 /* MIDIManager.cpp */; };
 		2863178A27764A8C0032C5DD /* SergeSubView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2863178827764A8C0032C5DD /* SergeSubView.cpp */; };
+		28E466D2278A57640036525D /* SergeKnob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28E466D0278A57640036525D /* SergeKnob.cpp */; };
 		28F63EA527741013005F028A /* SergeHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28F63EA327741013005F028A /* SergeHandle.cpp */; };
 		3AEFE4FA8AD5C72671AD07F8 /* ofxRtMidiOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 712B183BC00EBFFB1EEA5AB8 /* ofxRtMidiOut.cpp */; };
 		483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78D67A00EB899FAC09430597 /* ofxLabel.cpp */; };
@@ -104,6 +105,8 @@
 		285A45692772BCB5002E99B5 /* MIDIManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MIDIManager.hpp; sourceTree = "<group>"; };
 		2863178827764A8C0032C5DD /* SergeSubView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SergeSubView.cpp; sourceTree = "<group>"; };
 		2863178927764A8C0032C5DD /* SergeSubView.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SergeSubView.hpp; sourceTree = "<group>"; };
+		28E466D0278A57640036525D /* SergeKnob.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SergeKnob.cpp; sourceTree = "<group>"; };
+		28E466D1278A57640036525D /* SergeKnob.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SergeKnob.hpp; sourceTree = "<group>"; };
 		28F63EA327741013005F028A /* SergeHandle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SergeHandle.cpp; sourceTree = "<group>"; };
 		28F63EA427741013005F028A /* SergeHandle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SergeHandle.hpp; sourceTree = "<group>"; };
 		2D13799635BB152B8F1A4E9A /* chvalid.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = chvalid.h; path = ../../../addons/ofxSvg/libs/libxml2/include/libxml/chvalid.h; sourceTree = SOURCE_ROOT; };
@@ -1172,6 +1175,8 @@
 				49626876B7135C66F09C8A6F /* SergeEnv.hpp */,
 				2863178827764A8C0032C5DD /* SergeSubView.cpp */,
 				2863178927764A8C0032C5DD /* SergeSubView.hpp */,
+				28E466D0278A57640036525D /* SergeKnob.cpp */,
+				28E466D1278A57640036525D /* SergeKnob.hpp */,
 				F20B91491823E7D1AC897970 /* SoundFile.hpp */,
 				120716F19DF9FF7C016649E8 /* SoundFile.cpp */,
 			);
@@ -1330,6 +1335,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
+				28E466D2278A57640036525D /* SergeKnob.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				F697A838D752CDE9608C935D /* SoundFile.cpp in Sources */,
 				9F668912DA5F3799F9169626 /* SergeEnv.cpp in Sources */,

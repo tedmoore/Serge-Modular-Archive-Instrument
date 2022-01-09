@@ -4,6 +4,8 @@
 //--------------------------------------------------------------
 
 void ofApp::setup(){
+    knob_image_tkb.load(ofToDataPath("images/DaviesKnob@4x.png"));
+    
     osc_receiver.setup(2884);
     
     ofSetFrameRate(60);
@@ -84,11 +86,12 @@ void ofApp::setup(){
     midiIn.setVerbose(true);
     
     // =========== GRAPHICS ================
-    tkb.load(ofToDataPath("images/Serge GUI Layout/UMAP CONTROLLER/Without Knobs/TKB@4x.png"));
+    tkb.load(ofToDataPath("images/Serge GUI Layout/UMAP CONTROLLER/Without Knobs/TKB@4x.png"),knob_image_tkb);
 }
 
 void ofApp::setupSkeuomorph(){
-    three_panel.load(ofToDataPath("images/Serge GUI Layout/3-PANELS/Without Knobs/SERGE 3PANEL@5x.png"));
+    knob_image_skeuomorph.load(ofToDataPath("images/DaviesKnob@4x.png"));
+    three_panel.load(ofToDataPath("images/Serge GUI Layout/3-PANELS/Without Knobs/SERGE 3PANEL@5x.png"),knob_image_skeuomorph);
     
     gui_w = 1920;
     gui_h = 1080;
@@ -181,6 +184,7 @@ void ofApp::onDropdownEventMIDIIN(ofxDatGuiDropdownEvent e){
 void ofApp::update(){
 //    cout << "loaded: " << loaded << endl
     if(loaded){
+        windowResized(ofGetWidth(),ofGetHeight());
         processOSC();
         gui->update();
     } else {

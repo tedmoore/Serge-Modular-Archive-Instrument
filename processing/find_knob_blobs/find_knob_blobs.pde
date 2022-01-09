@@ -2,10 +2,16 @@ int dist_thresh = 14;
 
 void setup() {
   size(1000, 1000);
+ 
+  processFolder( new File(dataPath("../../../bin/data/images/Serge GUI Layout/3-PANELS/Knobs Only/")) );
+  processFolder( new File(dataPath("../../../bin/data/images/Serge GUI Layout/UMAP CONTROLLER/Knobs Only/")) );
 
-  File path = new File(dataPath("../../../bin/data/images/Serge GUI Layout/3-PANELS/Knobs Only/"));
+  exit();
+}
 
-  File[] files = path.listFiles();
+void processFolder(File folder){
+  
+  File[] files = folder.listFiles();
 
   for (File f : files) {
     String fs = f.toString();
@@ -14,28 +20,25 @@ void setup() {
       findBlobs(f);
     }
   }
-  
-  exit();
 }
-
 
 void findBlobs(File file) {
   PImage knobs = loadImage(file.toString());
   knobs.loadPixels();
 
   String[] tokens = split(file.getName(), ".");
-  String output_path = file.getParent().toString() + "/" + tokens[0].replace(" KNOBS ONLY","") + "_knob_positions";
+  String output_path = file.getParent().toString() + "/" + tokens[0].replace(" KNOBS ONLY", "") + "_knob_positions";
   PrintWriter output = createWriter(output_path + ".csv");
-  PGraphics img = createGraphics(knobs.width,knobs.height);
+  PGraphics img = createGraphics(knobs.width, knobs.height);
 
-  String[] atTokens = split(tokens[0],"@");
-  
+  String[] atTokens = split(tokens[0], "@");
+
   int mult = int(atTokens[1].charAt(0)) - 48;
-  
+
   //println(atTokens[1]);
   //println(atTokens[1].charAt(0));
   //println("mult: " + mult);
-  
+
   ArrayList<Blob> blobs = new ArrayList<Blob>();
 
   for (int y = 0; y < knobs.height; y++) {
@@ -61,10 +64,10 @@ void findBlobs(File file) {
   }
 
   img.beginDraw();
-  img.image(knobs,0,0);
-  
+  img.image(knobs, 0, 0);
+
   for (int i = 0; i < blobs.size(); i++) {
-    blobs.get(i).display(1, dist_thresh * mult * 2, str(i),img);
+    blobs.get(i).display(1, dist_thresh * mult * 2, str(i), img);
     output.println(blobs.get(i).centroid.x + "," + blobs.get(i).centroid.y);
   }
   img.endDraw();
