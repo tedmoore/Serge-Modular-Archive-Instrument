@@ -16,6 +16,7 @@ public:
     
     ofImage img;
     float x, y;
+    float normval = 0;
     
     void setup(float x_, float y_, ofImage &knobimg){
         x = x_;
@@ -32,6 +33,12 @@ public:
         float d = sqrt(pow(x - scaledmouse[0],2.0) + pow(y - scaledmouse[1],2.0));
         cout << d << "\n";
         return d < (img.getWidth() * 0.5);
+    }
+    
+    bool increment(float pixels){
+        normval = ofClamp( normval + (pixels * 0.0003), 0.0, 1.0 );
+        cout << normval << endl;
+        return (normval == 0) || (normval == 1);
     }
 };
 

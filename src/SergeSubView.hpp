@@ -30,7 +30,7 @@ public:
         cout << "SergeSubView::draw in super class\n";
 
     };
-    virtual void findKnob(float* mouse){
+    virtual void findKnob(float* mouse, float windowmousey){
         cout << "SergeSubView::findKnob in super class\n";
 
     };
@@ -78,15 +78,7 @@ public:
         float mouse[2] = {x,y};
         if(windowPointInFrame(mouse)){
             scaleWindowPosToImage(mouse);
-            findKnob(mouse);
-        }
-    }
-    
-    void windowMouseDragged(float x, float y){
-        float mouse[2] = {x,y};
-        if(windowPointInFrame(mouse)){
-            scaleWindowPosToImage(mouse);
-            cout << "dragging: " << mouse[0] << " " << mouse[1] << endl;
+            findKnob(mouse,y);
         }
     }
     
@@ -96,9 +88,6 @@ public:
     }
     
     bool windowPointInFrame(float* mouse){
-//        cout << "SergeSubView::windowPointInFrame: " << x << " " << y << endl;
-//        cout << draw_x << " " << draw_w << "\n" << draw_y << " " << draw_h << "\n\n";
-//        return (x >= draw_x) && (x < (draw_x + draw_w)) && (y >= draw_h) && (y < (draw_y + draw_h));
         bool left = mouse[0] >= draw_x;
         bool right = mouse[0] < (draw_x + draw_w);
         bool top = mouse[1] >= draw_y;
@@ -125,6 +114,9 @@ class SergeImage : public SergeSubView{
 public:
     ofImage img;
     
+    int grabbed_knob = -1;
+    int grabbed_knob_y = 0;
+    
     vector<SergeKnob*> knobs;
     
     void load(string path,ofImage knobImage){
@@ -133,9 +125,6 @@ public:
         readKnobPositions(fs_path.parent_path().parent_path().string() + "/Knobs Only/" + fs_path.stem().string() + "_knob_positions.csv",knobImage);
     }
     void readKnobPositions(string path,ofImage &knobImage){
-//        cout << path << endl;
-//        filesystem::path fspath = filesystem::path(path);
-//        cout << "exists: " << filesystem::exists(fspath) << endl;
         string line;
         ifstream data;
         
@@ -145,7 +134,7 @@ public:
             getline(data, line);
             vector<string> tokens = ofSplitString(line,",");
             
-            cout << "new knob at: " << tokens[0] << "\t " << tokens[1] << endl;
+//            cout << "new knob at: " << tokens[0] << "\t " << tokens[1] << endl;
             
             SergeKnob* knob = new SergeKnob;
             knob->setup(ofToFloat(tokens[0]),ofToFloat(tokens[1]),knobImage);
@@ -171,13 +160,31 @@ public:
     float getViewHeight(){
         return img.getHeight();
     }
-    void findKnob(float* scaledmouse){
+    void findKnob(float* scaledmouse,float windowMouseY){
         for(int i = 0; i < knobs.size(); i++){
             if(knobs[i]->inside(scaledmouse)){
+                grabbed_knob = i;
+                grabbed_knob_y = windowMouseY;
                 cout << "pressed knob: " << i << endl;
                 break;
             }
         }
+    }
+    
+    void windowMouseReleased(float x, float y){
+        grabbed_knob = -1;
+    }
+    
+    void windowMouseDragged(float x, float y){
+        if(grabbed_knob != -1){
+            cout << "knob " << grabbed_knob << " val: ";
+            if(knobs[grabbed_knob]->increment(grabbed_knob_y - y)) grabbed_knob_y = y;
+        }
+//        float mouse[2] = {x,y};
+//        if(windowPointInFrame(mouse)){
+//            scaleWindowPosToImage(mouse);
+//            cout << "dragging: " << mouse[0] << " " << mouse[1] << endl;
+//        }
     }
 };
 #endif /* SergeSubView_hpp */

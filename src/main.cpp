@@ -28,6 +28,7 @@ int main( ){
     ofAddListener(guiWindow->events().mousePressed,mainApp.get(),&ofApp::gui_mousePressed);
     ofAddListener(guiWindow->events().mouseDragged,mainApp.get(),&ofApp::gui_mouseDragged);
     ofAddListener(guiWindow->events().windowResized,mainApp.get(),&ofApp::gui_windowResized);
+    ofAddListener(guiWindow->events().mouseReleased,mainApp.get(),&ofApp::gui_mouseReleased);
 
     ofRunApp(mainWindow, mainApp);
     ofRunMainLoop();

@@ -52,6 +52,7 @@ public:
     void gui_mousePressed(ofMouseEventArgs& args);
     void gui_mouseDragged(ofMouseEventArgs& args);
     void gui_windowResized(ofResizeEventArgs& args);
+    void gui_mouseReleased(ofMouseEventArgs& args);
     
     void processMIDI();
     void processOSC();

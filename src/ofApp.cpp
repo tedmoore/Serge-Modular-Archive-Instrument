@@ -314,7 +314,7 @@ bool ofApp::mouseInPlot(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-    cout << "ofApp::mouseDragged: " << x << " " << y << " " << button << endl;
+//    cout << "ofApp::mouseDragged: " << x << " " << y << " " << button << endl;
     processIncomingMouseXY(x,y);
     tkb.windowMouseDragged(x, y);
 }
@@ -326,7 +326,7 @@ void ofApp::gui_mouseDragged(ofMouseEventArgs& args){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    cout << "ofApp::mousePressed: " << x << " " << y << " " << button << endl;
+//    cout << "ofApp::mousePressed: " << x << " " << y << " " << button << endl;
     processIncomingMouseXY(x,y);
     tkb.windowMousePressed(x,y);
 }
@@ -341,7 +341,11 @@ void ofApp::processIncomingMouseXY(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-    
+    tkb.windowMouseReleased(x,y);
+}
+
+void ofApp::gui_mouseReleased(ofMouseEventArgs& args){
+    three_panel.windowMouseReleased(args.x,args.y);
 }
 
 //--------------------------------------------------------------
@@ -357,12 +361,12 @@ void ofApp::mouseExited(int x, int y){
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
     
-    cout << "tkb width:  " << tkb.getViewWidth() << endl;
-    cout << "tkb hegiht: " << tkb.getViewHeight() << endl;
-    
+//    cout << "tkb width:  " << tkb.getViewWidth() << endl;
+//    cout << "tkb hegiht: " << tkb.getViewHeight() << endl;
+//
     tkb.bottomScaled(w,h,margin);
     
-    cout << "tkb dims: ";
+//    cout << "tkb dims: ";
     tkb.postDims();
     
     plot_x = menu_width + margin + margin;
@@ -370,7 +374,7 @@ void ofApp::windowResized(int w, int h){
     plot_w = w - (plot_x + margin);
     plot_h = h - ((margin * 3) + tkb.draw_h);
     
-    cout << "plot dims: " << plot_x << " " << plot_y << " " << plot_w << " " << plot_h << endl;
+//    cout << "plot dims: " << plot_x << " " << plot_y << " " << plot_w << " " << plot_h << endl;
     
     drawPlot(false);
 }
@@ -420,27 +424,11 @@ void ofApp::createColors(){
     int hop = rainbow_pixels.getWidth() / 255.f;
     
     int y = rainbow_pixels.getHeight() - 1;
-//    int y = rainbow_pixels.getHeight() * 0.3;
     for(int x = 0; x < rainbow_pixels.getWidth(); x += hop){
         ofColor c = rainbow_pixels.getColor(x,y);
-//        cout << "ofApp::createColors c = " << c << endl;
         c.a = 255;
         rainbow_colors.push_back(c);
     }
-    
-    cout << "rainbow colors size: " << rainbow_colors.size() << endl;
-    
-//    string line;
-//    ifstream data;
-//
-//    data.open(ofToDataPath("colormaps/CET-R2.csv"));
-//    while(!data.eof()){
-//        getline(data,line);
-//        vector<string> vals = ofSplitString(line,",");
-//        rainbow_colors.push_back(ofColor(ofToInt(vals[0]),ofToInt(vals[1]),ofToInt(vals[2])));
-//    }
-//
-//    data.close();
 }
 
 void ofApp::readSoundSlicesData(string csv_path, double* ranges){
