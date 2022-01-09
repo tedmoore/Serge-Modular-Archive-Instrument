@@ -312,13 +312,6 @@ bool ofApp::mouseInPlot(int x, int y){
     return left && right && top && bottom;
 }
 
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-//    cout << "ofApp::mouseDragged: " << x << " " << y << " " << button << endl;
-    processIncomingMouseXY(x,y);
-    tkb.windowMouseDragged(x, y);
-}
-
 void ofApp::gui_mouseDragged(ofMouseEventArgs& args){
 //    cout << "mouse dragged in gui window: " << args.x << " " << args.y << endl;
     three_panel.windowMouseDragged(args.x,args.y);
@@ -331,8 +324,15 @@ void ofApp::mousePressed(int x, int y, int button){
     tkb.windowMousePressed(x,y);
 }
 
+//--------------------------------------------------------------
+void ofApp::mouseDragged(int x, int y, int button){
+//    cout << "ofApp::mouseDragged: " << x << " " << y << " " << button << endl;
+    processIncomingMouseXY(x,y);
+    tkb.windowMouseDragged(x, y);
+}
+
 void ofApp::processIncomingMouseXY(int x, int y){
-    if(mouseInPlot(x,y)){
+    if(mouseInPlot(x,y) && !tkb.hasMouseCaptured()){
         hid_xy[0] = (double(x) - plot_x) / plot_w;
         hid_xy[1] = (double(y) - plot_y) / plot_h;
         find_nearest();

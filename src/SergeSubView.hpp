@@ -19,6 +19,8 @@ public:
     float draw_w;
     float draw_h;
     float draw_ratio = 1;
+    bool mouseIsCaptured = false;
+    int grabbed_knob = -1;
     
     virtual float getViewHeight(){
         cout << "SergeSubView::getViewHeight in super class\n";
@@ -77,9 +79,15 @@ public:
     void windowMousePressed(float x, float y){
         float mouse[2] = {x,y};
         if(windowPointInFrame(mouse)){
+            mouseIsCaptured = true;
             scaleWindowPosToImage(mouse);
             findKnob(mouse,y);
         }
+    }
+    
+    void windowMouseReleased(float x, float y){
+        grabbed_knob = -1;
+        mouseIsCaptured = false;
     }
     
     void scaleWindowPosToImage(float* mouse){
@@ -93,6 +101,10 @@ public:
         bool top = mouse[1] >= draw_y;
         bool bottom = mouse[1] < (draw_y + draw_h);
         return left && right && top && bottom;
+    }
+    
+    bool hasMouseCaptured() {
+        return mouseIsCaptured;
     }
 };
 
@@ -114,7 +126,6 @@ class SergeImage : public SergeSubView{
 public:
     ofImage img;
     
-    int grabbed_knob = -1;
     int grabbed_knob_y = 0;
     
     vector<SergeKnob*> knobs;
@@ -172,11 +183,7 @@ public:
             }
         }
     }
-    
-    void windowMouseReleased(float x, float y){
-        grabbed_knob = -1;
-    }
-    
+        
     void windowMouseDragged(float x, float y){
         if(grabbed_knob != -1){
             cout << "knob " << grabbed_knob << " val: ";
