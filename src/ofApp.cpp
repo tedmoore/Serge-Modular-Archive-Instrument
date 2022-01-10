@@ -27,28 +27,29 @@ void ofApp::setup(){
     
     gui = new ofxDatGui(margin,margin);
     gui->setWidth(menu_width);
+    gui->setVisible(false);
     
-    gui->addLabel("X Dimension");
-    x_menu = gui->addDropdown("X",dropdown_options);
-    x_menu->onDropdownEvent(this, &ofApp::onDropdownEventX);
-    
-    gui->addLabel("Y Dimension");
-    y_menu = gui->addDropdown("Y",dropdown_options);
-    y_menu->onDropdownEvent(this, &ofApp::onDropdownEventY);
-    
-    gui->addLabel("Color");
-    c_menu = gui->addDropdown("C",dropdown_options);
-    c_menu->onDropdownEvent(this, &ofApp::onDropdownEventC);
-    
+//    gui->addLabel("X Dimension");
+//    x_menu = gui->addDropdown("X",dropdown_options);
+//    x_menu->onDropdownEvent(this, &ofApp::onDropdownEventX);
+//
+//    gui->addLabel("Y Dimension");
+//    y_menu = gui->addDropdown("Y",dropdown_options);
+//    y_menu->onDropdownEvent(this, &ofApp::onDropdownEventY);
+//
+//    gui->addLabel("Color");
+//    c_menu = gui->addDropdown("C",dropdown_options);
+//    c_menu->onDropdownEvent(this, &ofApp::onDropdownEventC);
+
+    for(int i = 0; i < 4; i++){
+        handles[i].setup(gui->addSlider("Param "+ofToString(i+1),ranges[i*2],ranges[(i*2)+1]),ranges[i*2],ranges[(i*2)+1]);
+        handles[i].handle->onSliderEvent(this, &ofApp::onSliderEvent);
+    }
+
     gui->addLabel("MIDI In");
     midi_in_menu = gui->addDropdown("MIDI In",midiIn.getInPortList());
     midi_in_menu->onDropdownEvent(this, &ofApp::onDropdownEventMIDIIN);
-    
-    for(int i = 0; i < 4; i++){
-        handles[i].setup(gui->addSlider("param"+ofToString(i),ranges[i*2],ranges[(i*2)+1]),ranges[i*2],ranges[(i*2)+1]);
-        handles[i].handle->onSliderEvent(this, &ofApp::onSliderEvent);
-    }
-    
+        
     createPointKDTree();
 
     windowResized(ofGetWidth(),ofGetHeight());
@@ -93,8 +94,8 @@ void ofApp::setupSkeuomorph(){
     knob_image_skeuomorph.load(ofToDataPath("images/DaviesKnob@4x.png"));
     three_panel.load(ofToDataPath("images/Serge GUI Layout/3-PANELS/Without Knobs/SERGE 3PANEL@5x.png"),knob_image_skeuomorph);
     
-    gui_w = 1920;
-    gui_h = 1080;
+    skeuomorph_window_width = ofGetScreenWidth() / 2;
+    skeuomorph_window_height = 1972; // If this is not hard coded, it displays incorrectly. I had tried ofGetScreenHeight(), and even tried to offset for the menu bar, but it would always display incorrectly.
 }
 
 void ofApp::audioOut(float *output, int bufferSize, int nChannels){
@@ -193,6 +194,7 @@ void ofApp::update(){
         }
         if(sum == 0){
             loaded = true;
+            gui->setVisible(true);
             windowResized(ofGetWidth(),ofGetHeight());
         }
     }
@@ -257,7 +259,9 @@ void ofApp::loadingScreen(){
 
 void ofApp::drawSkeuomorph(ofEventArgs &args){
     if(loaded){
-        three_panel.drawCenteredScaled(gui_w,gui_h);
+        three_panel.drawCenteredScaled(skeuomorph_window_width,skeuomorph_window_height);
+    } else {
+        loadingScreen();
     }
 }
 
@@ -369,10 +373,10 @@ void ofApp::windowResized(int w, int h){
 //    cout << "tkb dims: ";
     tkb.postDims();
     
-    plot_x = margin;
-    plot_y = menu_height + margin + margin;
+    plot_x = menu_width + margin + margin;
+    plot_y = margin;
     plot_w = w - (plot_x + margin);
-    plot_h = h - ((margin * 4) + tkb.draw_h + menu_height);
+    plot_h = h - ((margin * 3) + tkb.draw_h);
     
 //    cout << "plot dims: " << plot_x << " " << plot_y << " " << plot_w << " " << plot_h << endl;
     
@@ -380,9 +384,10 @@ void ofApp::windowResized(int w, int h){
 }
 
 void ofApp::gui_windowResized(ofResizeEventArgs& args){
-    gui_w = args.width;
-    gui_h = args.height;
-//    cout << "gui window resized: " << args.width << " " << args.height << endl;
+    skeuomorph_window_width = args.width;
+    skeuomorph_window_height = args.height;
+    cout << "gui window resized: " << args.width << " " << args.height << endl;
+    
 }
 
 //--------------------------------------------------------------

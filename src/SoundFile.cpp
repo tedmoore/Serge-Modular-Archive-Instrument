@@ -32,7 +32,6 @@ void SoundFile::threadedFunction(){
 void SoundFile::setPosGate(int sample, int n_frames_, int gate){
     startPoint = sample;
     endPoint = sample + (n_frames_ - fade_dur_samps);
-//    masterEnv.setTarget(gate);
     masterEnv.setValue(gate);
     flipPlayer();
 }

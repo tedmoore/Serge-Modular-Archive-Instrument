@@ -12,7 +12,6 @@
 #include "ofxMidi.h"
 #include "SergeHandle.hpp"
 #include "SergeSubView.hpp"
-//#include "SergeKnob.hpp"
 
 class ofApp : public ofBaseApp, public ofxMidiListener {
     
@@ -109,18 +108,18 @@ public:
     SergeImage tkb;
     
     ofxOscReceiver osc_receiver;
-
+    
     vector<double> hid_xy = {0,0};
     
     // MIDI
     void newMidiMessage(ofxMidiMessage& eventArgs);
     ofxMidiIn midiIn;
-//    std::vector<ofxMidiMessage> midiMessages;
-//    std::size_t maxMessages = 10; //< max number of messages to keep track of
+    //    std::vector<ofxMidiMessage> midiMessages;
+    //    std::size_t maxMessages = 10; //< max number of messages to keep track of
     MIDIManager midi_manager;
     
-    int gui_w = 1920;
-    int gui_h = 1080;
+    int skeuomorph_window_width;
+    int skeuomorph_window_height;
     
     ofImage knob_image_tkb;
     ofImage knob_image_skeuomorph;

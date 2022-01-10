@@ -190,11 +190,6 @@ public:
             knobs[grabbed_knob]->increment(grabbed_knob_y - y);
             grabbed_knob_y = y;
         }
-//        float mouse[2] = {x,y};
-//        if(windowPointInFrame(mouse)){
-//            scaleWindowPosToImage(mouse);
-//            cout << "dragging: " << mouse[0] << " " << mouse[1] << endl;
-//        }
     }
 };
 #endif /* SergeSubView_hpp */

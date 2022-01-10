@@ -6,14 +6,14 @@ int main( ){
 
     // main window
     ofGLFWWindowSettings settings;
-    settings.setSize(1920,1080);
+    settings.setSize(1681,1600);
     settings.setPosition(glm::vec2(0,0));
     settings.resizable = true;
     shared_ptr<ofAppBaseWindow> mainWindow = ofCreateWindow(settings);
 
     // skeuomorph window
-    settings.setSize(1920,1080);
-    settings.setPosition(glm::vec2(1920,0));
+    settings.setSize(1678,1972);
+    settings.setPosition(glm::vec2(1678,0));
     settings.resizable = true;
     // uncomment next line to share main's OpenGL resources with gui
 //    settings.shareContextWith = mainWindow;
