@@ -1,10 +1,10 @@
-int dist_thresh = 14;
+int dist_thresh = 50;
 
 void setup() {
-  size(1000, 1000);
+  //size(1000, 1000);
  
-  processFolder( new File(dataPath("../../../bin/data/images/Serge GUI Layout/3-PANELS/Knobs Only/")) );
-  processFolder( new File(dataPath("../../../bin/data/images/Serge GUI Layout/UMAP CONTROLLER/Knobs Only/")) );
+  processFolder( new File(dataPath("../../../bin/data/images/Serge GUI Layout (2022)/3-PANELS/")) );
+  processFolder( new File(dataPath("../../../bin/data/images/Serge GUI Layout (2022)/TAUC/")) );
 
   exit();
 }
@@ -15,7 +15,7 @@ void processFolder(File folder){
 
   for (File f : files) {
     String fs = f.toString();
-    if (fs.endsWith(".png") && !fs.endsWith("knob_positions.png")) {
+    if (fs.endsWith(".png") && !fs.endsWith("knob_positions.png") && fs.contains("STENCIL")) {
       println(f.toString());
       findBlobs(f);
     }
@@ -31,14 +31,6 @@ void findBlobs(File file) {
   PrintWriter output = createWriter(output_path + ".csv");
   PGraphics img = createGraphics(knobs.width, knobs.height);
 
-  String[] atTokens = split(tokens[0], "@");
-
-  int mult = int(atTokens[1].charAt(0)) - 48;
-
-  //println(atTokens[1]);
-  //println(atTokens[1].charAt(0));
-  //println("mult: " + mult);
-
   ArrayList<Blob> blobs = new ArrayList<Blob>();
 
   for (int y = 0; y < knobs.height; y++) {
@@ -50,7 +42,7 @@ void findBlobs(File file) {
         boolean added_to_existing_blob = false;
 
         for (Blob b : blobs) {
-          if (b.isNear(pt, dist_thresh * mult)) {
+          if (b.isNear(pt, dist_thresh)) {
             added_to_existing_blob = true;
             break;
           }
@@ -67,8 +59,8 @@ void findBlobs(File file) {
   img.image(knobs, 0, 0);
 
   for (int i = 0; i < blobs.size(); i++) {
-    blobs.get(i).display(1, dist_thresh * mult * 2, str(i), img);
-    output.println(blobs.get(i).centroid.x + "," + blobs.get(i).centroid.y);
+    blobs.get(i).display(1, dist_thresh * 2, str(i), img);
+    output.println(blobs.get(i).centroid.x + "," + blobs.get(i).centroid.y + "," + blobs.get(i).calcRadius());
   }
   img.endDraw();
   img.save(output_path + ".png");
