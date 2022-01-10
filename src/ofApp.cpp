@@ -105,6 +105,10 @@ void ofApp::setup(){
     guiTypes[43] = KNOB;
     
     tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),knob_image_plot_window,led_image_p,push_image_p,guiTypes);
+    
+    tkb.guis[0]->setCallback([&] {
+        cout << "this is a test, this string is in teh callback function\n";
+    });
 }
 
 void ofApp::setupSkeuomorph(){

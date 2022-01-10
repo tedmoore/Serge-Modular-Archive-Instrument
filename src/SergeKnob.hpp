@@ -18,6 +18,13 @@ public:
     ofImage img;
     float x, y;
     float val = 0;
+    
+    function<void()> callback;
+
+    void setCallback(function<void()> cb){
+        callback = cb;
+    }
+    
     virtual void increment(float pixels) {
         cout << "increment in base class\n";
     }
@@ -93,12 +100,6 @@ public:
 };
 
 class SergePush : public SergeGUI {
-    
-    function<void()> callback;
-
-    void setCallback(function<void()> cb){
-        callback = cb;
-    }
     
     void draw(float xoff, float yoff, float ratio){
         if(val > 0.5){
