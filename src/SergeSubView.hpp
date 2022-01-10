@@ -130,12 +130,17 @@ public:
     
     vector<SergeKnob*> knobs;
     
-    void load(string path,ofImage knobImage){
+    void load(string path,ofImage &knobImage, ofImage &ledImage, ofImage &pushImage){
         img.load(path);
         filesystem::path fs_path = filesystem::path(path);
-        readKnobPositions(fs_path.parent_path().parent_path().string() + "/Knobs Only/" + fs_path.stem().string() + "_knob_positions.csv",knobImage);
+        string knobs_path = fs_path.parent_path().string() + "/" + fs_path.stem().string() + "_knob_positions.csv";
+        
+//        cout << "view path:  " << path << endl;
+//        cout << "knobs path: " << knobs_path << endl;
+        
+        readKnobPositions(knobs_path,knobImage,ledImage,pushImage);
     }
-    void readKnobPositions(string path,ofImage &knobImage){
+    void readKnobPositions(string path,ofImage &knobImage, ofImage &ledImage, ofImage &pushImage){
         string line;
         ifstream data;
         
@@ -148,7 +153,7 @@ public:
 //            cout << "new knob at: " << tokens[0] << "\t " << tokens[1] << endl;
             
             SergeKnob* knob = new SergeKnob;
-            knob->setup(ofToFloat(tokens[0]),ofToFloat(tokens[1]),knobImage);
+            knob->setup(ofToFloat(tokens[0]),ofToFloat(tokens[1]),ofToFloat(tokens[2]),knobImage,ledImage,pushImage);
             knobs.push_back(knob);
         }
         
@@ -157,6 +162,8 @@ public:
         knobs.resize(knobs.size()-1);
     }
     void draw(){
+        ofSetColor(255,255,255,255);
+        ofDrawRectangle(draw_x, draw_y, draw_w, draw_h);
         img.draw(draw_x,draw_y,draw_w,draw_h);
         drawKnobs();
     }

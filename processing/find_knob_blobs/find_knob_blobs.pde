@@ -27,7 +27,7 @@ void findBlobs(File file) {
   knobs.loadPixels();
 
   String[] tokens = split(file.getName(), ".");
-  String output_path = file.getParent().toString() + "/" + tokens[0].replace(" KNOBS ONLY", "") + "_knob_positions";
+  String output_path = file.getParent().toString() + "/" + tokens[0].replace("_STENCIL","") + "_knob_positions";
   PrintWriter output = createWriter(output_path + ".csv");
   PGraphics img = createGraphics(knobs.width, knobs.height);
 

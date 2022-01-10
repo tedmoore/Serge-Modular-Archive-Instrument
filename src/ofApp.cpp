@@ -4,7 +4,9 @@
 //--------------------------------------------------------------
 
 void ofApp::setup(){
-    knob_image_tkb.load(ofToDataPath("images/DaviesKnob@4x.png"));
+    knob_image_plot_window.load(ofToDataPath(knob_image_path));
+    push_image_p.load(ofToDataPath(push_image_path));
+    led_image_p.load(ofToDataPath(led_image_path));
     
     osc_receiver.setup(2884);
     
@@ -41,10 +43,10 @@ void ofApp::setup(){
 //    c_menu = gui->addDropdown("C",dropdown_options);
 //    c_menu->onDropdownEvent(this, &ofApp::onDropdownEventC);
 
-    for(int i = 0; i < 4; i++){
-        handles[i].setup(gui->addSlider("Param "+ofToString(i+1),ranges[i*2],ranges[(i*2)+1]),ranges[i*2],ranges[(i*2)+1]);
-        handles[i].handle->onSliderEvent(this, &ofApp::onSliderEvent);
-    }
+//    for(int i = 0; i < 4; i++){
+//        handles[i].setup(gui->addSlider("Param "+ofToString(i+1),ranges[i*2],ranges[(i*2)+1]),ranges[i*2],ranges[(i*2)+1]);
+//        handles[i].handle->onSliderEvent(this, &ofApp::onSliderEvent);
+//    }
 
     gui->addLabel("MIDI In");
     midi_in_menu = gui->addDropdown("MIDI In",midiIn.getInPortList());
@@ -87,12 +89,16 @@ void ofApp::setup(){
     midiIn.setVerbose(true);
     
     // =========== GRAPHICS ================
-    tkb.load(ofToDataPath("images/Serge GUI Layout/UMAP CONTROLLER/Without Knobs/TKB@4x.png"),knob_image_tkb);
+    tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),knob_image_plot_window,led_image_p,push_image_p);
+    tkb.knobs[0]->guiType = PUSH;
 }
 
 void ofApp::setupSkeuomorph(){
-    knob_image_skeuomorph.load(ofToDataPath("images/DaviesKnob@4x.png"));
-    three_panel.load(ofToDataPath("images/Serge GUI Layout/3-PANELS/Without Knobs/SERGE 3PANEL@5x.png"),knob_image_skeuomorph);
+    knob_image_skeuomorph.load(ofToDataPath(knob_image_path));
+    push_image_s.load(ofToDataPath(push_image_path));
+    led_image_s.load(ofToDataPath(led_image_path));
+
+    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),knob_image_skeuomorph,led_image_s,push_image_s);
     
     skeuomorph_window_width = ofGetScreenWidth() / 2;
     skeuomorph_window_height = 1972; // If this is not hard coded, it displays incorrectly. I had tried ofGetScreenHeight(), and even tried to offset for the menu bar, but it would always display incorrectly.
