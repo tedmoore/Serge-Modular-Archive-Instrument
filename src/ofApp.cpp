@@ -89,16 +89,37 @@ void ofApp::setup(){
     midiIn.setVerbose(true);
     
     // =========== GRAPHICS ================
-    tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),knob_image_plot_window,led_image_p,push_image_p);
-    tkb.knobs[0]->guiType = PUSH;
+    int n_guiTypes = 44;
+    GuiType guiTypes[44];
+    
+    for(int i = 0; i < n_guiTypes; i++){
+        guiTypes[i] = LED;
+    }
+    
+    guiTypes[0] = PUSH;
+    guiTypes[1] = KNOB;
+    guiTypes[2] = KNOB;
+    guiTypes[3] = KNOB;
+    guiTypes[25] = KNOB;
+    guiTypes[42] = KNOB;
+    guiTypes[43] = KNOB;
+    
+    tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),knob_image_plot_window,led_image_p,push_image_p,guiTypes);
 }
 
 void ofApp::setupSkeuomorph(){
     knob_image_skeuomorph.load(ofToDataPath(knob_image_path));
     push_image_s.load(ofToDataPath(push_image_path));
     led_image_s.load(ofToDataPath(led_image_path));
-
-    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),knob_image_skeuomorph,led_image_s,push_image_s);
+    
+    int n_guiTypes = 78;
+    GuiType guiTypes[78];
+    
+    for(int i = 0; i < n_guiTypes; i++){
+        guiTypes[i] = KNOB;
+    }
+    
+    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),knob_image_skeuomorph,led_image_s,push_image_s,guiTypes);
     
     skeuomorph_window_width = ofGetScreenWidth() / 2;
     skeuomorph_window_height = 1972; // If this is not hard coded, it displays incorrectly. I had tried ofGetScreenHeight(), and even tried to offset for the menu bar, but it would always display incorrectly.
