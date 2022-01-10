@@ -13,10 +13,14 @@
 
 enum GuiTypeEnum { KNOB, LED, PUSH };
 
-class SergeKnob {
+class SergeGUI {
+public:
+    ofImage img;
+};
+
+class SergeKnob : public SergeGUI {
 public:
     
-    ofImage knobImage, ledImage, pushImage;
     float x, y;
     float normval = 0;
     GuiTypeEnum guiType;
