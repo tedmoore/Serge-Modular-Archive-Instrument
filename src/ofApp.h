@@ -123,18 +123,11 @@ public:
     int skeuomorph_window_width;
     int skeuomorph_window_height;
     
-    ofImage knob_image_plot_window;
-    ofImage knob_image_skeuomorph;
+    ofImage knob_image;
     
-    ofImage push_image_p;
-    ofImage push_image_s;
+    ofImage push_image;
     
-    ofImage led_image_p;
-    ofImage led_image_s;
-    
-    string knob_image_path = "images/Serge Gui Layout (2022)/DAVIES_KNOB.png";
-    string push_image_path = "images/Serge Gui Layout (2022)/BUTTON_PRESSED.png";
-    string led_image_path = "images/Serge Gui Layout (2022)/LED_ON.png";
+    ofImage led_image;
     
     nlohmann::json gui_info_json;
 };

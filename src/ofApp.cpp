@@ -9,20 +9,17 @@ void ofApp::setupSkeuomorph(){
 //    nlohmann::json gui_info_json;
     i >> gui_info_json;
     
-    knob_image_skeuomorph.load(ofToDataPath(knob_image_path));
-    push_image_s.load(ofToDataPath(push_image_path));
-    led_image_s.load(ofToDataPath(led_image_path));
+    knob_image.load(ofToDataPath("images/Serge Gui Layout (2022)/DAVIES_KNOB.png"));
+    push_image.load(ofToDataPath("images/Serge Gui Layout (2022)/BUTTON_PRESSED.png"));
+    led_image.load(ofToDataPath("images/Serge Gui Layout (2022)/LED_ON.png"));
         
-    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),knob_image_skeuomorph,led_image_s,push_image_s,gui_info_json["skeuomorph"]);
+    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),knob_image,led_image,push_image,gui_info_json["skeuomorph"]);
     
     skeuomorph_window_width = ofGetScreenWidth() / 2;
     skeuomorph_window_height = 1972; // If this is not hard coded, it displays incorrectly. I had tried ofGetScreenHeight(), and even tried to offset for the menu bar, but it would always display incorrectly.
 }
 
 void ofApp::setup(){
-    knob_image_plot_window.load(ofToDataPath(knob_image_path));
-    push_image_p.load(ofToDataPath(push_image_path));
-    led_image_p.load(ofToDataPath(led_image_path));
     
     osc_receiver.setup(2884);
     
@@ -114,7 +111,7 @@ void ofApp::setup(){
     cout << gui_info_json["plot"] << endl;
     
 //    ofExit();
-    tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),knob_image_plot_window,led_image_p,push_image_p,gui_info_json["plot"]);
+    tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),knob_image,led_image,push_image,gui_info_json["plot"]);
     
     tkb.guis[0]->setCallback([&] {
         cout << "this is a test, this string is in the callback function\n";
