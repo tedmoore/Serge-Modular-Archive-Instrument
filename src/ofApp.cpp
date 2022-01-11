@@ -107,8 +107,8 @@ void ofApp::setup(){
 //    nlohmann::json gui_info_json;
 //    i >> gui_info_json;
     
-    cout << gui_info_json << endl;
-    cout << gui_info_json["plot"] << endl;
+//    cout << gui_info_json << endl;
+//    cout << gui_info_json["plot"] << endl;
     
 //    ofExit();
     tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),knob_image,led_image,push_image,gui_info_json["plot"]);
