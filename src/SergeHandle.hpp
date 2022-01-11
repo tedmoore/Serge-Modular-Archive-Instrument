@@ -22,6 +22,7 @@ public:
     double min;
     double max;
     double range;
+    double value = 0;
     ofxDatGuiSlider* handle;
 };
 #endif /* SergeHandle_hpp */

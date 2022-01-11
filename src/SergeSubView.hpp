@@ -135,17 +135,19 @@ class SergeImage : public SergeSubView{
 public:
     ofImage img;
     
-    void load(string path,ofImage &knobImage, ofImage &ledImage, ofImage &pushImage,GuiType* guiTypes){
+    void load(string path,ofImage &knobImage, ofImage &ledImage, ofImage &pushImage,nlohmann::json json){
         img.load(path);
         filesystem::path fs_path = filesystem::path(path);
         string knobs_path = fs_path.parent_path().string() + "/" + fs_path.stem().string() + "_knob_positions.csv";
         
-//        cout << "view path:  " << path << endl;
-//        cout << "knobs path: " << knobs_path << endl;
-        
-        readKnobPositions(knobs_path,knobImage,ledImage,pushImage,guiTypes);
+        readKnobPositions(knobs_path,knobImage,ledImage,pushImage,json);
     }
-    void readKnobPositions(string path,ofImage &knobImage, ofImage &ledImage, ofImage &pushImage, GuiType* guiTypes){
+    
+    void readKnobPositions(string path,ofImage &knobImage, ofImage &ledImage, ofImage &pushImage,nlohmann::json json){
+        
+        cout << "SergeImage::readKnobPositions\n";
+        cout << json << endl;
+        
         string line;
         ifstream data;
         
@@ -155,23 +157,28 @@ public:
         while(!data.eof()){
             getline(data, line);
             vector<string> tokens = ofSplitString(line,",");
-                        
-            switch(guiTypes[counter]){
-                case KNOB:
+            
+//            cout << json[counter] << endl;
+//            int type = json[counter]["type"].get<int>();
+ 
+            int type = 0;
+            
+            switch(type){
+                case 0: // KNOB
                 {
                     SergeKnob* knob = new SergeKnob;
                     knob->setup(ofToFloat(tokens[0]),ofToFloat(tokens[1]),knobImage);
                     guis.push_back(knob);
                 }
                     break;
-                case LED:
+                case 1: // LED
                 {
                     SergeLed* led = new SergeLed;
                     led->setup(ofToFloat(tokens[0]),ofToFloat(tokens[1]),ledImage);
                     guis.push_back(led);
                 }
                     break;
-                case PUSH:
+                case 2: // PUSH
                 {
                     SergePush* push = new SergePush;
                     push->setup(ofToFloat(tokens[0]),ofToFloat(tokens[1]),pushImage);

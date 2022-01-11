@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include "ofMain.h"
 
-enum GuiType { KNOB, LED, PUSH };
+//enum GuiType { KNOB, LED, PUSH };
 
 class SergeGUI {
 public:

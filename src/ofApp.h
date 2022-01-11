@@ -12,6 +12,7 @@
 #include "ofxMidi.h"
 #include "SergeHandle.hpp"
 #include "SergeSubView.hpp"
+#include "thirdparty/nlohmann/json.hpp"
 
 class ofApp : public ofBaseApp, public ofxMidiListener {
     
@@ -44,6 +45,7 @@ public:
     void processIncomingMouseXY(int x, int y);
     void loadingScreen();
     void drawPlotWindow();
+    void jsonToGuiTypes(nlohmann::json json, string key);
     
     void drawSkeuomorph(ofEventArgs & args);
     void setupSkeuomorph();
@@ -133,4 +135,6 @@ public:
     string knob_image_path = "images/Serge Gui Layout (2022)/DAVIES_KNOB.png";
     string push_image_path = "images/Serge Gui Layout (2022)/BUTTON_PRESSED.png";
     string led_image_path = "images/Serge Gui Layout (2022)/LED_ON.png";
+    
+    nlohmann::json gui_info_json;
 };

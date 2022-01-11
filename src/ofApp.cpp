@@ -3,6 +3,22 @@
 #define SAMPLERATE 44100
 //--------------------------------------------------------------
 
+void ofApp::setupSkeuomorph(){
+    
+    std::ifstream i(ofToDataPath("images/Serge Gui Layout (2022)/gui_info.json"));
+//    nlohmann::json gui_info_json;
+    i >> gui_info_json;
+    
+    knob_image_skeuomorph.load(ofToDataPath(knob_image_path));
+    push_image_s.load(ofToDataPath(push_image_path));
+    led_image_s.load(ofToDataPath(led_image_path));
+        
+    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),knob_image_skeuomorph,led_image_s,push_image_s,gui_info_json["skeuomorph"]);
+    
+    skeuomorph_window_width = ofGetScreenWidth() / 2;
+    skeuomorph_window_height = 1972; // If this is not hard coded, it displays incorrectly. I had tried ofGetScreenHeight(), and even tried to offset for the menu bar, but it would always display incorrectly.
+}
+
 void ofApp::setup(){
     knob_image_plot_window.load(ofToDataPath(knob_image_path));
     push_image_p.load(ofToDataPath(push_image_path));
@@ -89,44 +105,20 @@ void ofApp::setup(){
     midiIn.setVerbose(true);
     
     // =========== GRAPHICS ================
-    int n_guiTypes = 44;
-    GuiType guiTypes[44];
     
-    for(int i = 0; i < n_guiTypes; i++){
-        guiTypes[i] = LED;
-    }
+//    std::ifstream i(ofToDataPath("images/Serge Gui Layout (2022)/gui_info.json"));
+//    nlohmann::json gui_info_json;
+//    i >> gui_info_json;
     
-    guiTypes[0] = PUSH;
-    guiTypes[1] = KNOB;
-    guiTypes[2] = KNOB;
-    guiTypes[3] = KNOB;
-    guiTypes[25] = KNOB;
-    guiTypes[42] = KNOB;
-    guiTypes[43] = KNOB;
+    cout << gui_info_json << endl;
+    cout << gui_info_json["plot"] << endl;
     
-    tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),knob_image_plot_window,led_image_p,push_image_p,guiTypes);
+//    ofExit();
+    tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),knob_image_plot_window,led_image_p,push_image_p,gui_info_json["plot"]);
     
     tkb.guis[0]->setCallback([&] {
-        cout << "this is a test, this string is in teh callback function\n";
+        cout << "this is a test, this string is in the callback function\n";
     });
-}
-
-void ofApp::setupSkeuomorph(){
-    knob_image_skeuomorph.load(ofToDataPath(knob_image_path));
-    push_image_s.load(ofToDataPath(push_image_path));
-    led_image_s.load(ofToDataPath(led_image_path));
-    
-    int n_guiTypes = 78;
-    GuiType guiTypes[78];
-    
-    for(int i = 0; i < n_guiTypes; i++){
-        guiTypes[i] = KNOB;
-    }
-    
-    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),knob_image_skeuomorph,led_image_s,push_image_s,guiTypes);
-    
-    skeuomorph_window_width = ofGetScreenWidth() / 2;
-    skeuomorph_window_height = 1972; // If this is not hard coded, it displays incorrectly. I had tried ofGetScreenHeight(), and even tried to offset for the menu bar, but it would always display incorrectly.
 }
 
 void ofApp::audioOut(float *output, int bufferSize, int nChannels){
