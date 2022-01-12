@@ -4,46 +4,46 @@
 //--------------------------------------------------------------
 
 void ofApp::setupSkeuomorph(){
-    
+
     std::ifstream i(ofToDataPath("images/Serge Gui Layout (2022)/gui_info.json"));
 //    nlohmann::json gui_info_json;
     i >> gui_info_json;
-    
+
     knob_image.load(ofToDataPath("images/Serge Gui Layout (2022)/DAVIES_KNOB.png"));
     push_image.load(ofToDataPath("images/Serge Gui Layout (2022)/BUTTON_PRESSED.png"));
     led_image.load(ofToDataPath("images/Serge Gui Layout (2022)/LED_ON.png"));
-        
-    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),knob_image,led_image,push_image,gui_info_json["skeuomorph"]);
-    
+
+//    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),knob_image,led_image,push_image,gui_info_json["skeuomorph"]);
+
     skeuomorph_window_width = ofGetScreenWidth() / 2;
     skeuomorph_window_height = 1972; // If this is not hard coded, it displays incorrectly. I had tried ofGetScreenHeight(), and even tried to offset for the menu bar, but it would always display incorrectly.
 }
 
 void ofApp::setup(){
-    
+
     osc_receiver.setup(2884);
-    
+
     ofSetFrameRate(60);
     ofBackground(100);
     ofEnableAntiAliasing();
     string csv_path = "211030_183738.csv";
-    
+
     createColors();
-    
+
     double ranges[8];
     for(int i = 0; i < 4; i++){
         ranges[i * 2] = std::numeric_limits<double>::max();
         ranges[(i * 2) + 1] = std::numeric_limits<double>::min();
     }
-    
+
     readSoundSlicesData(csv_path,ranges);
-    
+
     createHeadersAndDropdownOptions();
-    
+
     gui = new ofxDatGui(margin,margin);
     gui->setWidth(menu_width);
     gui->setVisible(false);
-    
+
 //    gui->addLabel("X Dimension");
 //    x_menu = gui->addDropdown("X",dropdown_options);
 //    x_menu->onDropdownEvent(this, &ofApp::onDropdownEventX);
@@ -64,25 +64,25 @@ void ofApp::setup(){
     gui->addLabel("MIDI In");
     midi_in_menu = gui->addDropdown("MIDI In",midiIn.getInPortList());
     midi_in_menu->onDropdownEvent(this, &ofApp::onDropdownEventMIDIIN);
-        
+
     createPointKDTree();
 
     windowResized(ofGetWidth(),ofGetHeight());
     drawPlot(true);
-    
+
     //soundFiles.resize(3);
-    
+
     for(int i = 0; i < 3; i++){
         soundFiles[i].setup(ofToDataPath("audio_files/part"+ofToString(i+1)+"_44k_16b.wav"),SAMPLERATE);
         soundFiles[i].startThread();
     }
-    
+
     soundstream.setup(2, 0, SAMPLERATE, 256, 4);
-    
+
     // MIDI
-    
+
     midi_manager.setup();
-    
+
     // print input ports to console
     midiIn.listInPorts();
 
@@ -100,22 +100,27 @@ void ofApp::setup(){
 
     // print received messages to the console
     midiIn.setVerbose(true);
-    
+
     // =========== GRAPHICS ================
-    
+
 //    std::ifstream i(ofToDataPath("images/Serge Gui Layout (2022)/gui_info.json"));
 //    nlohmann::json gui_info_json;
 //    i >> gui_info_json;
-    
+
 //    cout << gui_info_json << endl;
 //    cout << gui_info_json["plot"] << endl;
-    
+
 //    ofExit();
     tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),knob_image,led_image,push_image,gui_info_json["plot"]);
-    
-    tkb.guis[0]->setCallback([&] {
-        cout << "this is a test, this string is in the callback function\n";
-    });
+    tkb.setCallback(this,&ofApp::guiCallback);
+}
+
+void ofApp::guiCallback(const SergeGUIEvent event){
+    cout << "type: " << event.type;
+    cout << "\tindex: " << event.index;
+    cout << "\tval: " << event.val;
+    cout << "\tparam: " << event.param;
+    cout << "\tradio: " << event.radio << endl;
 }
 
 void ofApp::audioOut(float *output, int bufferSize, int nChannels){
@@ -132,12 +137,12 @@ void ofApp::audioOut(float *output, int bufferSize, int nChannels){
 }
 
 void ofApp::find_nearest(){
-    
+
     vector<size_t> indexes;
     vector<double> dists;
-    
+
     kdTree_2d.getKNN(hid_xy, 1, indexes, dists);
-    
+
     setPlayingIndex(indexes[0],true);
 }
 
@@ -148,12 +153,12 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e){
         for(int i = 0; i < 4; i++){
             point[i] = handles[i].getNormalizedValue();
         }
-        
+
         vector<size_t> indexes;
         vector<double> distances;
-        
+
         kdTree_params.getKNN(point,1, indexes, distances);
-                
+
         setPlayingIndex(indexes[0],false);
     }
 }
@@ -161,15 +166,15 @@ void ofApp::onSliderEvent(ofxDatGuiSliderEvent e){
 void ofApp::setPlayingIndex(size_t index, bool updateSliders){
     if(index != playing_index){
         playing_index = index;
-        
+
         int file = slices[playing_index]->values[1];
         int start_frame = slices[playing_index]->values[2];
         int n_frames = slices[playing_index]->values[3];
-    
+
         for(int i = 0; i < n_soundFiles; i++){
             soundFiles[i].setPosGate(start_frame,n_frames,file == i);
         }
-        
+
         if(updateSliders){
             allow_slider_callback = false;
             for(int i = 0; i < 4; i++){
@@ -227,7 +232,7 @@ void ofApp::processOSC(){
         osc_receiver.getNextMessage(oscMsg);
 
         string address = oscMsg.getAddress();
-        
+
         if(address == "/x"){
             hid_xy[0] = oscMsg.getArgAsFloat(0);
             find_nearest();
@@ -260,7 +265,7 @@ void ofApp::drawPlotWindow(){
     tkb.draw();
     plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
     gui->draw();
-    
+
     if(playing_index >= 0){
         ofSetColor(0,0,0);
         ofVec2f highlighted_pos = slices[playing_index]->current_pos;
@@ -287,7 +292,7 @@ void ofApp::drawSkeuomorph(ofEventArgs &args){
 
 void ofApp::drawPlot(bool buildKDTree){
     if(buildKDTree) kdTree_2d.clear();
-    
+
     plot_fbo.allocate(plot_w, plot_h);
     plot_fbo.begin();
     ofClear(255,255,255,255);
@@ -315,12 +320,12 @@ void ofApp::gui_keyPressed(ofKeyEventArgs& args){
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-    
+
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-    
+
 }
 
 void ofApp::gui_mousePressed(ofMouseEventArgs& args){
@@ -374,7 +379,7 @@ void ofApp::gui_mouseReleased(ofMouseEventArgs& args){
 
 //--------------------------------------------------------------
 void ofApp::mouseEntered(int x, int y){
-    
+
 }
 
 //--------------------------------------------------------------
@@ -384,22 +389,22 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-    
+
 //    cout << "tkb width:  " << tkb.getViewWidth() << endl;
 //    cout << "tkb hegiht: " << tkb.getViewHeight() << endl;
 //
     tkb.bottomScaled(w,h,margin);
-    
+
 //    cout << "tkb dims: ";
     tkb.postDims();
-    
+
     plot_x = menu_width + margin + margin;
     plot_y = margin;
     plot_w = w - (plot_x + margin);
     plot_h = h - ((margin * 3) + tkb.draw_h);
-    
+
 //    cout << "plot dims: " << plot_x << " " << plot_y << " " << plot_w << " " << plot_h << endl;
-    
+
     drawPlot(false);
 }
 
@@ -407,24 +412,24 @@ void ofApp::gui_windowResized(ofResizeEventArgs& args){
     skeuomorph_window_width = args.width;
     skeuomorph_window_height = args.height;
     cout << "gui window resized: " << args.width << " " << args.height << endl;
-    
+
 }
 
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg){
-    
+
 }
 
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){
-    
+
 }
 
 //--------------------------------------------------------------
 void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 
     int learned_midi = midi_manager.processIncomingMIDI(msg.channel,msg.control);
-    
+
     if(learned_midi == 0){
         hid_xy[0] = msg.value / 127.f;
         find_nearest();
@@ -439,15 +444,15 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 void ofApp::createColors(){
     // "bold" from https://carto.com/carto-colors/
     int hexes[12] = {0x7F3C8D,0x11A579,0x3969AC,0xF2B701,0xE73F74,0x80BA5A,0xE68310,0x008695,0xCF1C90,0xf97b72,0x4b4b8f,0xA5AA99};
-    
+
     for(int i = 0; i < 12; i++){
         qualitative_colors[i] = ofColor::fromHex(hexes[i]);
     }
-    
+
     ofPixels rainbow_pixels;
     ofLoadImage(rainbow_pixels, ofToDataPath("colormaps/color options-01.png"));
     int hop = rainbow_pixels.getWidth() / 255.f;
-    
+
     int y = rainbow_pixels.getHeight() - 1;
     for(int x = 0; x < rainbow_pixels.getWidth(); x += hop){
         ofColor c = rainbow_pixels.getColor(x,y);
@@ -459,15 +464,15 @@ void ofApp::createColors(){
 void ofApp::readSoundSlicesData(string csv_path, double* ranges){
     string line;
     ifstream data;
-    
+
     data.open(ofToDataPath(csv_path));
-    
+
     while(!data.eof()){
         getline(data, line);
-        
+
         SoundSlice* soundSlice = new SoundSlice;
         soundSlice->setup(rainbow_colors,qualitative_colors,line);
-        
+
         for(int i = 0; i < 4; i++){
             if(soundSlice->values[19 + i] < ranges[i * 2]){
                 ranges[i * 2] = soundSlice->values[19 + i];
@@ -476,17 +481,17 @@ void ofApp::readSoundSlicesData(string csv_path, double* ranges){
                 ranges[(i * 2) + 1] = soundSlice->values[19 + i];
             }
         }
-        
+
         slices.push_back(soundSlice);
     }
-    
+
     data.close();
 }
 
 void ofApp::createPointKDTree(){
     vector<double> point;
     point.resize(4);
-    
+
     for(int i = 0; i < slices.size(); i++){
         for(int j = 0; j < 4; j++){
             point[j] = handles[j].transform(slices[i]->values[19 + j]);
@@ -494,7 +499,7 @@ void ofApp::createPointKDTree(){
 
         kdTree_params.addPoint(point);
     }
-    
+
     kdTree_params.constructKDTree();
 }
 
@@ -506,15 +511,15 @@ void ofApp::createHeadersAndDropdownOptions(){
     values_headers.push_back("start sample");       // 2
     values_headers.push_back("num samples");        // 3
     values_headers.push_back("umap x norm");        // 4
-    
+
     dropdown_options.push_back("UMAP 1");
     dropdown_index_lookup.push_back(4);
-    
+
     values_headers.push_back("umap y norm");        // 5
-    
+
     dropdown_options.push_back("UMAP 2");
     dropdown_index_lookup.push_back(5);
-    
+
     values_headers.push_back("grid x norm");        // 6
     values_headers.push_back("grid y norm");        // 7
     values_headers.push_back("spec cent");          // 8
@@ -523,37 +528,37 @@ void ofApp::createHeadersAndDropdownOptions(){
     values_headers.push_back("pitch conf");         // 11
     values_headers.push_back("loudness");           // 12
     values_headers.push_back("spec cent norm");     // 13
-    
+
     dropdown_options.push_back("Spectral Centroid");
     dropdown_index_lookup.push_back(13);
-    
+
     values_headers.push_back("spec flatness norm"); // 14
-    
+
     dropdown_options.push_back("Spectral Flatness");
     dropdown_index_lookup.push_back(14);
-    
+
     values_headers.push_back("pitch norm");         // 15
-    
+
     dropdown_options.push_back("Pitch");
     dropdown_index_lookup.push_back(15);
-    
+
     values_headers.push_back("pitch conf norm");    // 16
-    
+
     dropdown_options.push_back("Pitch Confidence");
     dropdown_index_lookup.push_back(16);
-    
+
     values_headers.push_back("loudness norm");      // 17
-    
+
     dropdown_options.push_back("Loudness");
     dropdown_index_lookup.push_back(17);
-    
+
     values_headers.push_back("num params");         // 18
-    
+
     int n_params = int(slices[0]->values[18]);
     for(int i = 0; i < n_params; i++){
         values_headers.push_back("param " + ofToString(i) + " raw");
     }
-    
+
     for(int i = 0; i < n_params; i++){
         values_headers.push_back("param " + ofToString(i) + " int");
     }

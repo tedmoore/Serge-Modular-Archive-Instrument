@@ -15,12 +15,12 @@
 #include "thirdparty/nlohmann/json.hpp"
 
 class ofApp : public ofBaseApp, public ofxMidiListener {
-    
+
 public:
     void setup();
     void update();
     void draw();
-    
+
     void keyPressed(int key);
     void keyReleased(int key);
     void mouseMoved(int x, int y );
@@ -46,7 +46,7 @@ public:
     void loadingScreen();
     void drawPlotWindow();
     void jsonToGuiTypes(nlohmann::json json, string key);
-    
+
     void drawSkeuomorph(ofEventArgs & args);
     void setupSkeuomorph();
     void gui_keyPressed(ofKeyEventArgs& args);
@@ -54,7 +54,7 @@ public:
     void gui_mouseDragged(ofMouseEventArgs& args);
     void gui_windowResized(ofResizeEventArgs& args);
     void gui_mouseReleased(ofMouseEventArgs& args);
-    
+
     void processMIDI();
     void processOSC();
 
@@ -68,66 +68,68 @@ public:
     void onDropdownEventC(ofxDatGuiDropdownEvent e);
     void onDropdownEventMIDIIN(ofxDatGuiDropdownEvent e);
 
+    void guiCallback(const SergeGUIEvent event);
+
     bool loaded = false;
     //ofxDatGuiSlider* sliders[4];
     SergeHandle handles[4];
     bool allow_slider_callback = true;
-    
+
     vector<SoundSlice*> slices;
     vector<ofColor> rainbow_colors;
-    
+
     ofColor qualitative_colors[12];
-    
+
     ofFbo plot_fbo;
-    
+
     bool is_moving = false;
     float interp = 0;
-    
+
     int x_index_sl = 4;
     int y_index_sl = 5;
     int c_index_sl = 4;
-    
+
     vector<string> dropdown_options;
     vector<int> dropdown_index_lookup;
-    
+
     int plot_x, plot_y, plot_w, plot_h;
     int margin = 10;
     int menu_width = 300;
     int menu_height = 50;
-    
+
     ofxKDTree kdTree_2d;
-    
+
     ofxKDTree kdTree_params;
-    
+
     int n_soundFiles = 3;
     SoundFile soundFiles[3];
-    
+
     int playing_index = -1;
-    
+
     ofSoundStream soundstream;
-    
+
     SergeImage three_panel;
     SergeImage tkb;
-    
+
     ofxOscReceiver osc_receiver;
-    
+
     vector<double> hid_xy = {0,0};
-    
+
     // MIDI
     void newMidiMessage(ofxMidiMessage& eventArgs);
     ofxMidiIn midiIn;
     //    std::vector<ofxMidiMessage> midiMessages;
     //    std::size_t maxMessages = 10; //< max number of messages to keep track of
     MIDIManager midi_manager;
-    
+
     int skeuomorph_window_width;
     int skeuomorph_window_height;
-    
+
     ofImage knob_image;
-    
+
     ofImage push_image;
-    
+
     ofImage led_image;
-    
+
     nlohmann::json gui_info_json;
 };
