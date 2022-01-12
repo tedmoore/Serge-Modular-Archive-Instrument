@@ -49,24 +49,35 @@ public:
         val = v;
     }
 
-    void setup(float x_, float y_, ofImage &img_, int index_, int param_, int radio_){
-        x = x_;
-        y = y_;
+    void setup(nlohmann::json &json, ofImage &img_){
+        x = json["x"].get<float>();
+        y = json["y"].get<float>();
         img = img_;
-        index = index_;
-        param = param_;
-        radio = radio_;
+        index = json["index"].get<int>();
+        param = json["param"].get<int>();
+        radio = json["radio"].get<int>();
     }
     
     template<typename T, typename args, class ListenerClass>
     void setCallback(T* owner, void (ListenerClass::*listenerMethod)(args)){
         callback = std::bind(listenerMethod, owner, std::placeholders::_1);
-        cout << "callback set\n";
+//        cout << "callback set\n";
     }
 
     bool inside(float* scaledmouse){
         float d = sqrt(pow(x - scaledmouse[0],2.0) + pow(y - scaledmouse[1],2.0));
         return d < (img.getWidth() * 0.5);
+    }
+    
+    bool dispatchEvent(){
+        SergeGUIEvent event;
+        event.index = index;
+        event.val = val;
+        event.param = param;
+        event.radio = radio;
+        event.type = KNOB;
+
+        callback(event);
     }
 
 };
@@ -76,14 +87,7 @@ public:
 
     void increment(float pixels){
         val = ofClamp( val + (pixels * 0.005), 0.0, 1.0 );
-
-        SergeGUIEvent event;
-        event.type = KNOB;
-        event.index = index;
-        event.param = param;
-        event.val = val;
-
-        callback(event);
+        dispatchEvent();
     }
 
     void draw(float xoff, float yoff, float ratio){
@@ -112,7 +116,7 @@ public:
 
     void mousePressed(){
         cout << "led mousePressed\n";
-        val = !val;
+        dispatchEvent();
     }
 
     void mouseReleased(){
@@ -135,6 +139,7 @@ class SergePush : public SergeGUI {
 
     void mousePressed(){
         val = 1;
+        dispatchEvent();
     }
 
     void mouseReleased(){

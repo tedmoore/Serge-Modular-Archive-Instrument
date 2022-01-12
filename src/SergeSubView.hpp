@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "SergeKnob.hpp"
+#include "SergeRadio.hpp"
 
 class SergeSubView{
 public:
@@ -25,6 +26,10 @@ public:
     int grabbed_knob_y = 0;
 
     vector<SergeGUI*> guis;
+    
+    vector<SergeRadio*> radios;
+    function<void(SergeGUIEvent event)> callback;
+
 
     virtual float getViewHeight(){
         cout << "SergeSubView::getViewHeight in super class\n";
@@ -115,6 +120,37 @@ public:
     bool hasMouseCaptured() {
         return mouseIsCaptured;
     }
+    
+    void guiCallback(SergeGUIEvent event){
+        
+        if(event.radio != -1){
+            radios[event.radio]->update(event.index);
+        }
+        
+        callback(event);
+    }
+    
+    template<typename T, typename args, class ListenerClass>
+    void setCallback(T* owner, void (ListenerClass::*listenerMethod)(args)){
+        callback = std::bind(listenerMethod, owner, std::placeholders::_1);
+        for(int i = 0; i < guis.size(); i++){
+            guis[i]->setCallback(this,&SergeSubView::guiCallback);
+        }
+    }
+    
+    void makeRadios(nlohmann::json json){
+        int max_radio = 0;
+        for(int i = 0; i < json.size(); i++){
+            if(json[i]["radio"].get<int>() > max_radio) max_radio = json[i]["radio"].get<int>();
+        }
+        
+        int n_radios = max_radio + 1;
+        
+        for(int i = 0; i < n_radios; i++){
+            SergeRadio* radio = new SergeRadio;
+            radios.push_back(radio);
+        }
+    }
 };
 
 class SergeFBO : public SergeSubView{
@@ -134,46 +170,38 @@ public:
 class SergeImage : public SergeSubView{
 public:
     ofImage img;
-    
-//    function<void(SergeGUIEvent event)> callback;
 
     void load(string path,ofImage &knobImage, ofImage &ledImage, ofImage &pushImage,nlohmann::json &json){
         img.load(path);
         readKnobPositions(knobImage,ledImage,pushImage,json);
     }
-    
-    template<typename T, typename args, class ListenerClass>
-    void setCallback(T* owner, void (ListenerClass::*listenerMethod)(args)){
-//        callback = std::bind(listenerMethod, owner, std::placeholders::_1);
-//        cout << "call back set" << endl;
-        for(int i = 0; i < guis.size(); i++){
-            guis[i]->setCallback(owner,listenerMethod);
-        }
-    }
 
     void readKnobPositions(ofImage &knobImage, ofImage &ledImage, ofImage &pushImage,nlohmann::json &json){
-
+        
+        makeRadios(json);
+        
         for(int i = 0; i < json.size(); i++){
 
             switch(json[i]["type"].get<int>()){
                 case 0: // KNOB
                 {
-                    SergeKnob* knob = new SergeKnob;
-                    knob->setup(json[i]["x"].get<float>(),json[i]["y"].get<float>(),knobImage,json[i]["index"],json[i]["param"],json[i]["radio"]);
+                    SergeGUI* knob = new SergeKnob;
+                    knob->setup(json[i],knobImage);
                     guis.push_back(knob);
                 }
                     break;
                 case 1: // LED
                 {
                     SergeLed* led = new SergeLed;
-                    led->setup(json[i]["x"].get<float>(),json[i]["y"].get<float>(),ledImage,json[i]["index"],json[i]["param"],json[i]["radio"]);
+                    led->setup(json[i],ledImage);
                     guis.push_back(led);
+                    if(json[i]["radio"].get<int>() != -1) radios[json[i]["radio"].get<int>()]->addGui(led);
                 }
                     break;
                 case 2: // PUSH
                 {
                     SergePush* push = new SergePush;
-                    push->setup(json[i]["x"].get<float>(),json[i]["y"].get<float>(),pushImage,json[i]["index"],json[i]["param"],json[i]["radio"]);
+                    push->setup(json[i],pushImage);
                     guis.push_back(push);
                 }
                     break;
