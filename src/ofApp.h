@@ -114,6 +114,7 @@ public:
     ofxOscReceiver osc_receiver;
 
     vector<double> hid_xy = {0,0};
+    vector<double> params_state = {0.5,0.5,0.5,0.5};
 
     // MIDI
     void newMidiMessage(ofxMidiMessage& eventArgs);

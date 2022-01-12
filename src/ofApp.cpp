@@ -126,6 +126,16 @@ void ofApp::guiCallback(const SergeGUIEvent event){
     
     switch (event.type) {
         case KNOB:
+            if(event.param != -1){
+                params_state[event.param] = event.val;
+                
+                vector<size_t> indexes;
+                vector<double> distances;
+
+                kdTree_params.getKNN(params_state,1, indexes, distances);
+
+                setPlayingIndex(indexes[0],false);
+            }
             break;
         case LED:
             if(event.axis != -1){
@@ -173,22 +183,9 @@ void ofApp::find_nearest(){
     setPlayingIndex(indexes[0],true);
 }
 
-void ofApp::onSliderEvent(ofxDatGuiSliderEvent e){
-    if(allow_slider_callback){
-        vector<double> point;
-        point.resize(4);
-        for(int i = 0; i < 4; i++){
-            point[i] = handles[i].getNormalizedValue();
-        }
-
-        vector<size_t> indexes;
-        vector<double> distances;
-
-        kdTree_params.getKNN(point,1, indexes, distances);
-
-        setPlayingIndex(indexes[0],false);
-    }
-}
+//void ofApp::onSliderEvent(ofxDatGuiSliderEvent e){
+//
+//}
 
 void ofApp::setPlayingIndex(size_t index, bool updateSliders){
     if(index != playing_index){
