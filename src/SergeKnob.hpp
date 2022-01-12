@@ -49,14 +49,19 @@ public:
         val = v;
     }
 
-    void setup(float x_, float y_, ofImage &img_, int index_, int param_, int radio_, function<void(const SergeGUIEvent event)> &callback_){
+    void setup(float x_, float y_, ofImage &img_, int index_, int param_, int radio_){
         x = x_;
         y = y_;
         img = img_;
         index = index_;
         param = param_;
         radio = radio_;
-        callback = callback_;
+    }
+    
+    template<typename T, typename args, class ListenerClass>
+    void setCallback(T* owner, void (ListenerClass::*listenerMethod)(args)){
+        callback = std::bind(listenerMethod, owner, std::placeholders::_1);
+        cout << "callback set\n";
     }
 
     bool inside(float* scaledmouse){

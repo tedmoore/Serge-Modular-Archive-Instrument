@@ -135,20 +135,23 @@ class SergeImage : public SergeSubView{
 public:
     ofImage img;
     
-    function<void(SergeGUIEvent event)> callback;
+//    function<void(SergeGUIEvent event)> callback;
 
     void load(string path,ofImage &knobImage, ofImage &ledImage, ofImage &pushImage,nlohmann::json &json){
         img.load(path);
-//        readKnobPositions(knobImage,ledImage,pushImage,json,callback);
+        readKnobPositions(knobImage,ledImage,pushImage,json);
     }
     
     template<typename T, typename args, class ListenerClass>
     void setCallback(T* owner, void (ListenerClass::*listenerMethod)(args)){
-        callback = std::bind(listenerMethod, owner, std::placeholders::_1);
-        cout << "call back set" << endl;
+//        callback = std::bind(listenerMethod, owner, std::placeholders::_1);
+//        cout << "call back set" << endl;
+        for(int i = 0; i < guis.size(); i++){
+            guis[i]->setCallback(owner,listenerMethod);
+        }
     }
 
-    void readKnobPositions(ofImage &knobImage, ofImage &ledImage, ofImage &pushImage,nlohmann::json &json,function<void(const SergeGUIEvent event)> &callback){
+    void readKnobPositions(ofImage &knobImage, ofImage &ledImage, ofImage &pushImage,nlohmann::json &json){
 
         for(int i = 0; i < json.size(); i++){
 
@@ -156,21 +159,21 @@ public:
                 case 0: // KNOB
                 {
                     SergeKnob* knob = new SergeKnob;
-                    knob->setup(json[i]["x"].get<float>(),json[i]["y"].get<float>(),knobImage,json[i]["index"],json[i]["param"],json[i]["radio"],callback);
+                    knob->setup(json[i]["x"].get<float>(),json[i]["y"].get<float>(),knobImage,json[i]["index"],json[i]["param"],json[i]["radio"]);
                     guis.push_back(knob);
                 }
                     break;
                 case 1: // LED
                 {
                     SergeLed* led = new SergeLed;
-                    led->setup(json[i]["x"].get<float>(),json[i]["y"].get<float>(),ledImage,json[i]["index"],json[i]["param"],json[i]["radio"],callback);
+                    led->setup(json[i]["x"].get<float>(),json[i]["y"].get<float>(),ledImage,json[i]["index"],json[i]["param"],json[i]["radio"]);
                     guis.push_back(led);
                 }
                     break;
                 case 2: // PUSH
                 {
                     SergePush* push = new SergePush;
-                    push->setup(json[i]["x"].get<float>(),json[i]["y"].get<float>(),pushImage,json[i]["index"],json[i]["param"],json[i]["radio"],callback);
+                    push->setup(json[i]["x"].get<float>(),json[i]["y"].get<float>(),pushImage,json[i]["index"],json[i]["param"],json[i]["radio"]);
                     guis.push_back(push);
                 }
                     break;

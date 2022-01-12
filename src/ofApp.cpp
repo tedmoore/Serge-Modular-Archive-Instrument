@@ -13,7 +13,8 @@ void ofApp::setupSkeuomorph(){
     push_image.load(ofToDataPath("images/Serge Gui Layout (2022)/BUTTON_PRESSED.png"));
     led_image.load(ofToDataPath("images/Serge Gui Layout (2022)/LED_ON.png"));
 
-//    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),knob_image,led_image,push_image,gui_info_json["skeuomorph"]);
+    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),knob_image,led_image,push_image,gui_info_json["skeuomorph"]);
+    three_panel.setCallback(this, &ofApp::guiCallback);
 
     skeuomorph_window_width = ofGetScreenWidth() / 2;
     skeuomorph_window_height = 1972; // If this is not hard coded, it displays incorrectly. I had tried ofGetScreenHeight(), and even tried to offset for the menu bar, but it would always display incorrectly.
