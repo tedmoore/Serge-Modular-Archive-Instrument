@@ -121,7 +121,33 @@ void ofApp::guiCallback(const SergeGUIEvent event){
     cout << "\tindex: " << event.index;
     cout << "\tval: " << event.val;
     cout << "\tparam: " << event.param;
-    cout << "\tradio: " << event.radio << endl;
+    cout << "\tradio: " << event.radio;
+    cout << "\taxis: " << event.axis << endl;
+    
+    switch (event.type) {
+        case KNOB:
+            break;
+        case LED:
+            if(event.axis != -1){
+                switch(event.radio){
+                    case 0:
+                        x_index_sl = dropdown_index_lookup[event.axis];
+                        break;
+                    case 1:
+                        y_index_sl = dropdown_index_lookup[event.axis];
+                        break;
+                    case 2:
+                        c_index_sl = dropdown_index_lookup[event.axis];
+                        break;
+                }
+                drawPlot(true);
+            }
+            break;
+        case PUSH:
+            break;
+        default:
+            break;
+    }
 }
 
 void ofApp::audioOut(float *output, int bufferSize, int nChannels){

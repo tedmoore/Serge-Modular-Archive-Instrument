@@ -18,19 +18,25 @@
 			"index",i,
 			"type",1, // 1 = LED
 			"radio",-1,
+			"radio_index",-1,
 			"param",-1,
+			"axis",-1,
+			"inital_value",0,
 			"x",~plot_locations[i][0],
 			"y",~plot_locations[i][1],
 			"radius",~plot_locations[i][2],
 		]);
 	}),
-	"skeuomorph",Array.fill(~n_in_skeu_win,{
+	"skeuomorph",Array.fill(~skeuomorph_locations.size,{
 		arg i;
 		Dictionary.newFrom([
 			"index",i,
 			"type",0, // 0 = KNOB
 			"radio",-1,
+			"radio_index",-1,
 			"param",-1,
+			"axis",-1,
+			"inital_value",0.5,
 			"x",~skeuomorph_locations[i][0],
 			"y",~skeuomorph_locations[i][1],
 			"radius",~skeuomorph_locations[i][2],
@@ -44,6 +50,7 @@
 [1,2,3,25,42,43].do{
 	arg i;
 	~json["plot"][i]["type"] = 0; // 0 = KNOB
+	~json["plot"][i]["initial_value"] = 0.5;
 };
 
 [(4..10),(11..17),(18..24)].do{
@@ -52,6 +59,21 @@
 		arg index;
 		// [radio_i,index].postln;
 		~json["plot"][index]["radio"] = radio_i;
+	}
+};
+
+~json["plot"][4]["initial_value"] = 1;
+~json["plot"][12]["initial_value"] = 1;
+~json["plot"][18]["initial_value"] = 1;
+
+// axes
+
+// axis 0
+3.do{
+	arg axis;
+	7.do{
+		arg led;
+		~json["plot"][(axis * 7) + led + 4]["axis"] = led;
 	}
 };
 

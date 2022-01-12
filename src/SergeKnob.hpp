@@ -18,6 +18,7 @@ struct SergeGUIEvent {
     float val = -1;
     int param = -1;
     int radio = -1;
+    int axis = -1;
     SergeGUIType type = KNOB;
 };
 
@@ -29,20 +30,22 @@ public:
     int index;
     int param;
     int radio;
+    int axis;
+    
     function<void(const SergeGUIEvent event)> callback;
 
     virtual void increment(float pixels) {
-        cout << "increment in base class\n";
+//        cout << "increment in base class\n";
     }
     virtual void draw(float xoff, float yoff, float ratio) {
-        cout << "draw in base class\n";
+//        cout << "draw in base class\n";
     }
     virtual void mousePressed(){
-        cout << "mousePressed in base class\n";
+//        cout << "mousePressed in base class\n";
     }
 
     virtual void mouseReleased(){
-        cout << "mouseReleased in base class\n";
+//        cout << "mouseReleased in base class\n";
     }
 
     void setValue(float v){
@@ -56,12 +59,12 @@ public:
         index = json["index"].get<int>();
         param = json["param"].get<int>();
         radio = json["radio"].get<int>();
+        axis = json["axis"].get<int>();
     }
     
     template<typename T, typename args, class ListenerClass>
     void setCallback(T* owner, void (ListenerClass::*listenerMethod)(args)){
         callback = std::bind(listenerMethod, owner, std::placeholders::_1);
-//        cout << "callback set\n";
     }
 
     bool inside(float* scaledmouse){
@@ -69,14 +72,15 @@ public:
         return d < (img.getWidth() * 0.5);
     }
     
-    bool dispatchEvent(){
+    bool dispatchEvent(SergeGUIType type){
         SergeGUIEvent event;
         event.index = index;
         event.val = val;
         event.param = param;
         event.radio = radio;
-        event.type = KNOB;
-
+        event.type = type;
+        event.axis = axis;
+        
         callback(event);
     }
 
@@ -87,7 +91,7 @@ public:
 
     void increment(float pixels){
         val = ofClamp( val + (pixels * 0.005), 0.0, 1.0 );
-        dispatchEvent();
+        dispatchEvent(KNOB);
     }
 
     void draw(float xoff, float yoff, float ratio){
@@ -105,7 +109,7 @@ class SergeLed : public SergeGUI {
 public:
 
     void draw(float xoff, float yoff, float ratio){
-        if(val > 0.5){
+        if(val != 0){
             float size = img.getWidth() * ratio;
             ofPushMatrix();
             ofTranslate((x * ratio) + xoff,(y * ratio) + yoff);
@@ -115,8 +119,8 @@ public:
     }
 
     void mousePressed(){
-        cout << "led mousePressed\n";
-        dispatchEvent();
+//        cout << "led mousePressed\n";
+        dispatchEvent(LED);
     }
 
     void mouseReleased(){
@@ -139,7 +143,7 @@ class SergePush : public SergeGUI {
 
     void mousePressed(){
         val = 1;
-        dispatchEvent();
+        dispatchEvent(PUSH);
     }
 
     void mouseReleased(){
