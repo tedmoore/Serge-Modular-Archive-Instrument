@@ -151,9 +151,19 @@ public:
             radios.push_back(radio);
         }
     }
+    
+    void updateParamGuis(vector<double> &params){
+        for(int i = 0; i < guis.size(); i++){
+            if(guis[i]->param >= 0){
+                
+                guis[i]->setValue(params[guis[i]->param]);
+            }
+        }
+    }
 };
 
 class SergeFBO : public SergeSubView{
+    // TODO: long term this should be used for the plot window
 public:
     ofFbo fbo;
     void draw(){
@@ -230,7 +240,7 @@ public:
 
     void windowMouseDragged(float x, float y){
         if(grabbed_knob != -1){
-            cout << "knob " << grabbed_knob << " val: ";
+            //cout << "knob " << grabbed_knob << " val: ";
             guis[grabbed_knob]->increment(grabbed_knob_y - y);
             grabbed_knob_y = y;
         }

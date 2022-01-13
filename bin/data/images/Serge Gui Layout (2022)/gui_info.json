@@ -3,1353 +3,1344 @@
 			"y":282.8977,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":786.17395,
 			"radio_index":-1,
 			"radius":39.922653,
-			"index":0,
-			"inital_value":0.5
+			"index":0
 		}, {
 			"y":438.4884,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2508.373,
 			"radio_index":-1,
 			"radius":39.913326,
-			"index":1,
-			"inital_value":0.5
+			"index":1
 		}, {
 			"y":440.28067,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1567.3168,
 			"radio_index":-1,
 			"radius":39.93766,
-			"index":2,
-			"inital_value":0.5
+			"index":2
 		}, {
 			"y":446.25922,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":786.192,
 			"radio_index":-1,
 			"radius":39.931538,
-			"index":3,
-			"inital_value":0.5
+			"index":3
 		}, {
 			"y":587.12604,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2192.4104,
 			"radio_index":-1,
 			"radius":39.936096,
-			"index":4,
-			"inital_value":0.5
+			"index":4
 		}, {
 			"y":753.6674,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":157.99399,
 			"radio_index":-1,
 			"radius":39.912956,
-			"index":5,
-			"inital_value":0.5
+			"index":5
 		}, {
 			"y":753.6204,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":630.4468,
 			"radio_index":-1,
 			"radius":39.89985,
-			"index":6,
-			"inital_value":0.5
+			"index":6
 		}, {
 			"y":753.67725,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":786.19574,
 			"radio_index":-1,
 			"radius":39.946407,
-			"index":7,
-			"inital_value":0.5
+			"index":7
 		}, {
 			"y":756.3452,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2508.3452,
 			"radio_index":-1,
 			"radius":39.89,
-			"index":8,
-			"inital_value":0.5
+			"index":8
 		}, {
 			"y":917.0333,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":315.65952,
 			"radio_index":-1,
 			"radius":39.926334,
-			"index":9,
-			"inital_value":0.5
+			"index":9
 		}, {
 			"y":917.0818,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":470.87534,
 			"radio_index":-1,
 			"radius":39.899624,
-			"index":10,
-			"inital_value":0.5
+			"index":10
 		}, {
 			"y":917.079,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":786.1668,
 			"radio_index":-1,
 			"radius":39.914276,
-			"index":11,
-			"inital_value":0.5
+			"index":11
 		}, {
 			"y":1212.7992,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":296.0,
 			"radio_index":-1,
 			"radius":39.87984,
-			"index":12,
-			"inital_value":0.5
+			"index":12
 		}, {
 			"y":1307.5906,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1248.6444,
 			"radio_index":-1,
 			"radius":39.88934,
-			"index":13,
-			"inital_value":0.5
+			"index":13
 		}, {
 			"y":1313.4531,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1559.4419,
 			"radio_index":-1,
 			"radius":39.90754,
-			"index":14,
-			"inital_value":0.5
+			"index":14
 		}, {
 			"y":1313.3843,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1713.2219,
 			"radio_index":-1,
 			"radius":39.926888,
-			"index":15,
-			"inital_value":0.5
+			"index":15
 		}, {
 			"y":1367.6266,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":296.01364,
 			"radio_index":-1,
 			"radius":39.910736,
-			"index":16,
-			"inital_value":0.5
+			"index":16
 		}, {
 			"y":1426.8354,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":778.11456,
 			"radio_index":-1,
 			"radius":39.88311,
-			"index":17,
-			"inital_value":0.5
+			"index":17
 		}, {
 			"y":1427.4419,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1559.4531,
 			"radio_index":-1,
 			"radius":39.90754,
-			"index":18,
-			"inital_value":0.5
+			"index":18
 		}, {
 			"y":1525.1277,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":296.0515,
 			"radio_index":-1,
 			"radius":39.913273,
-			"index":19,
-			"inital_value":0.5
+			"index":19
 		}, {
 			"y":1530.8646,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2194.692,
 			"radio_index":-1,
 			"radius":39.91311,
-			"index":20,
-			"inital_value":0.5
+			"index":20
 		}, {
 			"y":1530.8641,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2508.9382,
 			"radio_index":-1,
 			"radius":39.92858,
-			"index":21,
-			"inital_value":0.5
+			"index":21
 		}, {
 			"y":1544.3129,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":778.12897,
 			"radio_index":-1,
 			"radius":39.916798,
-			"index":22,
-			"inital_value":0.5
+			"index":22
 		}, {
 			"y":1660.3855,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1248.6444,
 			"radio_index":-1,
 			"radius":39.90829,
-			"index":23,
-			"inital_value":0.5
+			"index":23
 		}, {
 			"y":1661.907,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":778.1146,
 			"radio_index":-1,
 			"radius":39.914085,
-			"index":24,
-			"inital_value":0.5
+			"index":24
 		}, {
 			"y":1664.3896,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1713.2279,
 			"radio_index":-1,
 			"radius":39.931046,
-			"index":25,
-			"inital_value":0.5
+			"index":25
 		}, {
 			"y":1688.9691,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":296.03085,
 			"radio_index":-1,
 			"radius":39.868027,
-			"index":26,
-			"inital_value":0.5
+			"index":26
 		}, {
 			"y":1779.4182,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":778.12683,
 			"radio_index":-1,
 			"radius":39.930126,
-			"index":27,
-			"inital_value":0.5
+			"index":27
 		}, {
 			"y":1783.0234,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1559.4027,
 			"radio_index":-1,
 			"radius":39.908173,
-			"index":28,
-			"inital_value":0.5
+			"index":28
 		}, {
 			"y":1841.5779,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2034.2018,
 			"radio_index":-1,
 			"radius":39.928905,
-			"index":29,
-			"inital_value":0.5
+			"index":29
 		}, {
 			"y":1841.5673,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2348.51,
 			"radio_index":-1,
 			"radius":39.87279,
-			"index":30,
-			"inital_value":0.5
+			"index":30
 		}, {
 			"y":1843.8505,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":296.03427,
 			"radio_index":-1,
 			"radius":39.913326,
-			"index":31,
-			"inital_value":0.5
+			"index":31
 		}, {
 			"y":1846.649,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2194.6675,
 			"radio_index":-1,
 			"radius":39.921597,
-			"index":32,
-			"inital_value":0.5
+			"index":32
 		}, {
 			"y":1846.6609,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2508.9893,
 			"radio_index":-1,
 			"radius":39.940453,
-			"index":33,
-			"inital_value":0.5
+			"index":33
 		}, {
 			"y":1896.951,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":778.14374,
 			"radio_index":-1,
 			"radius":39.914577,
-			"index":34,
-			"inital_value":0.5
+			"index":34
 		}, {
 			"y":1897.5262,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1248.6305,
 			"radio_index":-1,
 			"radius":39.903404,
-			"index":35,
-			"inital_value":0.5
+			"index":35
 		}, {
 			"y":1897.0181,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1559.4086,
 			"radio_index":-1,
 			"radius":39.900284,
-			"index":36,
-			"inital_value":0.5
+			"index":36
 		}, {
 			"y":1997.0,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":935.0537,
 			"radio_index":-1,
 			"radius":39.87516,
-			"index":37,
-			"inital_value":0.5
+			"index":37
 		}, {
 			"y":1997.0,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1097.2008,
 			"radio_index":-1,
 			"radius":39.87984,
-			"index":38,
-			"inital_value":0.5
+			"index":38
 		}, {
 			"y":2001.3326,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":296.006,
 			"radio_index":-1,
 			"radius":39.913,
-			"index":39,
-			"inital_value":0.5
+			"index":39
 		}, {
 			"y":2001.2803,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2035.8594,
 			"radio_index":-1,
 			"radius":39.91405,
-			"index":40,
-			"inital_value":0.5
+			"index":40
 		}, {
 			"y":2001.2784,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2350.1328,
 			"radio_index":-1,
 			"radius":39.92003,
-			"index":41,
-			"inital_value":0.5
+			"index":41
 		}, {
 			"y":2021.3147,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1713.2141,
 			"radio_index":-1,
 			"radius":39.938747,
-			"index":42,
-			"inital_value":0.5
+			"index":42
 		}, {
 			"y":2285.1035,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":151.09319,
 			"radio_index":-1,
 			"radius":39.87135,
-			"index":43,
-			"inital_value":0.5
+			"index":43
 		}, {
 			"y":2458.4746,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":151.03186,
 			"radio_index":-1,
 			"radius":39.928577,
-			"index":44,
-			"inital_value":0.5
+			"index":44
 		}, {
 			"y":2513.1738,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":778.1023,
 			"radio_index":-1,
 			"radius":39.92275,
-			"index":45,
-			"inital_value":0.5
+			"index":45
 		}, {
 			"y":2613.6045,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":151.02708,
 			"radio_index":-1,
 			"radius":39.916157,
-			"index":46,
-			"inital_value":0.5
+			"index":46
 		}, {
 			"y":2630.8198,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":778.0973,
 			"radio_index":-1,
 			"radius":39.91467,
-			"index":47,
-			"inital_value":0.5
+			"index":47
 		}, {
 			"y":2748.2727,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":778.1272,
 			"radio_index":-1,
 			"radius":39.927948,
-			"index":48,
-			"inital_value":0.5
+			"index":48
 		}, {
 			"y":2754.5332,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1551.8175,
 			"radio_index":-1,
 			"radius":39.91359,
-			"index":49,
-			"inital_value":0.5
+			"index":49
 		}, {
 			"y":2769.1248,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":151.08179,
 			"radio_index":-1,
 			"radius":39.899548,
-			"index":50,
-			"inital_value":0.5
+			"index":50
 		}, {
 			"y":2770.114,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1702.0319,
 			"radio_index":-1,
 			"radius":39.921047,
-			"index":51,
-			"inital_value":0.5
+			"index":51
 		}, {
 			"y":2770.1248,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1859.9182,
 			"radio_index":-1,
 			"radius":39.899548,
-			"index":52,
-			"inital_value":0.5
+			"index":52
 		}, {
 			"y":2770.0833,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2015.8674,
 			"radio_index":-1,
 			"radius":39.89369,
-			"index":53,
-			"inital_value":0.5
+			"index":53
 		}, {
 			"y":2770.1035,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2169.0933,
 			"radio_index":-1,
 			"radius":39.87131,
-			"index":54,
-			"inital_value":0.5
+			"index":54
 		}, {
 			"y":2770.1248,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2327.0818,
 			"radio_index":-1,
 			"radius":39.899548,
-			"index":55,
-			"inital_value":0.5
+			"index":55
 		}, {
 			"y":2770.1035,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2482.9067,
 			"radio_index":-1,
 			"radius":39.87131,
-			"index":56,
-			"inital_value":0.5
+			"index":56
 		}, {
 			"y":2865.8994,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":778.1006,
 			"radio_index":-1,
 			"radius":39.86972,
-			"index":57,
-			"inital_value":0.5
+			"index":57
 		}, {
 			"y":2922.2166,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":934.7835,
 			"radio_index":-1,
 			"radius":39.922974,
-			"index":58,
-			"inital_value":0.5
+			"index":58
 		}, {
 			"y":2922.1975,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1091.0072,
 			"radio_index":-1,
 			"radius":39.890297,
-			"index":59,
-			"inital_value":0.5
+			"index":59
 		}, {
 			"y":2922.2207,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1241.5487,
 			"radio_index":-1,
 			"radius":39.89804,
-			"index":60,
-			"inital_value":0.5
+			"index":60
 		}, {
 			"y":2922.1907,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1397.8682,
 			"radio_index":-1,
 			"radius":39.927166,
-			"index":61,
-			"inital_value":0.5
+			"index":61
 		}, {
 			"y":2928.6123,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1701.4799,
 			"radio_index":-1,
 			"radius":39.88949,
-			"index":62,
-			"inital_value":0.5
+			"index":62
 		}, {
 			"y":2928.6392,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1859.984,
 			"radio_index":-1,
 			"radius":39.92411,
-			"index":63,
-			"inital_value":0.5
+			"index":63
 		}, {
 			"y":2928.6626,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2015.872,
 			"radio_index":-1,
 			"radius":39.92691,
-			"index":64,
-			"inital_value":0.5
+			"index":64
 		}, {
 			"y":2928.616,
 			"axis":-1,
 			"param":0,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2168.542,
 			"radio_index":-1,
 			"radius":39.880814,
-			"index":65,
-			"inital_value":0.5
+			"index":65
 		}, {
 			"y":2928.6392,
 			"axis":-1,
 			"param":1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2327.016,
 			"radio_index":-1,
 			"radius":39.92402,
-			"index":66,
-			"inital_value":0.5
+			"index":66
 		}, {
 			"y":2928.6194,
 			"axis":-1,
 			"param":2,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2482.9465,
 			"radio_index":-1,
 			"radius":39.909042,
-			"index":67,
-			"inital_value":0.5
+			"index":67
 		}, {
 			"y":2931.8752,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":151.08179,
 			"radio_index":-1,
 			"radius":39.899548,
-			"index":68,
-			"inital_value":0.5
+			"index":68
 		}, {
 			"y":2983.374,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":778.12164,
 			"radio_index":-1,
 			"radius":39.926273,
-			"index":69,
-			"inital_value":0.5
+			"index":69
 		}, {
 			"y":3080.5483,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1241.5371,
 			"radio_index":-1,
 			"radius":39.90657,
-			"index":70,
-			"inital_value":0.5
+			"index":70
 		}, {
 			"y":3080.5598,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1397.8407,
 			"radio_index":-1,
 			"radius":39.927505,
-			"index":71,
-			"inital_value":0.5
+			"index":71
 		}, {
 			"y":3084.1697,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":151.05171,
 			"radio_index":-1,
 			"radius":39.917683,
-			"index":72,
-			"inital_value":0.5
+			"index":72
 		}, {
 			"y":3084.8691,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":934.78986,
 			"radio_index":-1,
 			"radius":39.911068,
-			"index":73,
-			"inital_value":0.5
+			"index":73
 		}, {
 			"y":3084.864,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1091.0618,
 			"radio_index":-1,
 			"radius":39.928486,
-			"index":74,
-			"inital_value":0.5
+			"index":74
 		}, {
 			"y":3097.2578,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1551.8468,
 			"radio_index":-1,
 			"radius":39.95146,
-			"index":75,
-			"inital_value":0.5
+			"index":75
 		}, {
 			"y":3101.699,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":1859.0973,
 			"radio_index":-1,
 			"radius":39.921886,
-			"index":76,
-			"inital_value":0.5
+			"index":76
 		}, {
 			"y":3101.7002,
 			"axis":-1,
 			"param":3,
+			"initial_value":0.5,
 			"type":0,
 			"radio":-1,
 			"x":2326.1504,
 			"radio_index":-1,
 			"radius":39.929886,
-			"index":77,
-			"inital_value":0.5
+			"index":77
 		} ],
 	"plot":[ {
 			"y":103.814835,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":2,
 			"radio":-1,
 			"x":151.04318,
 			"radio_index":-1,
 			"radius":34.041904,
-			"index":0,
-			"inital_value":0
+			"index":0
 		}, {
-			"radio":-1,
-			"radius":39.908157,
-			"radio_index":-1,
-			"inital_value":0,
-			"type":0,
 			"y":116.597275,
-			"param":-1,
 			"axis":-1,
-			"x":2639.0234,
+			"param":0,
 			"initial_value":0.5,
+			"type":0,
+			"radio":-1,
+			"x":2639.0234,
+			"radio_index":-1,
+			"radius":39.908157,
 			"index":1
 		}, {
-			"radio":-1,
-			"radius":39.93156,
-			"radio_index":-1,
-			"inital_value":0,
-			"type":0,
 			"y":121.08081,
-			"param":-1,
 			"axis":-1,
-			"x":2280.1907,
+			"param":-1,
 			"initial_value":0.5,
+			"type":0,
+			"radio":-1,
+			"x":2280.1907,
+			"radio_index":-1,
+			"radius":39.93156,
 			"index":2
 		}, {
-			"radio":-1,
-			"radius":39.931004,
-			"radio_index":-1,
-			"inital_value":0,
-			"type":0,
 			"y":121.08016,
-			"param":-1,
 			"axis":-1,
-			"x":2438.8533,
+			"param":-1,
 			"initial_value":0.5,
+			"type":0,
+			"radio":-1,
+			"x":2438.8533,
+			"radio_index":-1,
+			"radius":39.931004,
 			"index":3
 		}, {
-			"radio":0,
-			"radius":5.754932,
-			"radio_index":-1,
-			"inital_value":0,
-			"type":1,
 			"y":118.603775,
-			"param":-1,
 			"axis":0,
+			"param":-1,
+			"initial_value":1.0,
+			"type":1,
+			"radio":0,
 			"x":292.0,
-			"initial_value":1,
+			"radio_index":-1,
+			"radius":5.754932,
 			"index":4
 		}, {
 			"y":118.65094,
 			"axis":1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":0,
 			"x":381.84906,
 			"radio_index":-1,
 			"radius":5.8931813,
-			"index":5,
-			"inital_value":0
+			"index":5
 		}, {
 			"y":118.65094,
 			"axis":2,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":0,
 			"x":471.15094,
 			"radio_index":-1,
 			"radius":5.8931813,
-			"index":6,
-			"inital_value":0
+			"index":6
 		}, {
 			"y":118.603775,
 			"axis":3,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":0,
 			"x":561.0,
 			"radio_index":-1,
 			"radius":5.754932,
-			"index":7,
-			"inital_value":0
+			"index":7
 		}, {
 			"y":118.5,
 			"axis":4,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":0,
 			"x":650.5,
 			"radio_index":-1,
 			"radius":5.700877,
-			"index":8,
-			"inital_value":0
+			"index":8
 		}, {
 			"y":118.40566,
 			"axis":5,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":0,
 			"x":740.0566,
 			"radio_index":-1,
 			"radius":5.912734,
-			"index":9,
-			"inital_value":0
+			"index":9
 		}, {
 			"y":118.37383,
 			"axis":6,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":0,
 			"x":829.8972,
 			"radio_index":-1,
 			"radius":5.946888,
-			"index":10,
-			"inital_value":0
+			"index":10
 		}, {
 			"y":118.5,
 			"axis":0,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":1,
 			"x":941.5,
 			"radio_index":-1,
 			"radius":5.700877,
-			"index":11,
-			"inital_value":0
+			"index":11
 		}, {
-			"radio":1,
-			"radius":5.839567,
-			"radio_index":-1,
-			"inital_value":0,
-			"type":1,
 			"y":118.5,
-			"param":-1,
 			"axis":1,
+			"param":-1,
+			"initial_value":1.0,
+			"type":1,
+			"radio":1,
 			"x":1031.0377,
-			"initial_value":1,
+			"radio_index":-1,
+			"radius":5.839567,
 			"index":12
 		}, {
 			"y":118.5,
 			"axis":2,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":1,
 			"x":1120.6,
 			"radio_index":-1,
 			"radius":5.780119,
-			"index":13,
-			"inital_value":0
+			"index":13
 		}, {
 			"y":118.5,
 			"axis":3,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":1,
 			"x":1210.4,
 			"radio_index":-1,
 			"radius":5.780119,
-			"index":14,
-			"inital_value":0
+			"index":14
 		}, {
 			"y":118.35514,
 			"axis":4,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":1,
 			"x":1300.0374,
 			"radio_index":-1,
 			"radius":5.8881083,
-			"index":15,
-			"inital_value":0
+			"index":15
 		}, {
 			"y":118.245285,
 			"axis":5,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":1,
 			"x":1389.8585,
 			"radio_index":-1,
 			"radius":5.842696,
-			"index":16,
-			"inital_value":0
+			"index":16
 		}, {
 			"y":118.27103,
 			"axis":6,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":1,
 			"x":1479.0935,
 			"radio_index":-1,
 			"radius":5.896889,
-			"index":17,
-			"inital_value":0
+			"index":17
 		}, {
-			"radio":2,
-			"radius":5.700877,
-			"radio_index":-1,
-			"inital_value":0,
-			"type":1,
 			"y":118.5,
-			"param":-1,
 			"axis":0,
+			"param":-1,
+			"initial_value":1.0,
+			"type":1,
+			"radio":2,
 			"x":1591.5,
-			"initial_value":1,
+			"radio_index":-1,
+			"radius":5.700877,
 			"index":18
 		}, {
 			"y":118.5,
 			"axis":1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":2,
 			"x":1681.0,
 			"radio_index":-1,
 			"radius":5.59017,
-			"index":19,
-			"inital_value":0
+			"index":19
 		}, {
 			"y":118.5,
 			"axis":2,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":2,
 			"x":1770.5,
 			"radio_index":-1,
 			"radius":5.700877,
-			"index":20,
-			"inital_value":0
+			"index":20
 		}, {
 			"y":118.54205,
 			"axis":3,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":2,
 			"x":1860.0747,
 			"radio_index":-1,
 			"radius":5.939799,
-			"index":21,
-			"inital_value":0
+			"index":21
 		}, {
 			"y":118.35514,
 			"axis":4,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":2,
 			"x":1949.9626,
 			"radio_index":-1,
 			"radius":5.8881083,
-			"index":22,
-			"inital_value":0
+			"index":22
 		}, {
 			"y":118.38532,
 			"axis":5,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":2,
 			"x":2039.5504,
 			"radio_index":-1,
 			"radius":5.8224306,
-			"index":23,
-			"inital_value":0
+			"index":23
 		}, {
 			"y":118.30189,
 			"axis":6,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":2,
 			"x":2129.047,
 			"radio_index":-1,
 			"radius":5.8422174,
-			"index":24,
-			"inital_value":0
+			"index":24
 		}, {
-			"radio":-1,
-			"radius":39.91063,
-			"radio_index":-1,
-			"inital_value":0,
-			"type":0,
 			"y":236.18893,
-			"param":-1,
 			"axis":-1,
-			"x":2639.0295,
+			"param":1,
 			"initial_value":0.5,
+			"type":0,
+			"radio":-1,
+			"x":2639.0295,
+			"radio_index":-1,
+			"radius":39.91063,
 			"index":25
 		}, {
 			"y":292.1346,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":131.13461,
 			"radio_index":-1,
 			"radius":5.7877274,
-			"index":26,
-			"inital_value":0
+			"index":26
 		}, {
 			"y":292.1346,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":287.1346,
 			"radio_index":-1,
 			"radius":5.7877274,
-			"index":27,
-			"inital_value":0
+			"index":27
 		}, {
 			"y":292.15237,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":443.0,
 			"radio_index":-1,
 			"radius":5.765606,
-			"index":28,
-			"inital_value":0
+			"index":28
 		}, {
 			"y":292.15237,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":599.0,
 			"radio_index":-1,
 			"radius":5.765606,
-			"index":29,
-			"inital_value":0
+			"index":29
 		}, {
 			"y":292.1346,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":754.86536,
 			"radio_index":-1,
 			"radius":5.7877436,
-			"index":30,
-			"inital_value":0
+			"index":30
 		}, {
 			"y":292.1346,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":910.86536,
 			"radio_index":-1,
 			"radius":5.7877436,
-			"index":31,
-			"inital_value":0
+			"index":31
 		}, {
 			"y":292.0566,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":1066.4056,
 			"radio_index":-1,
 			"radius":5.912697,
-			"index":32,
-			"inital_value":0
+			"index":32
 		}, {
 			"y":292.0566,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":1222.4056,
 			"radio_index":-1,
 			"radius":5.912697,
-			"index":33,
-			"inital_value":0
+			"index":33
 		}, {
 			"y":292.0566,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":1378.4056,
 			"radio_index":-1,
 			"radius":5.912697,
-			"index":34,
-			"inital_value":0
+			"index":34
 		}, {
 			"y":292.03775,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":1534.5,
 			"radio_index":-1,
 			"radius":5.839557,
-			"index":35,
-			"inital_value":0
+			"index":35
 		}, {
 			"y":292.1346,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":1690.1346,
 			"radio_index":-1,
 			"radius":5.7877436,
-			"index":36,
-			"inital_value":0
+			"index":36
 		}, {
 			"y":292.1346,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":1846.1346,
 			"radio_index":-1,
 			"radius":5.7877436,
-			"index":37,
-			"inital_value":0
+			"index":37
 		}, {
 			"y":292.1619,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":2001.9143,
 			"radio_index":-1,
 			"radius":5.8436284,
-			"index":38,
-			"inital_value":0
+			"index":38
 		}, {
 			"y":292.12265,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":2157.953,
 			"radio_index":-1,
 			"radius":5.855081,
-			"index":39,
-			"inital_value":0
+			"index":39
 		}, {
 			"y":292.0566,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":2313.5942,
 			"radio_index":-1,
 			"radius":5.912788,
-			"index":40,
-			"inital_value":0
+			"index":40
 		}, {
 			"y":292.09344,
 			"axis":-1,
 			"param":-1,
+			"initial_value":0.0,
 			"type":1,
 			"radio":-1,
 			"x":2469.729,
 			"radio_index":-1,
 			"radius":5.8969226,
-			"index":41,
-			"inital_value":0
+			"index":41
 		}, {
-			"radio":-1,
-			"radius":39.915466,
-			"radio_index":-1,
-			"inital_value":0,
-			"type":0,
 			"y":355.8896,
-			"param":-1,
 			"axis":-1,
-			"x":2639.0889,
+			"param":2,
 			"initial_value":0.5,
+			"type":0,
+			"radio":-1,
+			"x":2639.0889,
+			"radio_index":-1,
+			"radius":39.915466,
 			"index":42
 		}, {
-			"radio":-1,
-			"radius":39.92471,
-			"radio_index":-1,
-			"inital_value":0,
-			"type":0,
 			"y":475.55942,
-			"param":-1,
 			"axis":-1,
-			"x":2639.0327,
+			"param":3,
 			"initial_value":0.5,
+			"type":0,
+			"radio":-1,
+			"x":2639.0327,
+			"radio_index":-1,
+			"radius":39.92471,
 			"index":43
 		} ]
 }

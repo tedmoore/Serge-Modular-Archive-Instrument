@@ -7,11 +7,10 @@
 
 #include "SergeHandle.hpp"
 
-void SergeHandle::setup(ofxDatGuiSlider* handle_, double min_, double max_){
+void SergeHandle::setup(double min_, double max_){
     min = min_;
     max = max_;
     range = max - min;
-    handle = handle_;
 }
 
 double SergeHandle::transform(double x){ // aka normalize
@@ -27,6 +26,5 @@ double SergeHandle::getNormalizedValue(){
 }
 
 void SergeHandle::setValueFromNormalized(double normalized_value){
-//    handle->setValue(inverse_transform(normalized_value));
     value = inverse_transform(normalized_value);
 }

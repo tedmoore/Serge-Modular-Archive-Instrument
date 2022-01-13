@@ -4,7 +4,6 @@
 #include "MIDIManager.hpp"
 #include "SoundSlice.hpp"
 #include "ofxGui.h"
-#include "ofxDatGui.h"
 #include "ofxKDTree.h"
 #include "SoundFile.hpp"
 #include "ofxSvg.h"
@@ -33,9 +32,9 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     void drawPlot(bool buildKDTree);
-    void find_nearest();
+    void find_nearest_xy();
+    void find_nearest_param(vector<double> &p);
     bool mouseInPlot(int x, int y);
-    void onSliderEvent(ofxDatGuiSliderEvent e);
     void audioOut(float *output, int bufferSize, int nChannels);
     void setPlayingIndex(size_t index, bool updateSliders);
     void createColors();
@@ -57,16 +56,6 @@ public:
 
     void processMIDI();
     void processOSC();
-
-    ofxDatGui* gui;
-    ofxDatGuiDropdown* x_menu;
-    ofxDatGuiDropdown* y_menu;
-    ofxDatGuiDropdown* c_menu;
-    ofxDatGuiDropdown* midi_in_menu;
-    void onDropdownEventX(ofxDatGuiDropdownEvent e);
-    void onDropdownEventY(ofxDatGuiDropdownEvent e);
-    void onDropdownEventC(ofxDatGuiDropdownEvent e);
-    void onDropdownEventMIDIIN(ofxDatGuiDropdownEvent e);
 
     void guiCallback(const SergeGUIEvent event);
 
@@ -115,6 +104,7 @@ public:
 
     vector<double> hid_xy = {0,0};
     vector<double> params_state = {0.5,0.5,0.5,0.5};
+    int tkb_param_knobs[4] = {1,25,42,43};
 
     // MIDI
     void newMidiMessage(ofxMidiMessage& eventArgs);

@@ -53,6 +53,9 @@ public:
     }
 
     void setup(nlohmann::json &json, ofImage &img_){
+        
+//        cout << json << endl;
+        
         x = json["x"].get<float>();
         y = json["y"].get<float>();
         img = img_;
@@ -60,11 +63,16 @@ public:
         param = json["param"].get<int>();
         radio = json["radio"].get<int>();
         axis = json["axis"].get<int>();
+        val = json["initial_value"].get<float>();
     }
     
     template<typename T, typename args, class ListenerClass>
     void setCallback(T* owner, void (ListenerClass::*listenerMethod)(args)){
         callback = std::bind(listenerMethod, owner, std::placeholders::_1);
+    }
+    
+    void setCallback(function<void(SergeGUIEvent event)> cb){
+        callback = cb;
     }
 
     bool inside(float* scaledmouse){
@@ -88,12 +96,14 @@ public:
 
 class SergeKnob : public SergeGUI {
 public:
-
+    
     void increment(float pixels){
-        val = ofClamp( val + (pixels * 0.005), 0.0, 1.0 );
-        dispatchEvent(KNOB);
+        if(param != -1){
+            val = ofClamp( val + (pixels * 0.005), 0.0, 1.0 );
+            dispatchEvent(KNOB);
+        }
     }
-
+    
     void draw(float xoff, float yoff, float ratio){
         // rotate around center https://forum.openframeworks.cc/t/how-to-rotate-around-center-of-mass/3942/3
         float size = img.getWidth() * ratio;

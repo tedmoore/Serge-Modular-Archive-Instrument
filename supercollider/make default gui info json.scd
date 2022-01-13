@@ -21,7 +21,7 @@
 			"radio_index",-1,
 			"param",-1,
 			"axis",-1,
-			"inital_value",0,
+			"initial_value",0.0,
 			"x",~plot_locations[i][0],
 			"y",~plot_locations[i][1],
 			"radius",~plot_locations[i][2],
@@ -36,7 +36,7 @@
 			"radio_index",-1,
 			"param",-1,
 			"axis",-1,
-			"inital_value",0.5,
+			"initial_value",0.5,
 			"x",~skeuomorph_locations[i][0],
 			"y",~skeuomorph_locations[i][1],
 			"radius",~skeuomorph_locations[i][2],
@@ -48,10 +48,15 @@
 ~json["plot"][0]["type"] = 2; // 2 = PUSH
 
 [1,2,3,25,42,43].do{
-	arg i;
-	~json["plot"][i]["type"] = 0; // 0 = KNOB
-	~json["plot"][i]["initial_value"] = 0.5;
+	arg index;
+	~json["plot"][index]["type"] = 0; // 0 = KNOB
+	~json["plot"][index]["initial_value"] = 0.5;
 };
+
+~json["plot"][1]["param"] = 0;
+~json["plot"][25]["param"] = 1;
+~json["plot"][42]["param"] = 2;
+~json["plot"][43]["param"] = 3;
 
 [(4..10),(11..17),(18..24)].do{
 	arg indices, radio_i;
@@ -62,9 +67,9 @@
 	}
 };
 
-~json["plot"][4]["initial_value"] = 1;
-~json["plot"][12]["initial_value"] = 1;
-~json["plot"][18]["initial_value"] = 1;
+~json["plot"][4]["initial_value"] = 1.0;
+~json["plot"][12]["initial_value"] = 1.0;
+~json["plot"][18]["initial_value"] = 1.0;
 
 // axes
 

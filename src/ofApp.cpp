@@ -40,31 +40,10 @@ void ofApp::setup(){
     readSoundSlicesData(csv_path,ranges);
 
     createHeadersAndDropdownOptions();
-
-    gui = new ofxDatGui(margin,margin);
-    gui->setWidth(menu_width);
-    gui->setVisible(false);
-
-//    gui->addLabel("X Dimension");
-//    x_menu = gui->addDropdown("X",dropdown_options);
-//    x_menu->onDropdownEvent(this, &ofApp::onDropdownEventX);
-//
-//    gui->addLabel("Y Dimension");
-//    y_menu = gui->addDropdown("Y",dropdown_options);
-//    y_menu->onDropdownEvent(this, &ofApp::onDropdownEventY);
-//
-//    gui->addLabel("Color");
-//    c_menu = gui->addDropdown("C",dropdown_options);
-//    c_menu->onDropdownEvent(this, &ofApp::onDropdownEventC);
-
-//    for(int i = 0; i < 4; i++){
-//        handles[i].setup(gui->addSlider("Param "+ofToString(i+1),ranges[i*2],ranges[(i*2)+1]),ranges[i*2],ranges[(i*2)+1]);
-//        handles[i].handle->onSliderEvent(this, &ofApp::onSliderEvent);
-//    }
-
-    gui->addLabel("MIDI In");
-    midi_in_menu = gui->addDropdown("MIDI In",midiIn.getInPortList());
-    midi_in_menu->onDropdownEvent(this, &ofApp::onDropdownEventMIDIIN);
+    
+    for(int i = 0; i < 4; i++){
+        handles[i].setup(ranges[(i * 2)],ranges[(i * 2) + 1]);
+    }
 
     createPointKDTree();
 
@@ -111,7 +90,7 @@ void ofApp::setup(){
 //    cout << gui_info_json << endl;
 //    cout << gui_info_json["plot"] << endl;
 
-//    ofExit();
+    //    ofExit();
     tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),knob_image,led_image,push_image,gui_info_json["plot"]);
     tkb.setCallback(this,&ofApp::guiCallback);
 }
@@ -128,13 +107,7 @@ void ofApp::guiCallback(const SergeGUIEvent event){
         case KNOB:
             if(event.param != -1){
                 params_state[event.param] = event.val;
-                
-                vector<size_t> indexes;
-                vector<double> distances;
-
-                kdTree_params.getKNN(params_state,1, indexes, distances);
-
-                setPlayingIndex(indexes[0],false);
+                find_nearest_param(params_state);
             }
             break;
         case LED:
@@ -173,7 +146,7 @@ void ofApp::audioOut(float *output, int bufferSize, int nChannels){
     }
 }
 
-void ofApp::find_nearest(){
+void ofApp::find_nearest_xy(){
 
     vector<size_t> indexes;
     vector<double> dists;
@@ -183,9 +156,12 @@ void ofApp::find_nearest(){
     setPlayingIndex(indexes[0],true);
 }
 
-//void ofApp::onSliderEvent(ofxDatGuiSliderEvent e){
-//
-//}
+void ofApp::find_nearest_param(vector<double> &p){
+    vector<size_t> indexes;
+    vector<double> distances;
+    kdTree_params.getKNN(params_state,1, indexes, distances);
+    setPlayingIndex(indexes[0],false);
+}
 
 void ofApp::setPlayingIndex(size_t index, bool updateSliders){
     if(index != playing_index){
@@ -194,40 +170,22 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
         int file = slices[playing_index]->values[1];
         int start_frame = slices[playing_index]->values[2];
         int n_frames = slices[playing_index]->values[3];
-
+        
         for(int i = 0; i < n_soundFiles; i++){
             soundFiles[i].setPosGate(start_frame,n_frames,file == i);
         }
-
-        if(updateSliders){
-            allow_slider_callback = false;
-            for(int i = 0; i < 4; i++){
-                handles[i].handle->setValue(slices[playing_index]->values[19 + i]);
-            }
-            allow_slider_callback = true;
+        
+        cout << "params state";
+        for(int i = 0; i < 4; i++){
+            params_state[i] = handles[i].transform(slices[playing_index]->values[19 + i]); // starting at index 19 are raw values
+            cout  << " " << params_state[i];
         }
+        
+        cout << endl;
+        
+        tkb.updateParamGuis(params_state);
+        three_panel.updateParamGuis(params_state);
     }
-}
-
-void ofApp::onDropdownEventX(ofxDatGuiDropdownEvent e){
-    x_index_sl = dropdown_index_lookup[e.child];
-    drawPlot(true);
-}
-
-void ofApp::onDropdownEventY(ofxDatGuiDropdownEvent e){
-    y_index_sl = dropdown_index_lookup[e.child];
-    drawPlot(true);
-}
-
-void ofApp::onDropdownEventC(ofxDatGuiDropdownEvent e){
-    c_index_sl = dropdown_index_lookup[e.child];
-    drawPlot(true);
-}
-
-void ofApp::onDropdownEventMIDIIN(ofxDatGuiDropdownEvent e){
-    midiIn.closePort();
-    midiIn.openPort(e.child);
-//    cout << midiIn.getPort() << endl;
 }
 
 //--------------------------------------------------------------
@@ -235,7 +193,6 @@ void ofApp::update(){
 //    cout << "loaded: " << loaded << endl
     if(loaded){
         processOSC();
-        gui->update();
     } else {
         int sum = 0;
         for(int i = 0; i < n_soundFiles; i++){
@@ -243,7 +200,6 @@ void ofApp::update(){
         }
         if(sum == 0){
             loaded = true;
-            gui->setVisible(true);
             windowResized(ofGetWidth(),ofGetHeight());
         }
     }
@@ -259,10 +215,10 @@ void ofApp::processOSC(){
 
         if(address == "/x"){
             hid_xy[0] = oscMsg.getArgAsFloat(0);
-            find_nearest();
+            find_nearest_xy();
         } else if (address == "/y"){
             hid_xy[1] = 1.f - oscMsg.getArgAsFloat(0);
-            find_nearest();
+            find_nearest_xy();
         } else if (address == "/param1"){
             handles[0].setValueFromNormalized(oscMsg.getArgAsFloat(0));
         } else if (address == "/param2"){
@@ -288,8 +244,7 @@ void ofApp::drawPlotWindow(){
     ofSetColor(255);
     tkb.draw();
     plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
-    gui->draw();
-
+    
     if(playing_index >= 0){
         ofSetColor(0,0,0);
         ofVec2f highlighted_pos = slices[playing_index]->current_pos;
@@ -388,7 +343,7 @@ void ofApp::processIncomingMouseXY(int x, int y){
     if(mouseInPlot(x,y) && !tkb.hasMouseCaptured()){
         hid_xy[0] = (double(x) - plot_x) / plot_w;
         hid_xy[1] = (double(y) - plot_y) / plot_h;
-        find_nearest();
+        find_nearest_xy();
     }
 }
 
@@ -456,10 +411,10 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 
     if(learned_midi == 0){
         hid_xy[0] = msg.value / 127.f;
-        find_nearest();
+        find_nearest_xy();
     } else if (learned_midi == 1){
         hid_xy[1] = 1.f - (msg.value / 127.f);
-        find_nearest();
+        find_nearest_xy();
     } else if(learned_midi < 6 && learned_midi > 1){
         handles[learned_midi - 2].setValueFromNormalized(msg.value / 127.f);
     }

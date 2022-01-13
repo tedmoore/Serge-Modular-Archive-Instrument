@@ -9,11 +9,10 @@
 #define SergeHandle_hpp
 
 #include <stdio.h>
-#include "ofxDatGui.h"
 
 class SergeHandle {
 public:
-    void setup(ofxDatGuiSlider* handle_, double min_, double max_);
+    void setup(double min_, double max_);
     double transform(double x);
     double inverse_transform(double x);
     double getNormalizedValue();
@@ -23,6 +22,5 @@ public:
     double max;
     double range;
     double value = 0;
-    ofxDatGuiSlider* handle;
 };
 #endif /* SergeHandle_hpp */
