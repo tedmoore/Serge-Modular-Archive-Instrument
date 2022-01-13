@@ -83,8 +83,6 @@ public:
 
     int plot_x, plot_y, plot_w, plot_h;
     int margin = 10;
-    int menu_width = 300;
-    int menu_height = 50;
 
     ofxKDTree kdTree_2d;
 
@@ -117,10 +115,9 @@ public:
     int skeuomorph_window_height;
 
     ofImage knob_image;
-
     ofImage push_image;
-
     ofImage led_image;
+    ofImage knob_illumination;
 
     nlohmann::json gui_info_json;
 };

@@ -181,12 +181,12 @@ class SergeImage : public SergeSubView{
 public:
     ofImage img;
 
-    void load(string path,ofImage &knobImage, ofImage &ledImage, ofImage &pushImage,nlohmann::json &json){
+    void load(string path,ofImage &knobImage, ofImage &ledImage, ofImage &pushImage, ofImage &knob_illumination,nlohmann::json &json,bool illuminateKnobs){
         img.load(path);
-        readKnobPositions(knobImage,ledImage,pushImage,json);
+        readKnobPositions(knobImage,ledImage,pushImage,knob_illumination,json,illuminateKnobs);
     }
 
-    void readKnobPositions(ofImage &knobImage, ofImage &ledImage, ofImage &pushImage,nlohmann::json &json){
+    void readKnobPositions(ofImage &knobImage, ofImage &ledImage, ofImage &pushImage,ofImage &knob_illumination,nlohmann::json &json,bool illuminateKnobs){
         
         makeRadios(json);
         
@@ -195,8 +195,9 @@ public:
             switch(json[i]["type"].get<int>()){
                 case 0: // KNOB
                 {
-                    SergeGUI* knob = new SergeKnob;
+                    SergeKnob* knob = new SergeKnob;
                     knob->setup(json[i],knobImage);
+                    if(illuminateKnobs) knob->setIllumination(knob_illumination);
                     guis.push_back(knob);
                 }
                     break;

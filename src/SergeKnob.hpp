@@ -97,6 +97,14 @@ public:
 class SergeKnob : public SergeGUI {
 public:
     
+    ofImage illumination;
+    bool illuminateKnobs = false;
+    
+    void setIllumination(ofImage &knob_illumination){
+        illumination = knob_illumination;
+        illuminateKnobs = true;
+    }
+    
     void increment(float pixels){
         if(param != -1){
             val = ofClamp( val + (pixels * 0.005), 0.0, 1.0 );
@@ -106,11 +114,18 @@ public:
     
     void draw(float xoff, float yoff, float ratio){
         // rotate around center https://forum.openframeworks.cc/t/how-to-rotate-around-center-of-mass/3942/3
-        float size = img.getWidth() * ratio;
+        float w = img.getWidth() * ratio;
+        float h = img.getHeight() * ratio;
         ofPushMatrix();
         ofTranslate((x * ratio) + xoff,(y * ratio) + yoff);
+        if(illuminateKnobs && (param != -1)){
+            float iw = illumination.getWidth() * ratio;
+            float ih = illumination.getHeight() * ratio;
+            illumination.draw(0,0,iw,ih);
+//            cout << "param: " << param << "\tiw " << iw << "\tih: " << ih << endl;
+        }
         ofRotateZDeg(val * 270);
-        img.draw(0,0,size,size);
+        img.draw(0,0,w,h);
         ofPopMatrix();
     }
 };

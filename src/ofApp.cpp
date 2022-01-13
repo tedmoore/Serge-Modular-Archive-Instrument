@@ -10,10 +10,11 @@ void ofApp::setupSkeuomorph(){
     i >> gui_info_json;
 
     knob_image.load(ofToDataPath("images/Serge Gui Layout (2022)/DAVIES_KNOB.png"));
+    knob_illumination.load(ofToDataPath("images/Serge Gui Layout (2022)/KNOB_ILLUMINATION.png"));
     push_image.load(ofToDataPath("images/Serge Gui Layout (2022)/BUTTON_PRESSED.png"));
     led_image.load(ofToDataPath("images/Serge Gui Layout (2022)/LED_ON.png"));
 
-    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),knob_image,led_image,push_image,gui_info_json["skeuomorph"]);
+    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),knob_image,led_image,push_image,knob_illumination,gui_info_json["skeuomorph"],true);
     three_panel.setCallback(this, &ofApp::guiCallback);
 
     skeuomorph_window_width = ofGetScreenWidth() / 2;
@@ -91,7 +92,7 @@ void ofApp::setup(){
 //    cout << gui_info_json["plot"] << endl;
 
     //    ofExit();
-    tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),knob_image,led_image,push_image,gui_info_json["plot"]);
+    tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),knob_image,led_image,push_image,knob_illumination,gui_info_json["plot"],false);
     tkb.setCallback(this,&ofApp::guiCallback);
 }
 
@@ -377,7 +378,7 @@ void ofApp::windowResized(int w, int h){
 //    cout << "tkb dims: ";
     tkb.postDims();
 
-    plot_x = menu_width + margin + margin;
+    plot_x = margin;
     plot_y = margin;
     plot_w = w - (plot_x + margin);
     plot_h = h - ((margin * 3) + tkb.draw_h);
