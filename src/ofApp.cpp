@@ -1,21 +1,21 @@
 #include "ofApp.h"
 
 #define SAMPLERATE 44100
-//--------------------------------------------------------------
+//-------------------------------------------------------------
 
 void ofApp::setupSkeuomorph(){
-    font.load(ofToDataPath("SFNSMono.ttf"), 32);
-    
+//    guiItems.font.load(ofToDataPath("SFNSMono.ttf"), 32);
+    guiItems.font.load(ofToDataPath("OpenSans-Light.ttf"), 16,true,true,true,0.f);
+    guiItems.knob.load(ofToDataPath("images/Serge Gui Layout (2022)/DAVIES_KNOB.png"));
+    guiItems.illumination.load(ofToDataPath("images/Serge Gui Layout (2022)/KNOB_ILLUMINATION.png"));
+    guiItems.push.load(ofToDataPath("images/Serge Gui Layout (2022)/BUTTON_PRESSED.png"));
+    guiItems.led.load(ofToDataPath("images/Serge Gui Layout (2022)/LED_ON.png"));
+
     std::ifstream i(ofToDataPath("images/Serge Gui Layout (2022)/gui_info.json"));
 //    nlohmann::json gui_info_json;
     i >> gui_info_json;
-
-    knob_image.load(ofToDataPath("images/Serge Gui Layout (2022)/DAVIES_KNOB.png"));
-    knob_illumination.load(ofToDataPath("images/Serge Gui Layout (2022)/KNOB_ILLUMINATION.png"));
-    push_image.load(ofToDataPath("images/Serge Gui Layout (2022)/BUTTON_PRESSED.png"));
-    led_image.load(ofToDataPath("images/Serge Gui Layout (2022)/LED_ON.png"));
-
-    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),knob_image,led_image,push_image,knob_illumination,gui_info_json["skeuomorph"],true);
+    
+    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),guiItems,gui_info_json["skeuomorph"],true);
     three_panel.setCallback(this, &ofApp::guiCallback);
 
     skeuomorph_window_width = ofGetScreenWidth() / 2;
@@ -26,7 +26,7 @@ void ofApp::setup(){
 
     osc_receiver.setup(2884);
 
-    ofSetFrameRate(60);
+    ofSetFrameRate(30);
     ofBackground(100);
     ofEnableAntiAliasing();
     string csv_path = "211030_183738.csv";
@@ -93,7 +93,7 @@ void ofApp::setup(){
 //    cout << gui_info_json["plot"] << endl;
 
     //    ofExit();
-    tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),knob_image,led_image,push_image,knob_illumination,gui_info_json["plot"],false);
+    tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),guiItems,gui_info_json["plot"],false);
     tkb.setCallback(this,&ofApp::guiCallback);
 }
 
@@ -246,6 +246,7 @@ void ofApp::drawPlotWindow(){
     ofSetColor(255,255,255,255);
     tkb.draw();
     ofSetColor(255,255,255,255);
+    ofSetRectMode(OF_RECTMODE_CORNER);
     plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
     
     if(playing_index >= 0){

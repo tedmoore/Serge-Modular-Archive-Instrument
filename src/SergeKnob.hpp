@@ -11,7 +11,15 @@
 #include <stdio.h>
 #include "ofMain.h"
 
-enum SergeGUIType { KNOB, LED, PUSH, DROPDOWN};
+struct SergeGUIItems {
+    ofImage knob;
+    ofImage push;
+    ofImage led;
+    ofImage illumination;
+    ofTrueTypeFont font;
+};
+
+enum SergeGUIType { KNOB, LED, PUSH, DROPDOWN };
 
 struct SergeGUIEvent {
     int index = -1;
@@ -186,9 +194,14 @@ class SergeDropdown : public SergeGUI {
 public:
     
     vector<string> options;
+    ofTrueTypeFont font;
     
     void setOptions(vector<string> options_){
         options = options_;
+    }
+    
+    void setFont(ofTrueTypeFont &font_){
+        font = font_;
     }
     
     void mousePressed(){
@@ -208,7 +221,7 @@ public:
         
         if(val > 0.5){
             for(int i = 0; i < options.size(); i++){
-                int yoff_off = 20 * i;
+                int yoff_off = text_height * i;
                 
                 ofFill();
                 ofSetColor(255,255,255,255);
@@ -219,8 +232,14 @@ public:
                 ofSetColor(96,161,207,255);
                 ofDrawRectangle(0,yoff_off,radius * ratio * 2,text_height);
 
-                ofSetColor(0,0,0,255);
-                ofDrawBitmapString(options[i], (-1 * radius  * ratio) + text_margin, yoff_off + text_margin);
+                ofFill();
+                ofSetColor(0,0,0);
+                cout << "font is loaded: " << font.isLoaded() << endl;
+                
+                // drawing fonts different sizes: https://forum.openframeworks.cc/t/use-different-fonts/30011/4
+                
+                font.drawStringAsShapes(options[i], (-1 * radius  * ratio) + text_margin, yoff_off + text_margin);
+                //ofDrawBitmapString(options[i], (-1 * radius  * ratio) + text_margin, yoff_off + text_margin);
             }
         }
         ofPopMatrix();

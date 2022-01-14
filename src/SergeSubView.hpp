@@ -181,47 +181,48 @@ class SergeImage : public SergeSubView{
 public:
     ofImage img;
 
-    void load(string path,ofImage &knobImage, ofImage &ledImage, ofImage &pushImage, ofImage &knob_illumination,nlohmann::json &json,bool illuminateKnobs){
+    void load(string path,SergeGUIItems &guiItems,nlohmann::json &json,bool illuminateKnobs){
         img.load(path);
-        readKnobPositions(knobImage,ledImage,pushImage,knob_illumination,json,illuminateKnobs);
+        readKnobPositions(guiItems,json,illuminateKnobs);
     }
 
-    void readKnobPositions(ofImage &knobImage, ofImage &ledImage, ofImage &pushImage,ofImage &knob_illumination,nlohmann::json &json,bool illuminateKnobs){
+    void readKnobPositions(SergeGUIItems &guiItems,nlohmann::json &json,bool illuminateKnobs){
         
         makeRadios(json);
         
         for(int i = 0; i < json.size(); i++){
 
             switch(json[i]["type"].get<int>()){
-                case 0: // KNOB
+                case KNOB:
                 {
                     SergeKnob* knob = new SergeKnob;
-                    knob->setup(json[i],knobImage);
-                    if(illuminateKnobs) knob->setIllumination(knob_illumination);
+                    knob->setup(json[i],guiItems.knob);
+                    if(illuminateKnobs) knob->setIllumination(guiItems.illumination);
                     guis.push_back(knob);
                 }
                     break;
-                case 1: // LED
+                case LED:
                 {
                     SergeLed* led = new SergeLed;
-                    led->setup(json[i],ledImage);
+                    led->setup(json[i],guiItems.led);
                     guis.push_back(led);
                     if(json[i]["radio"].get<int>() != -1) radios[json[i]["radio"].get<int>()]->addGui(led);
                 }
                     break;
-                case 2: // PUSH
+                case PUSH:
                 {
                     SergePush* push = new SergePush;
-                    push->setup(json[i],pushImage);
+                    push->setup(json[i],guiItems.push);
                     guis.push_back(push);
                 }
                     break;
-                case 3: // DROPDOWN
+                case DROPDOWN:
                 {
                     SergeDropdown* dd = new SergeDropdown;
-                    dd->setup(json[i],ledImage);
+                    dd->setup(json[i],guiItems.led);
                     vector<string> o = {"midi option 1","midi option 2","midi option 3","midi option 4"};
                     dd->setOptions(o);
+                    dd->setFont(guiItems.font);
                     guis.push_back(dd);
                 }
             }
@@ -230,6 +231,7 @@ public:
     void draw(){
         ofFill();
         ofSetColor(255,255,255,255);
+        ofSetRectMode(OF_RECTMODE_CORNER);
         ofDrawRectangle(draw_x, draw_y, draw_w, draw_h);
         img.draw(draw_x,draw_y,draw_w,draw_h);
         drawKnobs();
@@ -239,7 +241,6 @@ public:
         for(int i = 0; i < guis.size(); i++){
             guis[i]->draw(draw_x,draw_y,draw_ratio);
         }
-        ofSetRectMode(OF_RECTMODE_CORNER);
     }
     float getViewWidth(){
         return img.getWidth();

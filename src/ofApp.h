@@ -114,12 +114,7 @@ public:
     int skeuomorph_window_width;
     int skeuomorph_window_height;
 
-    ofImage knob_image;
-    ofImage push_image;
-    ofImage led_image;
-    ofImage knob_illumination;
-
     nlohmann::json gui_info_json;
-    
-    ofTrueTypeFont font;
+        
+    SergeGUIItems guiItems;
 };
