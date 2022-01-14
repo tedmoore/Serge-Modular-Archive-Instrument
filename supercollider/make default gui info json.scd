@@ -11,21 +11,25 @@
 // ~skeuomorph_locations.size.postln;
 // ~plot_locations.size.postln;
 
+~default_plot = {
+	arg i;
+	Dictionary.newFrom([
+		"index",i,
+		"type",1, // 1 = LED
+		"radio",-1,
+		"param",-1,
+		"axis",-1,
+		"initial_value",0.0,
+		"x",~plot_locations[i][0],
+		"y",~plot_locations[i][1],
+		"radius",~plot_locations[i][2],
+	]);
+};
+
 ~json = Dictionary.newFrom([
-	"plot",Array.fill(~plot_locations.size,{
+	"plot",Array.fill(~plot_locations.size + 1,{
 		arg i;
-		Dictionary.newFrom([
-			"index",i,
-			"type",1, // 1 = LED
-			"radio",-1,
-			"radio_index",-1,
-			"param",-1,
-			"axis",-1,
-			"initial_value",0.0,
-			"x",~plot_locations[i][0],
-			"y",~plot_locations[i][1],
-			"radius",~plot_locations[i][2],
-		]);
+		~default_plot.(i);
 	}),
 	"skeuomorph",Array.fill(~skeuomorph_locations.size,{
 		arg i;
@@ -33,7 +37,6 @@
 			"index",i,
 			"type",0, // 0 = KNOB
 			"radio",-1,
-			"radio_index",-1,
 			"param",-1,
 			"axis",-1,
 			"initial_value",0.5,
@@ -71,6 +74,12 @@
 ~json["plot"][12]["initial_value"] = 1.0;
 ~json["plot"][18]["initial_value"] = 1.0;
 
+// drop down menu
+~json["plot"][~plot_locations.size]["x"] = 2366;
+~json["plot"][~plot_locations.size]["y"] = 135;
+~json["plot"][~plot_locations.size]["radius"] = 171;
+~json["plot"][~plot_locations.size]["type"] = 3; // 3 = DROPDOWN
+~json["plot"][~plot_locations.size]["initial_value"] = -1;
 // axes
 
 // axis 0

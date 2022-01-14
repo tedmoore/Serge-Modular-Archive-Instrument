@@ -216,10 +216,19 @@ public:
                     guis.push_back(push);
                 }
                     break;
+                case 3: // DROPDOWN
+                {
+                    SergeDropdown* dd = new SergeDropdown;
+                    dd->setup(json[i],ledImage);
+                    vector<string> o = {"midi option 1","midi option 2","midi option 3","midi option 4"};
+                    dd->setOptions(o);
+                    guis.push_back(dd);
+                }
             }
         }
     }
     void draw(){
+        ofFill();
         ofSetColor(255,255,255,255);
         ofDrawRectangle(draw_x, draw_y, draw_w, draw_h);
         img.draw(draw_x,draw_y,draw_w,draw_h);

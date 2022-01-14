@@ -120,4 +120,6 @@ public:
     ofImage knob_illumination;
 
     nlohmann::json gui_info_json;
+    
+    ofTrueTypeFont font;
 };

@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include "ofMain.h"
 
-enum SergeGUIType { KNOB, LED, PUSH };
+enum SergeGUIType { KNOB, LED, PUSH, DROPDOWN};
 
 struct SergeGUIEvent {
     int index = -1;
@@ -31,6 +31,7 @@ public:
     int param;
     int radio;
     int axis;
+    float radius;
     
     function<void(const SergeGUIEvent event)> callback;
 
@@ -55,10 +56,14 @@ public:
     void setup(nlohmann::json &json, ofImage &img_){
         
 //        cout << json << endl;
-        
+        img = img_;
+        parseJson(json);
+    }
+    
+    void parseJson(nlohmann::json &json){
         x = json["x"].get<float>();
         y = json["y"].get<float>();
-        img = img_;
+        radius = json["radius"].get<float>();
         index = json["index"].get<int>();
         param = json["param"].get<int>();
         radio = json["radio"].get<int>();
@@ -155,7 +160,8 @@ public:
 };
 
 class SergePush : public SergeGUI {
-
+public:
+    
     void draw(float xoff, float yoff, float ratio){
         if(val > 0.5){
             float size = img.getWidth() * ratio;
@@ -173,6 +179,51 @@ class SergePush : public SergeGUI {
 
     void mouseReleased(){
         val = 0;
+    }
+};
+
+class SergeDropdown : public SergeGUI {
+public:
+    
+    vector<string> options;
+    
+    void setOptions(vector<string> options_){
+        options = options_;
+    }
+    
+    void mousePressed(){
+        val = !val;
+        cout << "x: " << x << "\ty: " << y << "\tradius: " << radius << endl;
+        dispatchEvent(DROPDOWN);
+    }
+    
+    void draw(float xoff, float yoff, float ratio){
+        
+        float size = img.getWidth() * ratio;
+        int text_margin = 5;
+        float text_height = 50 * ratio;
+        ofPushMatrix();
+        ofTranslate((x * ratio) + xoff,(y * ratio) + yoff);
+        img.draw(0,0,size,size);
+        
+        if(val > 0.5){
+            for(int i = 0; i < options.size(); i++){
+                int yoff_off = 20 * i;
+                
+                ofFill();
+                ofSetColor(255,255,255,255);
+                ofDrawRectangle(0,yoff_off,radius * ratio * 2,text_height);
+                
+                ofSetLineWidth(7);
+                ofNoFill();
+                ofSetColor(96,161,207,255);
+                ofDrawRectangle(0,yoff_off,radius * ratio * 2,text_height);
+
+                ofSetColor(0,0,0,255);
+                ofDrawBitmapString(options[i], (-1 * radius  * ratio) + text_margin, yoff_off + text_margin);
+            }
+        }
+        ofPopMatrix();
     }
 };
 

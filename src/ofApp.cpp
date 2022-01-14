@@ -4,7 +4,8 @@
 //--------------------------------------------------------------
 
 void ofApp::setupSkeuomorph(){
-
+    font.load(ofToDataPath("SFNSMono.ttf"), 32);
+    
     std::ifstream i(ofToDataPath("images/Serge Gui Layout (2022)/gui_info.json"));
 //    nlohmann::json gui_info_json;
     i >> gui_info_json;
@@ -176,13 +177,13 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
             soundFiles[i].setPosGate(start_frame,n_frames,file == i);
         }
         
-        cout << "params state";
+        //cout << "params state";
         for(int i = 0; i < 4; i++){
             params_state[i] = handles[i].transform(slices[playing_index]->values[19 + i]); // starting at index 19 are raw values
-            cout  << " " << params_state[i];
+            //cout  << " " << params_state[i];
         }
         
-        cout << endl;
+//        cout << endl;
         
         tkb.updateParamGuis(params_state);
         three_panel.updateParamGuis(params_state);
@@ -242,15 +243,17 @@ void ofApp::draw(){
 }
 
 void ofApp::drawPlotWindow(){
-    ofSetColor(255);
+    ofSetColor(255,255,255,255);
     tkb.draw();
+    ofSetColor(255,255,255,255);
     plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
     
     if(playing_index >= 0){
-        ofSetColor(0,0,0);
         ofVec2f highlighted_pos = slices[playing_index]->current_pos;
         highlighted_pos.operator*=(ofVec2f(plot_w,plot_h));
         highlighted_pos.operator+=(ofVec2f(plot_x,plot_y));
+        ofFill();
+        ofSetColor(0,0,0,255);
         ofDrawCircle(highlighted_pos,6);
     }
 }
@@ -391,7 +394,7 @@ void ofApp::windowResized(int w, int h){
 void ofApp::gui_windowResized(ofResizeEventArgs& args){
     skeuomorph_window_width = args.width;
     skeuomorph_window_height = args.height;
-    cout << "gui window resized: " << args.width << " " << args.height << endl;
+//    cout << "gui window resized: " << args.width << " " << args.height << endl;
 
 }
 
