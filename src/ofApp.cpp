@@ -103,6 +103,7 @@ void ofApp::guiCallback(const SergeGUIEvent event){
     cout << "\tval: " << event.val;
     cout << "\tparam: " << event.param;
     cout << "\tradio: " << event.radio;
+    cout << "\tdropdown_i: " << event.dropdown_i;
     cout << "\taxis: " << event.axis << endl;
     
     switch (event.type) {
@@ -309,7 +310,8 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-
+//    cout << "mouse moved: " << x << " " << y << endl;
+    tkb.windowMouseMoved(x,y);
 }
 
 void ofApp::gui_mousePressed(ofMouseEventArgs& args){

@@ -27,6 +27,8 @@ public:
 
     vector<SergeGUI*> guis;
     
+    vector<SergeDropdown*> dropdowns;
+    
     vector<SergeRadio*> radios;
     function<void(SergeGUIEvent event)> callback;
 
@@ -65,7 +67,6 @@ public:
             draw_y = (win_h - draw_h) / 2.f;
             draw();
         }
-
     }
 
     void bottomScaled(int win_w, int win_h, int margin){
@@ -79,18 +80,35 @@ public:
     void postDims(){
         cout << draw_x << " " << draw_y << " " << draw_w << " " << draw_h << endl;
     }
+    
+    void windowMouseMoved(int x, int y){
+        for(int i = 0; i < dropdowns.size(); i++){
+            dropdowns[i]->windowMouseMoved(x,y);
+        }
+    }
 
     void windowMousePressed(float x, float y){
         float mouse[2] = {x,y};
         if(windowPointInFrame(mouse)){
-            mouseIsCaptured = true;
-            scaleWindowPosToImage(mouse);
-            for(int i = 0; i < guis.size(); i++){
-                if(guis[i]->inside(mouse)){
-                    grabbed_knob = i;
-                    grabbed_knob_y = y;
-                    guis[i]->mousePressed();
-                    break;
+            bool active_dropdowns = false;
+            
+            for(int i = 0; i < dropdowns.size(); i++){
+                if(dropdowns[i]->val > 0.5){
+                    active_dropdowns = true;
+                    dropdowns[i]->windowMousePressed(x,y);
+                }
+            }
+            
+            if(!active_dropdowns){
+                mouseIsCaptured = true;
+                scaleWindowPosToImage(mouse);
+                for(int i = 0; i < guis.size(); i++){
+                    if(guis[i]->inside(mouse)){
+                        grabbed_knob = i;
+                        grabbed_knob_y = y;
+                        guis[i]->mousePressed();
+                        break;
+                    }
                 }
             }
         }
@@ -223,11 +241,13 @@ public:
                     vector<string> o = {"midi option 1","midi option 2","midi option 3","midi option 4"};
                     dd->setOptions(o);
                     dd->setFont(guiItems.font);
+                    dropdowns.push_back(dd);
                     guis.push_back(dd);
                 }
             }
         }
     }
+    
     void draw(){
         ofFill();
         ofSetColor(255,255,255,255);
@@ -236,15 +256,18 @@ public:
         img.draw(draw_x,draw_y,draw_w,draw_h);
         drawKnobs();
     }
+    
     void drawKnobs(){
         ofSetRectMode(OF_RECTMODE_CENTER);
         for(int i = 0; i < guis.size(); i++){
             guis[i]->draw(draw_x,draw_y,draw_ratio);
         }
     }
+    
     float getViewWidth(){
         return img.getWidth();
     }
+    
     float getViewHeight(){
         return img.getHeight();
     }

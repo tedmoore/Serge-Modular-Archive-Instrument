@@ -27,6 +27,7 @@ struct SergeGUIEvent {
     int param = -1;
     int radio = -1;
     int axis = -1;
+    int dropdown_i = -1;
     SergeGUIType type = KNOB;
 };
 
@@ -40,6 +41,7 @@ public:
     int radio;
     int axis;
     float radius;
+    int dropdown_i;
     
     function<void(const SergeGUIEvent event)> callback;
 
@@ -101,6 +103,7 @@ public:
         event.radio = radio;
         event.type = type;
         event.axis = axis;
+        event.dropdown_i = dropdown_i;
         
         callback(event);
     }
@@ -137,7 +140,7 @@ public:
             illumination.draw(0,0,iw,ih);
 //            cout << "param: " << param << "\tiw " << iw << "\tih: " << ih << endl;
         }
-        ofRotateZDeg(val * 270);
+        ofRotateZDeg(val * 280);
         img.draw(0,0,w,h);
         ofPopMatrix();
     }
@@ -190,14 +193,24 @@ public:
     }
 };
 
+struct SergeDropdownOption {
+    string name = "default name";
+    ofRectangle rect = ofRectangle(0,0,0,0);
+    bool highlight = false;
+};
+
 class SergeDropdown : public SergeGUI {
 public:
     
-    vector<string> options;
+    vector<SergeDropdownOption> options;
     ofTrueTypeFont font;
     
     void setOptions(vector<string> options_){
-        options = options_;
+        for(int i = 0; i < options_.size(); i++){
+            SergeDropdownOption o;
+            o.name = options_[i];
+            options.push_back(o);
+        }
     }
     
     void setFont(ofTrueTypeFont &font_){
@@ -207,42 +220,72 @@ public:
     void mousePressed(){
         val = !val;
         cout << "x: " << x << "\ty: " << y << "\tradius: " << radius << endl;
-        dispatchEvent(DROPDOWN);
     }
     
+    void windowMouseMoved(int x, int y){
+        if(val > 0.5){
+            for(int i = 0; i < options.size(); i++){
+                options[i].highlight = options[i].rect.inside(x,y);
+            }
+        }
+    }
+    
+    void windowMousePressed(float x, float y){
+        for(int i = 0; i < options.size(); i++){
+            if(options[i].rect.inside(x,y)){
+                dropdown_i = i;
+                dispatchEvent(DROPDOWN);
+                val = 0;
+            }
+        }
+    }
+        
     void draw(float xoff, float yoff, float ratio){
         
-        float size = img.getWidth() * ratio;
         int text_margin = 5;
         float text_height = 50 * ratio;
-        ofPushMatrix();
-        ofTranslate((x * ratio) + xoff,(y * ratio) + yoff);
-        img.draw(0,0,size,size);
+        float x_zero = ((x * ratio) + xoff) - (radius * ratio);
+        // TODO: extract not just "radius" from the Processing script, but also the "width" and "height"
+        float y_zero = ((y * ratio) + yoff);// - (text_height / 2);
+
+        ofSetRectMode(OF_RECTMODE_CORNER);
+        
+        img.draw(x_zero,y_zero,img.getWidth() * ratio,img.getHeight() * ratio);
         
         if(val > 0.5){
             for(int i = 0; i < options.size(); i++){
                 int yoff_off = text_height * i;
                 
-                ofFill();
-                ofSetColor(255,255,255,255);
-                ofDrawRectangle(0,yoff_off,radius * ratio * 2,text_height);
+                options[i].rect = ofRectangle(x_zero,y_zero + yoff_off,radius * ratio * 2,text_height);
                 
-                ofSetLineWidth(7);
+                // draw the background
+                ofFill();
+                if(options[i].highlight){
+                    ofSetColor(202,76,69);
+                } else {
+                    ofSetColor(255,255,255,255);
+                }
+                ofDrawRectangle(options[i].rect);
+                
+                // draw the perimeter of the box
+                ofSetLineWidth(3);
                 ofNoFill();
                 ofSetColor(96,161,207,255);
-                ofDrawRectangle(0,yoff_off,radius * ratio * 2,text_height);
+                ofDrawRectangle(options[i].rect);
 
+                // draw the text over the top
                 ofFill();
                 ofSetColor(0,0,0);
-                cout << "font is loaded: " << font.isLoaded() << endl;
                 
                 // drawing fonts different sizes: https://forum.openframeworks.cc/t/use-different-fonts/30011/4
-                
-                font.drawStringAsShapes(options[i], (-1 * radius  * ratio) + text_margin, yoff_off + text_margin);
+                float string_height = font.stringHeight(options[i].name);
+//                ofPushMatrix();
+                //ofScale(ratio);
+                font.drawStringAsShapes(options[i].name,x_zero + text_margin, y_zero + yoff_off + text_margin + string_height);
                 //ofDrawBitmapString(options[i], (-1 * radius  * ratio) + text_margin, yoff_off + text_margin);
+//                ofPopMatrix();
             }
         }
-        ofPopMatrix();
     }
 };
 
