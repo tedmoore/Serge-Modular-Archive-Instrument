@@ -140,7 +140,7 @@ public:
             illumination.draw(0,0,iw,ih);
 //            cout << "param: " << param << "\tiw " << iw << "\tih: " << ih << endl;
         }
-        ofRotateZDeg(val * 280);
+        ofRotateZDeg(val * 276);
         img.draw(0,0,w,h);
         ofPopMatrix();
     }
