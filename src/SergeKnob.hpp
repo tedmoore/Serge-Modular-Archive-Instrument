@@ -217,6 +217,11 @@ public:
         font = font_;
     }
     
+    // TODO: resolve the issue that there are two "mouse pressed" functions
+    /* TODO: when the nominal "mousePressed" function is called, it should check
+    immediately if the mouse is inside one of the options (to highlight it),
+     all it has to do is call the "windowMouseMoved" function, but right now
+     it can't do that because it doesn't know the xy of the window mouse position */
     void mousePressed(){
         val = !val;
         cout << "x: " << x << "\ty: " << y << "\tradius: " << radius << endl;
@@ -236,6 +241,12 @@ public:
                 dropdown_i = i;
                 dispatchEvent(DROPDOWN);
                 val = 0;
+                
+                for(int i = 0; i < options.size(); i++){
+                    options[i].highlight = false;
+                }
+                
+                break;
             }
         }
     }

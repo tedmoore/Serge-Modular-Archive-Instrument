@@ -136,7 +136,13 @@ public:
     }
 
     bool hasMouseCaptured() {
-        return mouseIsCaptured;
+        bool active_dropdowns = false;
+        
+        for(int i = 0; i < dropdowns.size(); i++){
+            active_dropdowns = dropdowns[i]->val || active_dropdowns;
+        }
+        
+        return mouseIsCaptured || active_dropdowns;
     }
     
     void guiCallback(SergeGUIEvent event){
