@@ -283,18 +283,20 @@ public:
                 ofNoFill();
                 ofSetColor(96,161,207,255);
                 ofDrawRectangle(options[i].rect);
-
+                
                 // draw the text over the top
                 ofFill();
                 ofSetColor(0,0,0);
                 
                 // drawing fonts different sizes: https://forum.openframeworks.cc/t/use-different-fonts/30011/4
                 float string_height = font.stringHeight(options[i].name);
-//                ofPushMatrix();
-                //ofScale(ratio);
-                font.drawStringAsShapes(options[i].name,x_zero + text_margin, y_zero + yoff_off + text_margin + string_height);
+                ofPushMatrix();
+                ofTranslate(x_zero, y_zero + yoff_off);
+                ofScale(ratio);
+                font.drawStringAsShapes(options[i].name,text_margin,string_height);
+//                font.drawStringAsShapes(options[i].name,x_zero + text_margin, y_zero + yoff_off + text_margin + string_height);
                 //ofDrawBitmapString(options[i], (-1 * radius  * ratio) + text_margin, yoff_off + text_margin);
-//                ofPopMatrix();
+                ofPopMatrix();
             }
         }
     }

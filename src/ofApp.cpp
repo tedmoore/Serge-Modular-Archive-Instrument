@@ -5,7 +5,9 @@
 
 void ofApp::setupSkeuomorph(){
 //    guiItems.font.load(ofToDataPath("SFNSMono.ttf"), 32);
-    guiItems.font.load(ofToDataPath("OpenSans-Light.ttf"), 16,true,true,true,0.f);
+//    guiItems.font.load(ofToDataPath("OpenSans-Light.ttf"), 16,true,true,true,0.f);
+    float simplifyFont {0.0f};
+    guiItems.font.load(ofToDataPath("LTe50236.ttf"), 32,true,true,true,simplifyFont);
     guiItems.knob.load(ofToDataPath("images/Serge Gui Layout (2022)/DAVIES_KNOB.png"));
     guiItems.illumination.load(ofToDataPath("images/Serge Gui Layout (2022)/KNOB_ILLUMINATION.png"));
     guiItems.push.load(ofToDataPath("images/Serge Gui Layout (2022)/BUTTON_PRESSED.png"));
