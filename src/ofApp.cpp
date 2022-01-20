@@ -68,7 +68,7 @@ void ofApp::setup(){
     midi_manager.setup();
 
     // print input ports to console
-    midiIn.listInPorts();
+//    midiIn.listInPorts();
 
     // open port by number (you may need to change this)
     midiIn.openPort(0);
@@ -83,7 +83,7 @@ void ofApp::setup(){
     midiIn.addListener(this);
 
     // print received messages to the console
-    midiIn.setVerbose(true);
+//    midiIn.setVerbose(true);
 
     // =========== GRAPHICS ================
 
@@ -95,6 +95,7 @@ void ofApp::setup(){
 //    cout << gui_info_json["plot"] << endl;
 
     //    ofExit();
+    tkb.setDropdownOptions(midiIn.getInPortList());
     tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),guiItems,gui_info_json["plot"],false);
     tkb.setCallback(this,&ofApp::guiCallback);
 }
@@ -133,6 +134,9 @@ void ofApp::guiCallback(const SergeGUIEvent event){
             break;
         case PUSH:
             break;
+        case DROPDOWN:
+            midiIn.closePort();
+            midiIn.openPort(event.dropdown_i);
         default:
             break;
     }

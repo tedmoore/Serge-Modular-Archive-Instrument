@@ -107,8 +107,6 @@ public:
     // MIDI
     void newMidiMessage(ofxMidiMessage& eventArgs);
     ofxMidiIn midiIn;
-    //    std::vector<ofxMidiMessage> midiMessages;
-    //    std::size_t maxMessages = 10; //< max number of messages to keep track of
     MIDIManager midi_manager;
 
     int skeuomorph_window_width;

@@ -204,17 +204,26 @@ public:
     
     vector<SergeDropdownOption> options;
     ofTrueTypeFont font;
+    int current_selection = 0;
     
     void setOptions(vector<string> options_){
         for(int i = 0; i < options_.size(); i++){
             SergeDropdownOption o;
-            o.name = options_[i];
+            o.name = options_[i].substr(0,10);
             options.push_back(o);
         }
     }
     
     void setFont(ofTrueTypeFont &font_){
         font = font_;
+    }
+    
+    void windowMouseMoved(int x, int y){
+        if(val > 0.5){
+            for(int i = 0; i < options.size(); i++){
+                options[i].highlight = options[i].rect.inside(x,y);
+            }
+        }
     }
     
     // TODO: resolve the issue that there are two "mouse pressed" functions
@@ -227,19 +236,12 @@ public:
         cout << "x: " << x << "\ty: " << y << "\tradius: " << radius << endl;
     }
     
-    void windowMouseMoved(int x, int y){
-        if(val > 0.5){
-            for(int i = 0; i < options.size(); i++){
-                options[i].highlight = options[i].rect.inside(x,y);
-            }
-        }
-    }
-    
     void windowMousePressed(float x, float y){
         for(int i = 0; i < options.size(); i++){
             if(options[i].rect.inside(x,y)){
                 dropdown_i = i;
                 dispatchEvent(DROPDOWN);
+                current_selection = i;
                 val = 0;
                 
                 for(int i = 0; i < options.size(); i++){
@@ -273,6 +275,8 @@ public:
                 ofFill();
                 if(options[i].highlight){
                     ofSetColor(202,76,69);
+                } else if (i == current_selection){
+                    ofSetColor(96,161,207,255);
                 } else {
                     ofSetColor(255,255,255,255);
                 }

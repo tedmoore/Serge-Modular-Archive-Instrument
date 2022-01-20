@@ -25,6 +25,6 @@ int MIDIManager::processIncomingMIDI(int chan, int cc){
         midi_learn[chan][cc] = currently_assigning_handle;
         currently_assigning_handle = -1;
     }
-    cout << chan << " " << cc << " " << midi_learn[chan][cc] << endl;
+//    cout << chan << " " << cc << " " << midi_learn[chan][cc] << endl;
     return midi_learn[chan][cc];
 }
