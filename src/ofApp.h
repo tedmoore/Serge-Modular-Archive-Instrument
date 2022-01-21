@@ -21,7 +21,11 @@ public:
     void draw();
 
     void keyPressed(int key);
+    void masterKeyPressed(int key);
     void keyReleased(int key);
+    void gui_keyReleased(ofKeyEventArgs& args);
+    void masterKeyReleased(int key);
+    
     void mouseMoved(int x, int y );
     void mouseDragged(int x, int y, int button);
     void mousePressed(int x, int y, int button);
@@ -58,6 +62,7 @@ public:
     void processOSC();
 
     void guiCallback(const SergeGUIEvent event);
+    void knobCallback(const SergeGUIEvent event);
 
     bool loaded = false;
     //ofxDatGuiSlider* sliders[4];
@@ -115,4 +120,6 @@ public:
     nlohmann::json gui_info_json;
         
     SergeGUIItems guiItems;
+    
+    KeyModifiers keyModifiers;
 };

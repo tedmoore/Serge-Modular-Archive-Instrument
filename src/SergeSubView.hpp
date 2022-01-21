@@ -87,7 +87,7 @@ public:
         }
     }
 
-    void windowMousePressed(float x, float y){
+    void windowMousePressed(float x, float y, KeyModifiers &modifiers){
         float mouse[2] = {x,y};
         if(windowPointInFrame(mouse)){
             bool active_dropdowns = false;
@@ -95,7 +95,7 @@ public:
             for(int i = 0; i < dropdowns.size(); i++){
                 if(dropdowns[i]->val > 0.5){
                     active_dropdowns = true;
-                    dropdowns[i]->windowMousePressed(x,y);
+                    dropdowns[i]->windowMousePressed(x,y, modifiers);
                 }
             }
             
@@ -106,7 +106,7 @@ public:
                     if(guis[i]->inside(mouse)){
                         grabbed_knob = i;
                         grabbed_knob_y = y;
-                        guis[i]->mousePressed();
+                        guis[i]->mousePressed(x,y,modifiers);
                         break;
                     }
                 }

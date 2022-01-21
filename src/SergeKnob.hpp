@@ -11,6 +11,13 @@
 #include <stdio.h>
 #include "ofMain.h"
 
+struct KeyModifiers {
+    bool shift = false;
+    bool control = false;
+    bool option = false;
+    bool command = false;
+};
+
 struct SergeGUIItems {
     ofImage knob;
     ofImage push;
@@ -21,6 +28,8 @@ struct SergeGUIItems {
 
 enum SergeGUIType { KNOB, LED, PUSH, DROPDOWN };
 
+enum SergeEventType { MOUSEPRESSED, MOUSERELEASED, MOUSEDRAGGED };
+
 struct SergeGUIEvent {
     int index = -1;
     float val = -1;
@@ -28,7 +37,8 @@ struct SergeGUIEvent {
     int radio = -1;
     int axis = -1;
     int dropdown_i = -1;
-    SergeGUIType type = KNOB;
+    SergeEventType eventType = MOUSEPRESSED;
+    SergeGUIType guiType = KNOB;
 };
 
 class SergeGUI {
@@ -51,7 +61,7 @@ public:
     virtual void draw(float xoff, float yoff, float ratio) {
 //        cout << "draw in base class\n";
     }
-    virtual void mousePressed(){
+    virtual void mousePressed(int mousex, int mousey, KeyModifiers &mods){
 //        cout << "mousePressed in base class\n";
     }
 
@@ -95,13 +105,14 @@ public:
         return d < (img.getWidth() * 0.5);
     }
     
-    bool dispatchEvent(SergeGUIType type){
+    bool dispatchEvent(SergeGUIType guiType, SergeEventType eventType){
         SergeGUIEvent event;
         event.index = index;
         event.val = val;
         event.param = param;
         event.radio = radio;
-        event.type = type;
+        event.guiType = guiType;
+        event.eventType = eventType;
         event.axis = axis;
         event.dropdown_i = dropdown_i;
         
@@ -124,8 +135,12 @@ public:
     void increment(float pixels){
         if(param != -1){
             val = ofClamp( val + (pixels * 0.005), 0.0, 1.0 );
-            dispatchEvent(KNOB);
+            dispatchEvent(KNOB,MOUSEDRAGGED);
         }
+    }
+    
+    void mousePressed(int mousex, int mousey, KeyModifiers &mods){
+        dispatchEvent(KNOB,MOUSEPRESSED);
     }
     
     void draw(float xoff, float yoff, float ratio){
@@ -159,9 +174,9 @@ public:
         }
     }
 
-    void mousePressed(){
+    void mousePressed(int mousex, int mousey, KeyModifiers &mods){
 //        cout << "led mousePressed\n";
-        dispatchEvent(LED);
+        dispatchEvent(LED,MOUSEPRESSED);
     }
 
     void mouseReleased(){
@@ -183,9 +198,9 @@ public:
         }
     }
 
-    void mousePressed(){
+    void mousePressed(int mousex, int mousey, KeyModifiers &mods){
         val = 1;
-        dispatchEvent(PUSH);
+        dispatchEvent(PUSH,MOUSEPRESSED);
     }
 
     void mouseReleased(){
@@ -231,16 +246,16 @@ public:
     immediately if the mouse is inside one of the options (to highlight it),
      all it has to do is call the "windowMouseMoved" function, but right now
      it can't do that because it doesn't know the xy of the window mouse position */
-    void mousePressed(){
+    void mousePressed(int mousex, int mousey, KeyModifiers &modifiers){
         val = !val;
         cout << "x: " << x << "\ty: " << y << "\tradius: " << radius << endl;
     }
     
-    void windowMousePressed(float x, float y){
+    void windowMousePressed(float mousex, float mousey, KeyModifiers &modifiers){
         for(int i = 0; i < options.size(); i++){
             if(options[i].rect.inside(x,y)){
                 dropdown_i = i;
-                dispatchEvent(DROPDOWN);
+                dispatchEvent(DROPDOWN,MOUSEPRESSED);
                 current_selection = i;
                 val = 0;
                 

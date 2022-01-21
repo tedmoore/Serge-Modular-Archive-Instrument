@@ -25,6 +25,7 @@ int main( ){
     
     ofAddListener(guiWindow->events().draw,mainApp.get(),&ofApp::drawSkeuomorph);
     ofAddListener(guiWindow->events().keyPressed,mainApp.get(),&ofApp::gui_keyPressed);
+    ofAddListener(guiWindow->events().keyReleased,mainApp.get(),&ofApp::gui_keyReleased);
     ofAddListener(guiWindow->events().mousePressed,mainApp.get(),&ofApp::gui_mousePressed);
     ofAddListener(guiWindow->events().mouseDragged,mainApp.get(),&ofApp::gui_mouseDragged);
     ofAddListener(guiWindow->events().windowResized,mainApp.get(),&ofApp::gui_windowResized);
