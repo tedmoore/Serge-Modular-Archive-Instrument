@@ -11,13 +11,20 @@ save_folder.mkdir;
 f_r = {
 	arg array, idx = 0;
 	if(idx < array.size,{
+		var file_save_folder = save_folder+/+"file_%".format(idx);
+		file_save_folder.mkdir;
 		analyze_file.(array[idx],1,4,{
 			f_r.(array,idx+1);
-		},0.0,save_folder);
+		},0.0,file_save_folder);
 	},{
 		"done with analyses".postln;
 	});
 };
 
 f_r.(files);
+)
+
+(
+f = "06 compile datasets.scd".loadRelative[0];
+f.("/Applications/of_v0.11.2_osx_release/apps/myApps/serge_01/audio_analysis/analyses/220118_includes the rare Gentle Electric compressor - pitch follower in the feedback chain/220123_213730/","/Applications/of_v0.11.2_osx_release/apps/myApps/serge_01/audio_analysis/serge_patch_recordings/220118_includes the rare Gentle Electric compressor - pitch follower in the feedback chain/");
 )
