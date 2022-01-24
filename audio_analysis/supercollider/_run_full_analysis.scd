@@ -18,13 +18,9 @@ f_r = {
 		},0.0,file_save_folder);
 	},{
 		"done with analyses".postln;
+		"06 compile datasets.scd".loadRelative[0].(save_folder,source_folder);
 	});
 };
 
 f_r.(files);
-)
-
-(
-f = "06 compile datasets.scd".loadRelative[0];
-f.("/Applications/of_v0.11.2_osx_release/apps/myApps/serge_01/audio_analysis/analyses/220118_includes the rare Gentle Electric compressor - pitch follower in the feedback chain/220123_213730/","/Applications/of_v0.11.2_osx_release/apps/myApps/serge_01/audio_analysis/serge_patch_recordings/220118_includes the rare Gentle Electric compressor - pitch follower in the feedback chain/");
 )

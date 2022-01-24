@@ -1,6 +1,6 @@
 {
 	arg analysis_folder, audio_folder;
-	s.boot{
+	s.waitForBoot{
 		var master_analysis_ds = FluidDataSet(s);
 		var master_loc_ds = FluidDataSet(s);
 		var master_params_ds = FluidDataSet(s);
@@ -13,7 +13,7 @@
 		var synth_params_path = PathName(audio_folder).files.select({
 			arg pn;
 			pn.fullPath.contains("synthesis_params.csv");
-		}).fullPath;
+		})[0].fullPath;
 
 		var synth_params = CSVFileReader.read(synth_params_path).collect({
 			arg line;
@@ -24,16 +24,20 @@
 
 		var analysis_paths = PathName(analysis_folder).folders.collect{
 			arg pn;
+			pn.postln;
 			PathName(pn.fullPath+/+"ds").files.collect{
 				arg pn0;
+				"ds path:  %".format(pn0.fullPath).postln;
 				pn0.fullPath;
 			};
 		};
 
 		var loc_paths = PathName(analysis_folder).folders.collect{
 			arg pn;
+			pn.postln;
 			PathName(pn.fullPath+/+"loc_ds").files.collect{
 				arg pn0;
+				"loc path: %".format(pn0.fullPath).postln;
 				pn0.fullPath;
 			};
 		};
