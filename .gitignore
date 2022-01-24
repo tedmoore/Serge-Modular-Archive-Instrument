@@ -2,3 +2,4 @@ bin/data/audio_files/*
 bin/serge_01Debug.app/Contents/MacOS/serge_01Debug
 serge_01.xcodeproj/project.xcworkspace/xcuserdata/macprocomputer.xcuserdatad/UserInterfaceState.xcuserstate
 audio_analysis/serge_patch_recordings
+audio_analysis/analyses
