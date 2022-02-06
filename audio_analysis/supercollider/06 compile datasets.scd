@@ -1,5 +1,5 @@
 {
-	arg analysis_folder, audio_folder;
+	arg analysis_folder, audio_folder, action;
 	s.waitForBoot{
 		var master_analysis_ds = FluidDataSet(s);
 		var master_loc_ds = FluidDataSet(s);
@@ -182,5 +182,7 @@
 		"size of params csv: %".format(synth_params.size).postln;
 
 		s.sync;
+
+		action.value(new_folder);
 	}
 }

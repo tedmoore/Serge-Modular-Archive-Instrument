@@ -18,9 +18,23 @@ f_r = {
 		},0.0,file_save_folder);
 	},{
 		"done with analyses".postln;
-		"06 compile datasets.scd".loadRelative[0].(save_folder,source_folder);
+		"06 compile datasets.scd".loadRelative[0].(save_folder,source_folder,{
+			arg compiled_dataset_folder;
+			"10 PCA Explained Variance Ratios.scd".loadRelative[0].(compiled_dataset_folder,{
+				arg pca_folder;
+				"12 umap.scd".loadRelative[0].(pca_folder,action:{
+					"---- DONE WITH ALL ----".postln;
+				});
+			});
+		});
 	});
 };
 
 f_r.(files);
+)
+
+(
+"12 umap.scd".loadRelative[0].("/Applications/of_v0.11.2_osx_release/apps/myApps/serge_01/audio_analysis/analyses/220118_includes the rare Gentle Electric compressor - pitch follower in the feedback chain/220123_231615/220123_233056_master_datasets/220205_214600_pca/",action:{
+	"---- DONE WITH ALL ----".postln;
+});
 )

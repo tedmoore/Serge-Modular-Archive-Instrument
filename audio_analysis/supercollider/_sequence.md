@@ -1,12 +1,10 @@
-# step numbers correspond to files
-
 0. programmatically step through parameter space to get raw audio
 0. extract audio descriptors
 0. it will probably be in multiple files, so use the recursive thing
   * use multiple servers
 0. (optional) inspect dataset (just one of the files; does it seem to have worked at all?)
 0. compile datasets because they were analysed in chunks and on different servers
-0. loudness threshold: remove everything below a certain dB (for the plotter)
+0. dim redux
   * Standardize
   * PCA (keep 95% of variance)
   * save data set
