@@ -17,25 +17,17 @@
 # the final data file needs to include
 
 ### these are columns:
-<!-- 0. param_1d_index -->
-0. file_num
-0. start_sample
-0. num_samples
-0. umap_x_norm
-0. umap_y_norm
-<!-- 0. grid_x_norm
-0. grid_y_norm -->
-0. spec_centroid
-0. spec_flatness
-0. pitch
-0. pitch_confidence
-0. loudness
-<!-- 0. num_params -->
-0. param_0_raw
-0. param_1_raw
-0. param_2_raw
-0. param_3_raw
-0. param_0_int
-0. param_1_int
-0. param_2_int
-0. param_3_int
+0. file_num (like which audio file it is in)
+1. start_sample
+2. num_samples
+3. umap_x_norm
+4. umap_y_norm
+5. spec_centroid
+6. spec_flatness
+7. pitch
+8. pitch_confidence
+9. loudness
+10. param_0_norm
+11. param_1_norm
+12. param_2_norm
+13. param_3_norm

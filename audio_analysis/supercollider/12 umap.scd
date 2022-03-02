@@ -38,7 +38,7 @@
 							ds.free;
 							normer.free;
 							umap.free;
-							action.value;
+							action.value(umap_folder);
 						});
 					});
 				});
