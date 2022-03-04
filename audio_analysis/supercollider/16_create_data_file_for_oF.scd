@@ -3,7 +3,7 @@
 	s.reboot;
 	s.waitForBoot{
 		var pn = PathName(umap_folder.withTrailingSlash);
-		var dimred2d_ds_path = pn.files.select{arg p; p.fileName.contains("normed.json")}[0].fullPath;
+		var dimred2d_ds_path = pn.files.select{arg p; p.fileName.contains("normed")}[0].fullPath;
 		var og_ds_path = File.realpath(pn.fullPath+/+"../../")+/+"analysis.json";
 		var loc_ds_path = File.realpath(pn.fullPath+/+"../../")+/+"loc.json";
 		var params_ds_path = File.realpath(pn.fullPath+/+"../../")+/+"params.json";
