@@ -280,7 +280,6 @@ public:
 
     void windowMouseDragged(float x, float y){
         if(grabbed_knob != -1){
-            //cout << "knob " << grabbed_knob << " val: ";
             guis[grabbed_knob]->increment(grabbed_knob_y - y);
             grabbed_knob_y = y;
         }

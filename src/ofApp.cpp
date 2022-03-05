@@ -3,8 +3,29 @@
 #define SAMPLERATE 44100
 //-------------------------------------------------------------
 
+void ofApp::loadDirectory(string path){
+
+    ofDirectory load_folder(path);
+    
+    load_folder.listDir();
+    load_folder.sort();
+    vector<ofFile> files = load_folder.getFiles();
+    
+    for(int i = 0; i < files.size(); i++){
+        if(files[i].getExtension() == "wav"){
+            soundFiles[n_soundFiles].setup(files[i].getAbsolutePath(),SAMPLERATE);
+            soundFiles[n_soundFiles].startThread();
+            n_soundFiles++;
+        } else if(files[i].getExtension() == "csv") {
+            readSoundSlicesData(files[i].getAbsolutePath());
+        }
+    }
+
+    createPointKDTree();
+}
+
 void ofApp::setupSkeuomorph(){
-//    guiItems.font.load(ofToDataPath("SFNSMono.ttf"), 32);
+            
     guiItems.font.load(ofToDataPath("OpenSans-Light.ttf"), 16,true,true,true,0.f);
     guiItems.knob.load(ofToDataPath("images/Serge Gui Layout (2022)/DAVIES_KNOB.png"));
     guiItems.illumination.load(ofToDataPath("images/Serge Gui Layout (2022)/KNOB_ILLUMINATION.png"));
@@ -12,7 +33,6 @@ void ofApp::setupSkeuomorph(){
     guiItems.led.load(ofToDataPath("images/Serge Gui Layout (2022)/LED_ON.png"));
 
     std::ifstream i(ofToDataPath("images/Serge Gui Layout (2022)/gui_info.json"));
-//    nlohmann::json gui_info_json;
     i >> gui_info_json;
     
     three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),guiItems,gui_info_json["skeuomorph"],true);
@@ -23,46 +43,24 @@ void ofApp::setupSkeuomorph(){
 }
 
 void ofApp::setup(){
-
     osc_receiver.setup(2884);
-
     ofSetFrameRate(30);
     ofBackground(100);
     ofEnableAntiAliasing();
-    string csv_path = "211030_183738.csv";
-
+        
     createColors();
 
-    double ranges[8];
-    for(int i = 0; i < 4; i++){
-        ranges[i * 2] = std::numeric_limits<double>::max();
-        ranges[(i * 2) + 1] = std::numeric_limits<double>::min();
+    ofFileDialogResult result = ofSystemLoadDialog("Load folder with wav files and data file",true);
+    if(result.bSuccess) {
+      loadDirectory(result.getPath());
     }
-
-    readSoundSlicesData(csv_path,ranges);
-
-    createHeadersAndDropdownOptions();
-    
-    for(int i = 0; i < 4; i++){
-        handles[i].setup(ranges[(i * 2)],ranges[(i * 2) + 1]);
-    }
-
-    createPointKDTree();
 
     windowResized(ofGetWidth(),ofGetHeight());
     drawPlot(true);
 
-    //soundFiles.resize(3);
-
-    for(int i = 0; i < 3; i++){
-        soundFiles[i].setup(ofToDataPath("audio_files/part"+ofToString(i+1)+"_44k_16b.wav"),SAMPLERATE);
-        soundFiles[i].startThread();
-    }
-
     soundstream.setup(2, 0, SAMPLERATE, 256, 4);
 
     // MIDI
-
     midi_manager.setup();
 
     // print input ports to console
@@ -70,9 +68,7 @@ void ofApp::setup(){
 
     // open port by number (you may need to change this)
     midiIn.openPort(0);
-    //midiIn.openPort("IAC Pure Data In");    // by name
-    //midiIn.openVirtualPort("ofxMidiIn Input"); // open a virtual port
-
+    
     // don't ignore sysex, timing, & active sense messages,
     // these are ignored by default
     midiIn.ignoreTypes(false, false, false);
@@ -84,15 +80,6 @@ void ofApp::setup(){
     midiIn.setVerbose(true);
 
     // =========== GRAPHICS ================
-
-//    std::ifstream i(ofToDataPath("images/Serge Gui Layout (2022)/gui_info.json"));
-//    nlohmann::json gui_info_json;
-//    i >> gui_info_json;
-
-//    cout << gui_info_json << endl;
-//    cout << gui_info_json["plot"] << endl;
-
-    //    ofExit();
     tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),guiItems,gui_info_json["plot"],false);
     tkb.setCallback(this,&ofApp::guiCallback);
 }
@@ -117,13 +104,13 @@ void ofApp::guiCallback(const SergeGUIEvent event){
             if(event.axis != -1){
                 switch(event.radio){
                     case 0:
-                        x_index_sl = dropdown_index_lookup[event.axis];
+                        x_index_i = axis_selection_lookup[event.axis];
                         break;
                     case 1:
-                        y_index_sl = dropdown_index_lookup[event.axis];
+                        y_index_i = axis_selection_lookup[event.axis];
                         break;
                     case 2:
-                        c_index_sl = dropdown_index_lookup[event.axis];
+                        c_index_i = axis_selection_lookup[event.axis];
                         break;
                 }
                 drawPlot(true);
@@ -150,7 +137,7 @@ void ofApp::audioOut(float *output, int bufferSize, int nChannels){
 }
 
 void ofApp::find_nearest_xy(){
-
+    
     vector<size_t> indexes;
     vector<double> dists;
 
@@ -178,13 +165,9 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
             soundFiles[i].setPosGate(start_frame,n_frames,file == i);
         }
         
-        //cout << "params state";
         for(int i = 0; i < 4; i++){
-            params_state[i] = handles[i].transform(slices[playing_index]->values[19 + i]); // starting at index 19 are raw values
-            //cout  << " " << params_state[i];
+            params_state[i] = slices[playing_index]->values[10 + i];
         }
-        
-//        cout << endl;
         
         tkb.updateParamGuis(params_state);
         three_panel.updateParamGuis(params_state);
@@ -193,9 +176,9 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-//    cout << "loaded: " << loaded << endl
     if(loaded){
         processOSC();
+        
     } else {
         int sum = 0;
         for(int i = 0; i < n_soundFiles; i++){
@@ -223,13 +206,13 @@ void ofApp::processOSC(){
             hid_xy[1] = 1.f - oscMsg.getArgAsFloat(0);
             find_nearest_xy();
         } else if (address == "/param1"){
-            handles[0].setValueFromNormalized(oscMsg.getArgAsFloat(0));
+            params_state[0] = oscMsg.getArgAsFloat(0);
         } else if (address == "/param2"){
-            handles[1].setValueFromNormalized(oscMsg.getArgAsFloat(0));
+            params_state[1] = oscMsg.getArgAsFloat(0);
         } else if (address == "/param3"){
-            handles[2].setValueFromNormalized(oscMsg.getArgAsFloat(0));
+            params_state[2] = oscMsg.getArgAsFloat(0);
         } else if (address == "/param4"){
-            handles[3].setValueFromNormalized(oscMsg.getArgAsFloat(0));
+            params_state[3] = oscMsg.getArgAsFloat(0);
         }
     }
 }
@@ -283,7 +266,7 @@ void ofApp::drawPlot(bool buildKDTree){
     ofClear(255,255,255,255);
     ofFill();
     for(SoundSlice *slice : slices){
-        kdTree_2d.addPoint(slice->draw(0,0,plot_fbo.getWidth(),plot_fbo.getHeight(),x_index_sl,y_index_sl,c_index_sl));
+        kdTree_2d.addPoint(slice->draw(0,0,plot_fbo.getWidth(),plot_fbo.getHeight(),x_index_i,y_index_i,c_index_i));
     }
     plot_fbo.end();
     if(buildKDTree) kdTree_2d.constructKDTree();
@@ -423,7 +406,7 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
         hid_xy[1] = 1.f - (msg.value / 127.f);
         find_nearest_xy();
     } else if(learned_midi < 6 && learned_midi > 1){
-        handles[learned_midi - 2].setValueFromNormalized(msg.value / 127.f);
+        params_state[learned_midi - 2] = msg.value / 127.f;
     }
 }
 
@@ -447,7 +430,7 @@ void ofApp::createColors(){
     }
 }
 
-void ofApp::readSoundSlicesData(string csv_path, double* ranges){
+void ofApp::readSoundSlicesData(string csv_path){
     string line;
     ifstream data;
 
@@ -458,15 +441,6 @@ void ofApp::readSoundSlicesData(string csv_path, double* ranges){
 
         SoundSlice* soundSlice = new SoundSlice;
         soundSlice->setup(rainbow_colors,qualitative_colors,line);
-
-        for(int i = 0; i < 4; i++){
-            if(soundSlice->values[19 + i] < ranges[i * 2]){
-                ranges[i * 2] = soundSlice->values[19 + i];
-            }
-            if(soundSlice->values[19 + i] > ranges[(i * 2) + 1]){
-                ranges[(i * 2) + 1] = soundSlice->values[19 + i];
-            }
-        }
 
         slices.push_back(soundSlice);
     }
@@ -479,73 +453,12 @@ void ofApp::createPointKDTree(){
     point.resize(4);
 
     for(int i = 0; i < slices.size(); i++){
-        for(int j = 0; j < 4; j++){
-            point[j] = handles[j].transform(slices[i]->values[19 + j]);
+        for(int j = 0; j < nParams; j++){
+            point[j] = slices[i]->values[10 + j];
         }
 
         kdTree_params.addPoint(point);
     }
 
     kdTree_params.constructKDTree();
-}
-
-void ofApp::createHeadersAndDropdownOptions(){
-    vector<string> values_headers;
-
-    values_headers.push_back("param 1d index");     // 0
-    values_headers.push_back("file num");           // 1
-    values_headers.push_back("start sample");       // 2
-    values_headers.push_back("num samples");        // 3
-    values_headers.push_back("umap x norm");        // 4
-
-    dropdown_options.push_back("UMAP 1");
-    dropdown_index_lookup.push_back(4);
-
-    values_headers.push_back("umap y norm");        // 5
-
-    dropdown_options.push_back("UMAP 2");
-    dropdown_index_lookup.push_back(5);
-
-    values_headers.push_back("grid x norm");        // 6
-    values_headers.push_back("grid y norm");        // 7
-    values_headers.push_back("spec cent");          // 8
-    values_headers.push_back("spec flatness");      // 9
-    values_headers.push_back("pitch");              // 10
-    values_headers.push_back("pitch conf");         // 11
-    values_headers.push_back("loudness");           // 12
-    values_headers.push_back("spec cent norm");     // 13
-
-    dropdown_options.push_back("Spectral Centroid");
-    dropdown_index_lookup.push_back(13);
-
-    values_headers.push_back("spec flatness norm"); // 14
-
-    dropdown_options.push_back("Spectral Flatness");
-    dropdown_index_lookup.push_back(14);
-
-    values_headers.push_back("pitch norm");         // 15
-
-    dropdown_options.push_back("Pitch");
-    dropdown_index_lookup.push_back(15);
-
-    values_headers.push_back("pitch conf norm");    // 16
-
-    dropdown_options.push_back("Pitch Confidence");
-    dropdown_index_lookup.push_back(16);
-
-    values_headers.push_back("loudness norm");      // 17
-
-    dropdown_options.push_back("Loudness");
-    dropdown_index_lookup.push_back(17);
-
-    values_headers.push_back("num params");         // 18
-
-    int n_params = int(slices[0]->values[18]);
-    for(int i = 0; i < n_params; i++){
-        values_headers.push_back("param " + ofToString(i) + " raw");
-    }
-
-    for(int i = 0; i < n_params; i++){
-        values_headers.push_back("param " + ofToString(i) + " int");
-    }
 }

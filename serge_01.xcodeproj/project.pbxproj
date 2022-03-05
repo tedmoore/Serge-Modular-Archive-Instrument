@@ -16,7 +16,6 @@
 		285A456A2772BCB5002E99B5 /* MIDIManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 285A45682772BCB5002E99B5 /* MIDIManager.cpp */; };
 		2863178A27764A8C0032C5DD /* SergeSubView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2863178827764A8C0032C5DD /* SergeSubView.cpp */; };
 		28E466D2278A57640036525D /* SergeKnob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28E466D0278A57640036525D /* SergeKnob.cpp */; };
-		28F63EA527741013005F028A /* SergeHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28F63EA327741013005F028A /* SergeHandle.cpp */; };
 		3AEFE4FA8AD5C72671AD07F8 /* ofxRtMidiOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 712B183BC00EBFFB1EEA5AB8 /* ofxRtMidiOut.cpp */; };
 		483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78D67A00EB899FAC09430597 /* ofxLabel.cpp */; };
 		4ADB88E2FB52E76A471065DE /* ofxOscParameterSync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0AED834CE4DEC5260AF302A2 /* ofxOscParameterSync.cpp */; };
@@ -110,8 +109,6 @@
 		2863178927764A8C0032C5DD /* SergeSubView.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SergeSubView.hpp; sourceTree = "<group>"; };
 		28E466D0278A57640036525D /* SergeKnob.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SergeKnob.cpp; sourceTree = "<group>"; };
 		28E466D1278A57640036525D /* SergeKnob.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SergeKnob.hpp; sourceTree = "<group>"; };
-		28F63EA327741013005F028A /* SergeHandle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SergeHandle.cpp; sourceTree = "<group>"; };
-		28F63EA427741013005F028A /* SergeHandle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SergeHandle.hpp; sourceTree = "<group>"; };
 		2D13799635BB152B8F1A4E9A /* chvalid.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = chvalid.h; path = ../../../addons/ofxSvg/libs/libxml2/include/libxml/chvalid.h; sourceTree = SOURCE_ROOT; };
 		2FD4B0329909D3527F003494 /* UdpSocket.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = UdpSocket.h; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h; sourceTree = SOURCE_ROOT; };
 		375C1EB5EB0C6DB428BD21C4 /* xmlIO.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = xmlIO.h; path = ../../../addons/ofxSvg/libs/libxml2/include/libxml/xmlIO.h; sourceTree = SOURCE_ROOT; };
@@ -1170,8 +1167,6 @@
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				1B8A0F0FF57B4261AC6A4D97 /* SergeEnv.cpp */,
 				4833A705E588CAF1939E185B /* SoundSlice.cpp */,
-				28F63EA327741013005F028A /* SergeHandle.cpp */,
-				28F63EA427741013005F028A /* SergeHandle.hpp */,
 				0A2C2060E8869CEA856ED78F /* SoundSlice.hpp */,
 				285A45682772BCB5002E99B5 /* MIDIManager.cpp */,
 				285A45692772BCB5002E99B5 /* MIDIManager.hpp */,
@@ -1367,7 +1362,6 @@
 				1A86B7721CAEBC6F1C572C45 /* ofxBaseMidi.cpp in Sources */,
 				63F9FE1D90234FA6DE6F509E /* ofxMidi.cpp in Sources */,
 				881AF887EC2124F4105DE9E1 /* ofxMidiClock.cpp in Sources */,
-				28F63EA527741013005F028A /* SergeHandle.cpp in Sources */,
 				0BFC9C20FD7E3C8D5873AA97 /* ofxMidiIn.cpp in Sources */,
 				C6FE64F74F1EA1D98C8F9847 /* ofxMidiMessage.cpp in Sources */,
 				83D9F930112E0944444124EE /* ofxMidiOut.cpp in Sources */,

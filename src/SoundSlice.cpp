@@ -20,8 +20,6 @@ void SoundSlice::parse_csv_line(string csv_line){
     for(int i = 0; i < tokens.size(); i++){
         values.push_back(ofToDouble(tokens[i]));
     }
-    
-    //cout << values[0] << endl;
 }
 
 vector<double> SoundSlice::draw(int x_off, int y_off, int width, int height, int x_index, int y_index, int c_index){

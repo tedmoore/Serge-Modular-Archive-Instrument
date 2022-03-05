@@ -7,15 +7,6 @@
 
 #include "SoundFile.hpp"
 
-void SoundFile::setup(string path_, int samplerate_){
-    samplerate = samplerate_;
-    path = path_;
-    fade_dur_samps = samplerate * 0.05;
-    env[0].setup(fade_dur_samps);
-    env[1].setup(fade_dur_samps);
-    masterEnv.setup(fade_dur_samps);
-}
-
 void SoundFile::threadedFunction(){
     if(ofFile::doesFileExist(path)){
         audiofile.load(path);

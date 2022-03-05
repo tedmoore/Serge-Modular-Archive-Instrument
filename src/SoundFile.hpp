@@ -15,9 +15,17 @@
 
 class SoundFile : public ofThread {
 public:
+    
+    void setup(string path_, int samplerate_){
+        samplerate = samplerate_;
+        path = path_;
+        fade_dur_samps = samplerate * 0.05;
+        env[0].setup(fade_dur_samps);
+        env[1].setup(fade_dur_samps);
+        masterEnv.setup(fade_dur_samps);
+    }
     float tick();
     void setPosGate(int sample, int n_frames_, int gate);
-    void setup(string path_, int samplerate_);
     void flipPlayer();
     void threadedFunction();
     
