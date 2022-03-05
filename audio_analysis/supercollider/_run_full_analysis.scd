@@ -1,5 +1,5 @@
 (
-var source_folder = "/Applications/of_v0.11.2_osx_release/apps/myApps/serge_01/audio_analysis/serge_patch_recordings/220118_includes the rare Gentle Electric compressor - pitch follower in the feedback chain/";
+var source_folder = "/Applications/of_v0.11.2_osx_release/apps/myApps/serge_01/audio_analysis/serge_patch_recordings/210301/";
 
 var save_folder = PathName(thisProcess.nowExecutingPath).pathOnly+/+"../analyses/%/%".format(PathName(source_folder).folderName,Date.localtime.stamp);
 var files = SelectFiles(source_folder,['wav'],recursive:false,verbose:true);
