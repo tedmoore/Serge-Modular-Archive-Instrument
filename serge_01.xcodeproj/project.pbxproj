@@ -1176,9 +1176,9 @@
 				28E466D0278A57640036525D /* SergeKnob.cpp */,
 				28E466D1278A57640036525D /* SergeKnob.hpp */,
 				F20B91491823E7D1AC897970 /* SoundFile.hpp */,
+				120716F19DF9FF7C016649E8 /* SoundFile.cpp */,
 				280EB355278BF91B00DEDD58 /* SergeRadio.cpp */,
 				280EB356278BF91B00DEDD58 /* SergeRadio.hpp */,
-				120716F19DF9FF7C016649E8 /* SoundFile.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

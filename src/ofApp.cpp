@@ -128,10 +128,10 @@ void ofApp::guiCallback(const SergeGUIEvent event){
 void ofApp::knobCallback(const SergeGUIEvent event){
     // if command is held, it's a mouse press, and this knob actually controls something:
     if(keyModifiers.command && (event.eventType == MOUSEPRESSED) && (event.param != -1)){
-//        we know which param it is meant to control
-//         but it's a little tricky because x = 0, y = 1, and param i = param i+2
-        // also what is a handle? is there one for all params *and* the x and y?
-//        midi_manager
+        // TODO: implement midi learn via command+click
+        // we know which param it is meant to control
+        // but it's a little tricky because x = 0, y = 1, and param i = param i+2
+        // midi_manager
     } else {
         if(event.param != -1){
             params_state[event.param] = event.val;
@@ -174,10 +174,10 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
     if(index != playing_index){
         playing_index = index;
 
-        int file = slices[playing_index]->values[1];
-        int start_frame = slices[playing_index]->values[2];
-        int n_frames = slices[playing_index]->values[3];
-        
+        int file = slices[playing_index]->values[0];
+        int start_frame = slices[playing_index]->values[1];
+        int n_frames = slices[playing_index]->values[2];
+                
         for(int i = 0; i < n_soundFiles; i++){
             soundFiles[i].setPosGate(start_frame,n_frames,file == i);
         }
@@ -416,12 +416,8 @@ void ofApp::mouseExited(int x, int y){
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
 
-//    cout << "tkb width:  " << tkb.getViewWidth() << endl;
-//    cout << "tkb hegiht: " << tkb.getViewHeight() << endl;
-//
     tkb.bottomScaled(w,h,margin);
 
-//    cout << "tkb dims: ";
     tkb.postDims();
 
     plot_x = margin;
@@ -429,16 +425,12 @@ void ofApp::windowResized(int w, int h){
     plot_w = w - (plot_x + margin);
     plot_h = h - ((margin * 3) + tkb.draw_h);
 
-//    cout << "plot dims: " << plot_x << " " << plot_y << " " << plot_w << " " << plot_h << endl;
-
     drawPlot(false);
 }
 
 void ofApp::gui_windowResized(ofResizeEventArgs& args){
     skeuomorph_window_width = args.width;
     skeuomorph_window_height = args.height;
-//    cout << "gui window resized: " << args.width << " " << args.height << endl;
-
 }
 
 //--------------------------------------------------------------

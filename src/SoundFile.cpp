@@ -18,6 +18,8 @@ void SoundFile::threadedFunction(){
     } else {
         ofLogError() << "error loading file, file path does not exist";
     }
+    
+//    cout << "audio file sample: " << audiofile.sample(0,0) << endl;
 }
 
 void SoundFile::setPosGate(int sample, int n_frames_, int gate){
