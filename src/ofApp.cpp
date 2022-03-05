@@ -64,7 +64,7 @@ void ofApp::setup(){
     midi_manager.setup();
 
     // print input ports to console
-    midiIn.listInPorts();
+//    midiIn.listInPorts();
 
     // open port by number (you may need to change this)
     midiIn.openPort(0);
@@ -77,15 +77,17 @@ void ofApp::setup(){
     midiIn.addListener(this);
 
     // print received messages to the console
-    midiIn.setVerbose(true);
+//    midiIn.setVerbose(true);
 
     // =========== GRAPHICS ================
-    tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),guiItems,gui_info_json["plot"],false);
+	tkb.setDropdownOptions(midiIn.getInPortList());    
+	tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),guiItems,gui_info_json["plot"],false);
     tkb.setCallback(this,&ofApp::guiCallback);
 }
 
 void ofApp::guiCallback(const SergeGUIEvent event){
-    cout << "type: " << event.type;
+    cout << "guiType: " << event.guiType;
+    cout << "\teventType: " << event.eventType;
     cout << "\tindex: " << event.index;
     cout << "\tval: " << event.val;
     cout << "\tparam: " << event.param;
@@ -93,12 +95,9 @@ void ofApp::guiCallback(const SergeGUIEvent event){
     cout << "\tdropdown_i: " << event.dropdown_i;
     cout << "\taxis: " << event.axis << endl;
     
-    switch (event.type) {
+    switch (event.guiType) {
         case KNOB:
-            if(event.param != -1){
-                params_state[event.param] = event.val;
-                find_nearest_param(params_state);
-            }
+            knobCallback(event);
             break;
         case LED:
             if(event.axis != -1){
@@ -118,8 +117,26 @@ void ofApp::guiCallback(const SergeGUIEvent event){
             break;
         case PUSH:
             break;
+        case DROPDOWN:
+            midiIn.closePort();
+            midiIn.openPort(event.dropdown_i);
         default:
             break;
+    }
+}
+
+void ofApp::knobCallback(const SergeGUIEvent event){
+    // if command is held, it's a mouse press, and this knob actually controls something:
+    if(keyModifiers.command && (event.eventType == MOUSEPRESSED) && (event.param != -1)){
+//        we know which param it is meant to control
+//         but it's a little tricky because x = 0, y = 1, and param i = param i+2
+        // also what is a handle? is there one for all params *and* the x and y?
+//        midi_manager
+    } else {
+        if(event.param != -1){
+            params_state[event.param] = event.val;
+            find_nearest_param(params_state);
+        }
     }
 }
 
@@ -274,21 +291,61 @@ void ofApp::drawPlot(bool buildKDTree){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    cout << "main wndow key " << key << "\n";
-    int hid = key - 48;
-    cout << "hid number: " << hid << endl;
-    if(hid >= 0 && hid < 6){
-        midi_manager.waitForAssignment(hid);
-    }
+    masterKeyPressed(key);
 }
 
 void ofApp::gui_keyPressed(ofKeyEventArgs& args){
-    cout << "gui wndow key " << args.key << "\n";
+    masterKeyPressed(args.key);
+}
+
+void ofApp::masterKeyPressed(int key){
+//    cout << "key pressed " << key << "\n";
+    // 3680 shift
+    // 3682 control
+    // 3684 option
+    // 3686 command
+    switch(key){
+        case 3680:
+            keyModifiers.shift = true;
+            break;
+        case 3682:
+            keyModifiers.control = true;
+            break;
+        case 3684:
+            keyModifiers.option = true;
+            break;
+        case 3686:
+            keyModifiers.command = true;
+            break;
+    }
+
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
+    masterKeyReleased(key);
+}
 
+void ofApp::gui_keyReleased(ofKeyEventArgs& args){
+    masterKeyReleased(args.key);
+}
+
+void ofApp::masterKeyReleased(int key){
+//    cout << "key released " << key << "\n";
+    switch(key){
+        case 3680:
+            keyModifiers.shift = false;
+            break;
+        case 3682:
+            keyModifiers.control = false;
+            break;
+        case 3684:
+            keyModifiers.option = false;
+            break;
+        case 3686:
+            keyModifiers.command = false;
+            break;
+    }
 }
 
 //--------------------------------------------------------------
@@ -299,7 +356,7 @@ void ofApp::mouseMoved(int x, int y ){
 
 void ofApp::gui_mousePressed(ofMouseEventArgs& args){
 //    cout << "mouse pressed in gui window: " << args.x << " " << args.y << endl;
-    three_panel.windowMousePressed(args.x,args.y);
+    three_panel.windowMousePressed(args.x,args.y,keyModifiers);
 }
 
 bool ofApp::mouseInPlot(int x, int y){
@@ -319,7 +376,7 @@ void ofApp::gui_mouseDragged(ofMouseEventArgs& args){
 void ofApp::mousePressed(int x, int y, int button){
 //    cout << "ofApp::mousePressed: " << x << " " << y << " " << button << endl;
     processIncomingMouseXY(x,y);
-    tkb.windowMousePressed(x,y);
+    tkb.windowMousePressed(x,y,keyModifiers);
 }
 
 //--------------------------------------------------------------

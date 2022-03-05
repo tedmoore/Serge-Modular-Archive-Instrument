@@ -87,7 +87,7 @@ public:
         }
     }
 
-    void windowMousePressed(float x, float y){
+    void windowMousePressed(float x, float y, KeyModifiers &modifiers){
         float mouse[2] = {x,y};
         if(windowPointInFrame(mouse)){
             bool active_dropdowns = false;
@@ -95,7 +95,7 @@ public:
             for(int i = 0; i < dropdowns.size(); i++){
                 if(dropdowns[i]->val > 0.5){
                     active_dropdowns = true;
-                    dropdowns[i]->windowMousePressed(x,y);
+                    dropdowns[i]->windowMousePressed(x,y, modifiers);
                 }
             }
             
@@ -106,7 +106,7 @@ public:
                     if(guis[i]->inside(mouse)){
                         grabbed_knob = i;
                         grabbed_knob_y = y;
-                        guis[i]->mousePressed();
+                        guis[i]->mousePressed(x,y,modifiers);
                         break;
                     }
                 }
@@ -204,6 +204,13 @@ public:
 class SergeImage : public SergeSubView{
 public:
     ofImage img;
+    
+    vector<string> dropdownOptions;
+    
+    // TODO: allow a SergeSubView to have more than 1 drop down
+    void setDropdownOptions(const vector<string> &o){
+        dropdownOptions = o;
+    }
 
     void load(string path,SergeGUIItems &guiItems,nlohmann::json &json,bool illuminateKnobs){
         img.load(path);
@@ -244,8 +251,7 @@ public:
                 {
                     SergeDropdown* dd = new SergeDropdown;
                     dd->setup(json[i],guiItems.led);
-                    vector<string> o = {"midi option 1","midi option 2","midi option 3","midi option 4"};
-                    dd->setOptions(o);
+                    dd->setOptions(dropdownOptions);
                     dd->setFont(guiItems.font);
                     dropdowns.push_back(dd);
                     guis.push_back(dd);

@@ -11,6 +11,13 @@
 #include <stdio.h>
 #include "ofMain.h"
 
+struct KeyModifiers {
+    bool shift = false;
+    bool control = false;
+    bool option = false;
+    bool command = false;
+};
+
 struct SergeGUIItems {
     ofImage knob;
     ofImage push;
@@ -21,6 +28,8 @@ struct SergeGUIItems {
 
 enum SergeGUIType { KNOB, LED, PUSH, DROPDOWN };
 
+enum SergeEventType { MOUSEPRESSED, MOUSERELEASED, MOUSEDRAGGED };
+
 struct SergeGUIEvent {
     int index = -1;
     float val = -1;
@@ -28,7 +37,8 @@ struct SergeGUIEvent {
     int radio = -1;
     int axis = -1;
     int dropdown_i = -1;
-    SergeGUIType type = KNOB;
+    SergeEventType eventType = MOUSEPRESSED;
+    SergeGUIType guiType = KNOB;
 };
 
 class SergeGUI {
@@ -51,7 +61,7 @@ public:
     virtual void draw(float xoff, float yoff, float ratio) {
 //        cout << "draw in base class\n";
     }
-    virtual void mousePressed(){
+    virtual void mousePressed(int mousex, int mousey, KeyModifiers &mods){
 //        cout << "mousePressed in base class\n";
     }
 
@@ -95,13 +105,14 @@ public:
         return d < (img.getWidth() * 0.5);
     }
     
-    bool dispatchEvent(SergeGUIType type){
+    bool dispatchEvent(SergeGUIType guiType, SergeEventType eventType){
         SergeGUIEvent event;
         event.index = index;
         event.val = val;
         event.param = param;
         event.radio = radio;
-        event.type = type;
+        event.guiType = guiType;
+        event.eventType = eventType;
         event.axis = axis;
         event.dropdown_i = dropdown_i;
         
@@ -124,8 +135,12 @@ public:
     void increment(float pixels){
         if(param != -1){
             val = ofClamp( val + (pixels * 0.005), 0.0, 1.0 );
-            dispatchEvent(KNOB);
+            dispatchEvent(KNOB,MOUSEDRAGGED);
         }
+    }
+    
+    void mousePressed(int mousex, int mousey, KeyModifiers &mods){
+        dispatchEvent(KNOB,MOUSEPRESSED);
     }
     
     void draw(float xoff, float yoff, float ratio){
@@ -159,9 +174,9 @@ public:
         }
     }
 
-    void mousePressed(){
+    void mousePressed(int mousex, int mousey, KeyModifiers &mods){
 //        cout << "led mousePressed\n";
-        dispatchEvent(LED);
+        dispatchEvent(LED,MOUSEPRESSED);
     }
 
     void mouseReleased(){
@@ -183,9 +198,9 @@ public:
         }
     }
 
-    void mousePressed(){
+    void mousePressed(int mousex, int mousey, KeyModifiers &mods){
         val = 1;
-        dispatchEvent(PUSH);
+        dispatchEvent(PUSH,MOUSEPRESSED);
     }
 
     void mouseReleased(){
@@ -204,27 +219,18 @@ public:
     
     vector<SergeDropdownOption> options;
     ofTrueTypeFont font;
+    int current_selection = 0;
     
     void setOptions(vector<string> options_){
         for(int i = 0; i < options_.size(); i++){
             SergeDropdownOption o;
-            o.name = options_[i];
+            o.name = options_[i].substr(0,10);
             options.push_back(o);
         }
     }
     
     void setFont(ofTrueTypeFont &font_){
         font = font_;
-    }
-    
-    // TODO: resolve the issue that there are two "mouse pressed" functions
-    /* TODO: when the nominal "mousePressed" function is called, it should check
-    immediately if the mouse is inside one of the options (to highlight it),
-     all it has to do is call the "windowMouseMoved" function, but right now
-     it can't do that because it doesn't know the xy of the window mouse position */
-    void mousePressed(){
-        val = !val;
-        cout << "x: " << x << "\ty: " << y << "\tradius: " << radius << endl;
     }
     
     void windowMouseMoved(int x, int y){
@@ -235,11 +241,22 @@ public:
         }
     }
     
-    void windowMousePressed(float x, float y){
+    // TODO: resolve the issue that there are two "mouse pressed" functions
+    /* TODO: when the nominal "mousePressed" function is called, it should check
+    immediately if the mouse is inside one of the options (to highlight it),
+     all it has to do is call the "windowMouseMoved" function, but right now
+     it can't do that because it doesn't know the xy of the window mouse position */
+    void mousePressed(int mousex, int mousey, KeyModifiers &modifiers){
+        val = !val;
+        cout << "x: " << x << "\ty: " << y << "\tradius: " << radius << endl;
+    }
+    
+    void windowMousePressed(float mousex, float mousey, KeyModifiers &modifiers){
         for(int i = 0; i < options.size(); i++){
             if(options[i].rect.inside(x,y)){
                 dropdown_i = i;
-                dispatchEvent(DROPDOWN);
+                dispatchEvent(DROPDOWN,MOUSEPRESSED);
+                current_selection = i;
                 val = 0;
                 
                 for(int i = 0; i < options.size(); i++){
@@ -273,6 +290,8 @@ public:
                 ofFill();
                 if(options[i].highlight){
                     ofSetColor(202,76,69);
+                } else if (i == current_selection){
+                    ofSetColor(96,161,207,255);
                 } else {
                     ofSetColor(255,255,255,255);
                 }
@@ -283,18 +302,20 @@ public:
                 ofNoFill();
                 ofSetColor(96,161,207,255);
                 ofDrawRectangle(options[i].rect);
-
+                
                 // draw the text over the top
                 ofFill();
                 ofSetColor(0,0,0);
                 
                 // drawing fonts different sizes: https://forum.openframeworks.cc/t/use-different-fonts/30011/4
                 float string_height = font.stringHeight(options[i].name);
-//                ofPushMatrix();
-                //ofScale(ratio);
-                font.drawStringAsShapes(options[i].name,x_zero + text_margin, y_zero + yoff_off + text_margin + string_height);
+                ofPushMatrix();
+                ofTranslate(x_zero, y_zero + yoff_off);
+                ofScale(ratio);
+                font.drawStringAsShapes(options[i].name,text_margin,string_height);
+//                font.drawStringAsShapes(options[i].name,x_zero + text_margin, y_zero + yoff_off + text_margin + string_height);
                 //ofDrawBitmapString(options[i], (-1 * radius  * ratio) + text_margin, yoff_off + text_margin);
-//                ofPopMatrix();
+                ofPopMatrix();
             }
         }
     }
