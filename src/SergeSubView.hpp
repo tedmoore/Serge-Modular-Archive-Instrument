@@ -176,7 +176,7 @@ public:
         }
     }
     
-    void updateParamGuis(vector<double> &params){
+    void updateParamGuis(const vector<double> &params){
         for(int i = 0; i < guis.size(); i++){
             if(guis[i]->param >= 0){
                 

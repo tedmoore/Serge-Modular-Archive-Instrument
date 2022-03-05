@@ -11,6 +11,7 @@
 #include "ofxMidi.h"
 #include "SergeSubView.hpp"
 #include "thirdparty/nlohmann/json.hpp"
+#include "ChangedAware.hpp"
 
 class ofApp : public ofBaseApp, public ofxMidiListener {
 
@@ -36,7 +37,7 @@ public:
     void gotMessage(ofMessage msg);
     void drawPlot(bool buildKDTree);
     void find_nearest_xy();
-    void find_nearest_param(vector<double> &p);
+    void find_nearest_param(const vector<double> &p);
     bool mouseInPlot(int x, int y);
     void audioOut(float *output, int bufferSize, int nChannels);
     void setPlayingIndex(size_t index, bool updateSliders);
@@ -100,8 +101,9 @@ public:
 
     ofxOscReceiver osc_receiver;
 
-    vector<double> hid_xy = {0,0};
-    vector<double> params_state = {0.5,0.5,0.5,0.5};
+    ChangedAware hid_xy;
+    ChangedAware params_state;
+    
     int tkb_param_knobs[4] = {1,25,42,43};
 
     // MIDI
