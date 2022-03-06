@@ -205,12 +205,12 @@ void ofApp::update(){
     if(loaded){
         processOSC();
         
-        if(params_state.changed){
-            find_nearest_param(params_state.get());
-            params_state.changed = false;
-        } else if (hid_xy.changed){
+        if (hid_xy.changed){
             find_nearest_xy();
             hid_xy.changed = false;
+        } else if(params_state.changed){
+            find_nearest_param(params_state.get());
+            params_state.changed = false;
         }
         
     } else {
