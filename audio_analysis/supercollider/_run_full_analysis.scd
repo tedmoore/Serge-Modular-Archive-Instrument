@@ -44,10 +44,18 @@ f_r = {
 f_r.(files);
 )
 
-// (
-// "06 compile datasets.scd".loadRelative[0].(
-// 	"/Applications/of_v0.11.2_osx_release/apps/myApps/serge_01/audio_analysis/analyses/210322_124317/220306_005014/",
-// 	"/Applications/of_v0.11.2_osx_release/apps/myApps/serge_01/audio_analysis/serge_patch_recordings/210322_124317/",
-// 	{"------- done".postln;}
-// );
-// )
+/*(
+var toOF = "16_create_data_file_for_oF.scd".loadRelative[0];
+toOF.("/Applications/of_v0.11.2_osx_release/apps/myApps/serge_01/audio_analysis/analyses/210306_181449/220306_011542/220306_012623_master_datasets/220306_012744_pca/220306_013155_umap/",{
+	"=============== done ===============".postln;
+})
+)*/
+
+(
+var compile_datasets = "06 compile datasets.scd".loadRelative[0];
+compile_datasets.(
+	"/Applications/of_v0.11.2_osx_release/apps/myApps/serge_01/audio_analysis/analyses/210306_181449/220306_011542/",
+	"/Applications/of_v0.11.2_osx_release/apps/myApps/serge_01/audio_analysis/serge_patch_recordings/210306_181449/",
+	{"=============== done ===============".postln;}
+);
+)

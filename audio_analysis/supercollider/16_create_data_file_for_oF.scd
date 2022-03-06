@@ -29,6 +29,10 @@
 		dsq.addRange(0,2);
 		dsq.transformJoin(dimred2d_ds,loc_ds,output_ds);
 
+		s.sync;
+		"======== DATASET (5 dims): location :: umap".postln;
+		output_ds.print;
+
 		// read from disk the original dataset
 		og_ds.read(og_ds_path);
 
@@ -40,6 +44,10 @@
 		};
 		dsq.transform(og_ds,og_ds);
 
+		s.sync;
+		"======== DATASET (5 dims): og".postln;
+		og_ds.print;
+
 		// normalize og dataset
 		normer.fitTransform(og_ds,og_ds);
 
@@ -48,6 +56,10 @@
 		dsq.addRange(0,select_cols.size);
 		dsq.transformJoin(og_ds,output_ds,output_ds);
 
+		s.sync;
+		"======== DATASET (10 dims): location:: umap :: og (5 desc)".postln;
+		output_ds.print;
+
 		// load params ds
 		params_ds.read(params_ds_path);
 
@@ -55,12 +67,18 @@
 
 		params_ds.cols({
 			arg cols;
+
+			"params ds has % cols".format(cols).postln;
+
 			dsq.clear();
 			dsq.addRange(0,cols);
 			dsq.transformJoin(params_ds,output_ds,output_ds);
 
 			outfolder.mkdir;
-			// output_ds.print;
+
+			"======== DATASET (14 dims): umap :: location :: og (5 desc) :: params".postln;
+			output_ds.print;
+
 			output_ds.toBuffer(outbuf,action:{
 				fork{
 					outbuf.write(outfolder+/+"temp_buf.wav","wav","float");

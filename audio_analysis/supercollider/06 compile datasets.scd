@@ -16,10 +16,7 @@
 			pn.fullPath.contains("synthesis_params.csv");
 		})[0].fullPath;
 
-		var synth_params = CSVFileReader.read(synth_params_path).collect({
-			arg line;
-			line[1..].collect(_.interpret);
-		});
+		var synth_params = CSVFileReader.readInterpret(synth_params_path);
 		var master_params_ds_dict = Dictionary.newFrom(["cols",synth_params[0].size,"data",Dictionary.new]);
 		var master_loc_ds_dict = Dictionary.newFrom(["cols",3,"data",Dictionary.new]);
 
@@ -72,13 +69,15 @@
 		new_folder = analysis_folder+/+"%_master_datasets".format(stamp);
 		File.mkdir(new_folder);
 
-		"analysis folder:   %".format(analysis_folder).postln;
-		"audio folder:      %".format(audio_folder).postln;
-		"audio_paths:       %".format(audio_paths).postln;
-		"analysis_paths:    %".format(analysis_paths).postln;
-		"loc_paths:         %".format(loc_paths).postln;
-		"synth_params_path: %".format(synth_params_path).postln;
-		"new folder:        %".format(new_folder).postln;
+		"analysis folder:    %".format(analysis_folder).postln;
+		"audio folder:       %".format(audio_folder).postln;
+		"audio_paths:        %".format(audio_paths).postln;
+		"analysis_paths:     %".format(analysis_paths).postln;
+		"loc_paths:          %".format(loc_paths).postln;
+		"synth_params_path:  %".format(synth_params_path).postln;
+		"synth params shape: %".format(synth_params.shape).postln;
+		"synth params:       %".format(synth_params).postln;
+		"new folder:         %".format(new_folder).postln;
 
 		// merge analyses and create ds for params along the way;
 		analysis_paths.do({
