@@ -7,7 +7,7 @@
 
 #include "SergeEnv.hpp"
 
-void SergeEnv::setup(int durSamples){
+void SergeEnv::setup(float durSamples){
     dur = durSamples;
     value = 0;
 }

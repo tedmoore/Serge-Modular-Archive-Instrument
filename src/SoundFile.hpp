@@ -20,19 +20,22 @@ public:
         samplerate = samplerate_;
         path = path_;
         fade_dur_samps = samplerate * 0.05;
-        env[0].setup(fade_dur_samps);
-        env[1].setup(fade_dur_samps);
+        for(int i = 0; i < n_players; i++){
+            env[i].setup(fade_dur_samps);
+        }
         masterEnv.setup(fade_dur_samps);
     }
     float tick();
-    void setPosGate(int sample, int n_frames_, int gate);
+    void setPosGate(int sample, int n_frames_, float gate);
     void flipPlayer();
     void threadedFunction();
     
     ofxAudioFile audiofile;
     
-    unsigned long playIndices[2] = {0,0};
-    
+    int n_players = 6;
+    unsigned long playIndices[6];
+    SergeEnv env[6];
+
     int samplerate;
     string path;
     int playingIndex = 0;
@@ -40,19 +43,18 @@ public:
     int fade_dur_samps;
     int startPoint;
     
-    SergeEnv env[2];
     SergeEnv masterEnv;
 };
 
 inline float SoundFile::tick(){
     float output = 0;
-    
-    for(int i = 0; i < 2; i++){
-        if(playIndices[i] >= audiofile.length()) playIndices[i] = 0;
-        output += audiofile.sample(playIndices[i]++,0) * env[i].tick();
         
-        if(playIndices[playingIndex] >= endPoint) flipPlayer();
+    for(int i = 0; i < n_players; i++){
+        if(playIndices[i] >= audiofile.length()) playIndices[i] = 0;
+        
+        output += audiofile.sample(playIndices[i]++,0) * env[i].tick();
     }
+    if(playIndices[playingIndex] >= endPoint) flipPlayer();
     
     output *= masterEnv.tick();
     
@@ -60,12 +62,12 @@ inline float SoundFile::tick(){
 }
 
 inline void SoundFile::flipPlayer(){
-    env[playingIndex].setTarget(0);
+    env[playingIndex].setTarget(0.f);
     
-    playingIndex = 1 - playingIndex;
+    playingIndex = (playingIndex + 1) % n_players;
     
     playIndices[playingIndex] = startPoint;
-    env[playingIndex].setTarget(1);
+    env[playingIndex].setTarget(1.f);
 }
 
 #endif /* SoundFile_hpp */

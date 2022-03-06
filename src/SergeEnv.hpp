@@ -15,15 +15,13 @@ enum EnvPosition {STILL, UP, DOWN};
 
 class SergeEnv{
 public:
-//    SergeEnv();
-//    ~SergeEnv();
-    void setup(int durSamples);
+    void setup(float durSamples);
     float tick();
     void setTarget(float target_);
     void setValue(float value_);
     
     float target = 0;
-    int dur; // in samples (ticks)
+    float dur; // in samples (ticks)
     float value;
     float rate;
     EnvPosition mode = STILL;

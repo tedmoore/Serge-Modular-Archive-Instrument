@@ -40,6 +40,9 @@ void ofApp::setupSkeuomorph(){
 
     skeuomorph_window_width = ofGetScreenWidth() / 2;
     skeuomorph_window_height = 1972; // If this is not hard coded, it displays incorrectly. I had tried ofGetScreenHeight(), and even tried to offset for the menu bar, but it would always display incorrectly.
+    
+    hid_xy.resize(2);
+    params_state.resize(nParams);
 }
 
 void ofApp::setup(){
@@ -134,8 +137,7 @@ void ofApp::knobCallback(const SergeGUIEvent event){
         // midi_manager
     } else {
         if(event.param != -1){
-            params_state[event.param] = event.val;
-            find_nearest_param(params_state);
+            params_state.setAt(event.param,event.val);
         }
     }
 }
@@ -151,6 +153,11 @@ void ofApp::audioOut(float *output, int bufferSize, int nChannels){
             }
         }
     }
+    
+//    for(int i = 0; i < soundFiles[0].n_players; i++){
+//        cout << soundFiles[0].env[i].value << " ";
+//    }
+//    cout << endl;
 }
 
 void ofApp::find_nearest_xy(){
@@ -158,15 +165,15 @@ void ofApp::find_nearest_xy(){
     vector<size_t> indexes;
     vector<double> dists;
 
-    kdTree_2d.getKNN(hid_xy, 1, indexes, dists);
+    kdTree_2d.getKNN(hid_xy.get(), 1, indexes, dists);
 
     setPlayingIndex(indexes[0],true);
 }
 
-void ofApp::find_nearest_param(vector<double> &p){
+void ofApp::find_nearest_param(const vector<double> &p){
     vector<size_t> indexes;
     vector<double> distances;
-    kdTree_params.getKNN(params_state,1, indexes, distances);
+    kdTree_params.getKNN(params_state.get(),1, indexes, distances);
     setPlayingIndex(indexes[0],false);
 }
 
@@ -179,15 +186,17 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
         int n_frames = slices[playing_index]->values[2];
                 
         for(int i = 0; i < n_soundFiles; i++){
-            soundFiles[i].setPosGate(start_frame,n_frames,file == i);
+            float gate = 0.f;
+            if(i == file) gate = 1.f;
+            soundFiles[i].setPosGate(start_frame,n_frames,gate);
         }
         
         for(int i = 0; i < 4; i++){
-            params_state[i] = slices[playing_index]->values[10 + i];
+            params_state.setAt(i,slices[playing_index]->values[10 + i]);
         }
         
-        tkb.updateParamGuis(params_state);
-        three_panel.updateParamGuis(params_state);
+        tkb.updateParamGuis(params_state.get());
+        three_panel.updateParamGuis(params_state.get());
     }
 }
 
@@ -195,6 +204,14 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
 void ofApp::update(){
     if(loaded){
         processOSC();
+        
+        if (hid_xy.changed){
+            find_nearest_xy();
+            hid_xy.changed = false;
+        } else if(params_state.changed){
+            find_nearest_param(params_state.get());
+            params_state.changed = false;
+        }
         
     } else {
         int sum = 0;
@@ -217,19 +234,17 @@ void ofApp::processOSC(){
         string address = oscMsg.getAddress();
 
         if(address == "/x"){
-            hid_xy[0] = oscMsg.getArgAsFloat(0);
-            find_nearest_xy();
+            hid_xy.setAt(0,oscMsg.getArgAsFloat(0));
         } else if (address == "/y"){
-            hid_xy[1] = 1.f - oscMsg.getArgAsFloat(0);
-            find_nearest_xy();
+            hid_xy.setAt(1,1.f - oscMsg.getArgAsFloat(0));
         } else if (address == "/param1"){
-            params_state[0] = oscMsg.getArgAsFloat(0);
+            params_state.setAt(0,oscMsg.getArgAsFloat(0));
         } else if (address == "/param2"){
-            params_state[1] = oscMsg.getArgAsFloat(0);
+            params_state.setAt(1,oscMsg.getArgAsFloat(0));
         } else if (address == "/param3"){
-            params_state[2] = oscMsg.getArgAsFloat(0);
+            params_state.setAt(2,oscMsg.getArgAsFloat(0));
         } else if (address == "/param4"){
-            params_state[3] = oscMsg.getArgAsFloat(0);
+            params_state.setAt(3,oscMsg.getArgAsFloat(0));
         }
     }
 }
@@ -388,9 +403,8 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 void ofApp::processIncomingMouseXY(int x, int y){
     if(mouseInPlot(x,y) && !tkb.hasMouseCaptured()){
-        hid_xy[0] = (double(x) - plot_x) / plot_w;
-        hid_xy[1] = (double(y) - plot_y) / plot_h;
-        find_nearest_xy();
+        hid_xy.setAt(0,(double(x) - plot_x) / plot_w);
+        hid_xy.setAt(1,(double(y) - plot_y) / plot_h);
     }
 }
 
@@ -449,13 +463,11 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
     int learned_midi = midi_manager.processIncomingMIDI(msg.channel,msg.control);
 
     if(learned_midi == 0){
-        hid_xy[0] = msg.value / 127.f;
-        find_nearest_xy();
+        hid_xy.setAt(0,msg.value / 127.f);
     } else if (learned_midi == 1){
-        hid_xy[1] = 1.f - (msg.value / 127.f);
-        find_nearest_xy();
+        hid_xy.setAt(1,1.f - (msg.value / 127.f));
     } else if(learned_midi < 6 && learned_midi > 1){
-        params_state[learned_midi - 2] = msg.value / 127.f;
+        params_state.setAt(learned_midi - 2,msg.value / 127.f);
     }
 }
 

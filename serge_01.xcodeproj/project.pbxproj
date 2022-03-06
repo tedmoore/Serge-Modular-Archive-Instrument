@@ -14,6 +14,7 @@
 		1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 907C5B5E104864A2D3A25745 /* ofxToggle.cpp */; };
 		280EB357278BF91C00DEDD58 /* SergeRadio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 280EB355278BF91B00DEDD58 /* SergeRadio.cpp */; };
 		285A456A2772BCB5002E99B5 /* MIDIManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 285A45682772BCB5002E99B5 /* MIDIManager.cpp */; };
+		285C051227D31749006D9800 /* ChangedAware.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 285C051027D31749006D9800 /* ChangedAware.cpp */; };
 		2863178A27764A8C0032C5DD /* SergeSubView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2863178827764A8C0032C5DD /* SergeSubView.cpp */; };
 		28E466D2278A57640036525D /* SergeKnob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28E466D0278A57640036525D /* SergeKnob.cpp */; };
 		3AEFE4FA8AD5C72671AD07F8 /* ofxRtMidiOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 712B183BC00EBFFB1EEA5AB8 /* ofxRtMidiOut.cpp */; };
@@ -105,6 +106,8 @@
 		2834D88A62CD23F3DE2C47D1 /* ofxButton.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ofxButton.h; path = ../../../addons/ofxGui/src/ofxButton.h; sourceTree = SOURCE_ROOT; };
 		285A45682772BCB5002E99B5 /* MIDIManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MIDIManager.cpp; sourceTree = "<group>"; };
 		285A45692772BCB5002E99B5 /* MIDIManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MIDIManager.hpp; sourceTree = "<group>"; };
+		285C051027D31749006D9800 /* ChangedAware.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChangedAware.cpp; sourceTree = "<group>"; };
+		285C051127D31749006D9800 /* ChangedAware.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ChangedAware.hpp; sourceTree = "<group>"; };
 		2863178827764A8C0032C5DD /* SergeSubView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SergeSubView.cpp; sourceTree = "<group>"; };
 		2863178927764A8C0032C5DD /* SergeSubView.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SergeSubView.hpp; sourceTree = "<group>"; };
 		28E466D0278A57640036525D /* SergeKnob.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SergeKnob.cpp; sourceTree = "<group>"; };
@@ -1163,22 +1166,24 @@
 			isa = PBXGroup;
 			children = (
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
-				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
-				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
-				1B8A0F0FF57B4261AC6A4D97 /* SergeEnv.cpp */,
-				4833A705E588CAF1939E185B /* SoundSlice.cpp */,
-				0A2C2060E8869CEA856ED78F /* SoundSlice.hpp */,
 				285A45682772BCB5002E99B5 /* MIDIManager.cpp */,
+				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
+				1B8A0F0FF57B4261AC6A4D97 /* SergeEnv.cpp */,
+				28E466D0278A57640036525D /* SergeKnob.cpp */,
+				280EB355278BF91B00DEDD58 /* SergeRadio.cpp */,
+				2863178827764A8C0032C5DD /* SergeSubView.cpp */,
+				120716F19DF9FF7C016649E8 /* SoundFile.cpp */,
+				4833A705E588CAF1939E185B /* SoundSlice.cpp */,
+				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				285A45692772BCB5002E99B5 /* MIDIManager.hpp */,
 				49626876B7135C66F09C8A6F /* SergeEnv.hpp */,
-				2863178827764A8C0032C5DD /* SergeSubView.cpp */,
-				2863178927764A8C0032C5DD /* SergeSubView.hpp */,
-				28E466D0278A57640036525D /* SergeKnob.cpp */,
 				28E466D1278A57640036525D /* SergeKnob.hpp */,
-				F20B91491823E7D1AC897970 /* SoundFile.hpp */,
-				120716F19DF9FF7C016649E8 /* SoundFile.cpp */,
-				280EB355278BF91B00DEDD58 /* SergeRadio.cpp */,
 				280EB356278BF91B00DEDD58 /* SergeRadio.hpp */,
+				2863178927764A8C0032C5DD /* SergeSubView.hpp */,
+				F20B91491823E7D1AC897970 /* SoundFile.hpp */,
+				285C051027D31749006D9800 /* ChangedAware.cpp */,
+				285C051127D31749006D9800 /* ChangedAware.hpp */,
+				0A2C2060E8869CEA856ED78F /* SoundSlice.hpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -1345,6 +1350,7 @@
 				D3C1C48E59CAA2D68C0DD477 /* ofxDatGuiComponent.cpp in Sources */,
 				9CF4130A7E6DA19A3DC42B9A /* ofxSmartFont.cpp in Sources */,
 				C9466C434D1CF8AB968D298D /* ofxDatGui.cpp in Sources */,
+				285C051227D31749006D9800 /* ChangedAware.cpp in Sources */,
 				856AA354D08AB4B323081444 /* ofxBaseGui.cpp in Sources */,
 				5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */,
 				853E0BA2F448076739446874 /* ofxColorPicker.cpp in Sources */,

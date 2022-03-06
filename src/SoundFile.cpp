@@ -22,9 +22,9 @@ void SoundFile::threadedFunction(){
 //    cout << "audio file sample: " << audiofile.sample(0,0) << endl;
 }
 
-void SoundFile::setPosGate(int sample, int n_frames_, int gate){
+void SoundFile::setPosGate(int sample, int n_frames_, float gate){
     startPoint = sample;
     endPoint = sample + (n_frames_ - fade_dur_samps);
-    masterEnv.setValue(gate);
+    masterEnv.setTarget(gate);
     flipPlayer();
 }
