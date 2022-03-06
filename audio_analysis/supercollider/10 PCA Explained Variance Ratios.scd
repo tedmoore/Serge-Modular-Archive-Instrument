@@ -1,6 +1,7 @@
 {
 	arg compiled_dataset_folder, action;
 	var find_variance = "11 find 95pct variance.scd".loadRelative[0];
+	s.reboot;
 	s.waitForBoot{
 		fork{
 			var ds_path = compiled_dataset_folder+/+"analysis.json";

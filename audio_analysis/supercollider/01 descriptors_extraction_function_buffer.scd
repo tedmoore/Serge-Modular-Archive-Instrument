@@ -21,7 +21,13 @@
 		arg featuresBuf,statsBuf,flatBuf,masterBuf,masterBufOffset_frames,masterBuf_channel,numDerivs=2;
 		FluidBufStats.processBlocking(featuresBuf.server,featuresBuf,stats:statsBuf,numDerivs:numDerivs-1);
 		FluidBufFlatten.processBlocking(featuresBuf.server,statsBuf,destination:flatBuf);
-		FluidBufCompose.processBlocking(featuresBuf.server,flatBuf,destination:masterBuf,destStartFrame:masterBufOffset_frames,destStartChan:masterBuf_channel);
+		FluidBufCompose.processBlocking(
+			featuresBuf.server,
+			flatBuf,
+			destination:masterBuf,
+			destStartFrame:masterBufOffset_frames,
+			destStartChan:masterBuf_channel
+		);
 	};
 	var analyze = {
 		arg id, start_frame, num_frames, buf, featuresBuf,statsBuf, flatBuf,finalBuf,masterBuf_channel;
@@ -64,7 +70,9 @@
 		sub_arrays[i % n_servers].add(pt);
 	});
 
-	// server_options.device_("Fireface UC Mac (24006457)");
+	server_options.inDevice_("MacBook Pro Microphone");
+	server_options.outDevice_("MacBook Pro Speakers");
+	server_options.sampleRate_(44100);
 
 	"full array size: %".format(full_array.size).postln;
 	sub_arrays.do({arg sa; "\tsub array size: %".format(sa.size).postln});

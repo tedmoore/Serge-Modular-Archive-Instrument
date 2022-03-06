@@ -1,5 +1,6 @@
 {
 	arg analysis_folder, audio_folder, action;
+	s.reboot;
 	s.waitForBoot{
 		var master_analysis_ds = FluidDataSet(s);
 		var master_loc_ds = FluidDataSet(s);
@@ -9,8 +10,8 @@
 		var current_params_offset = 0;
 		var cond0, new_folder, stamp = Date.localtime.stamp;
 
-		var audio_paths = SelectFiles(audio_folder,['wav'],recursive:false,verbose:true);
-		var synth_params_path = PathName(audio_folder).files.select({
+		var audio_paths = SelectFiles(audio_folder.withTrailingSlash,['wav'],recursive:false,verbose:true);
+		var synth_params_path = PathName(audio_folder.withTrailingSlash).files.select({
 			arg pn;
 			pn.fullPath.contains("synthesis_params.csv");
 		})[0].fullPath;
@@ -22,7 +23,7 @@
 		var master_params_ds_dict = Dictionary.newFrom(["cols",synth_params[0].size,"data",Dictionary.new]);
 		var master_loc_ds_dict = Dictionary.newFrom(["cols",3,"data",Dictionary.new]);
 
-		var analysis_paths = PathName(analysis_folder).folders.collect{
+		var analysis_paths = PathName(analysis_folder.withTrailingSlash).folders.collect{
 			arg pn;
 			pn.postln;
 			PathName(pn.fullPath+/+"ds").files.collect{
@@ -32,7 +33,7 @@
 			};
 		};
 
-		var loc_paths = PathName(analysis_folder).folders.collect{
+		var loc_paths = PathName(analysis_folder.withTrailingSlash).folders.collect{
 			arg pn;
 			pn.postln;
 			PathName(pn.fullPath+/+"loc_ds").files.collect{
@@ -70,6 +71,14 @@
 
 		new_folder = analysis_folder+/+"%_master_datasets".format(stamp);
 		File.mkdir(new_folder);
+
+		"analysis folder:   %".format(analysis_folder).postln;
+		"audio folder:      %".format(audio_folder).postln;
+		"audio_paths:       %".format(audio_paths).postln;
+		"analysis_paths:    %".format(analysis_paths).postln;
+		"loc_paths:         %".format(loc_paths).postln;
+		"synth_params_path: %".format(synth_params_path).postln;
+		"new folder:        %".format(new_folder).postln;
 
 		// merge analyses and create ds for params along the way;
 		analysis_paths.do({

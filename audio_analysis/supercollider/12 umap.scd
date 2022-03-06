@@ -1,5 +1,6 @@
 {
 	arg pca_folder, numDimensions = 2, numNeighbors = 30, minDist = 1, iterations = 200, learnRate = 0.1, action;
+	s.reboot;
 	s.waitForBoot{
 		var umap = FluidUMAP(s,numDimensions,numNeighbors,minDist,iterations,learnRate);
 		var normer = FluidNormalize(s);
