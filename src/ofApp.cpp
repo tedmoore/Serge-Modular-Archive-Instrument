@@ -13,9 +13,8 @@ void ofApp::loadDirectory(string path){
     
     for(int i = 0; i < files.size(); i++){
         if(files[i].getExtension() == "wav"){
-            soundFiles[n_soundFiles].setup(files[i].getAbsolutePath(),SAMPLERATE);
-            soundFiles[n_soundFiles].startThread();
-            n_soundFiles++;
+            soundFiles.push_back(move(unique_ptr<SoundFile>(new SoundFile)));
+            soundFiles.back()->setup(files[i].getAbsolutePath(),SAMPLERATE);
         } else if(files[i].getExtension() == "csv") {
             readSoundSlicesData(files[i].getAbsolutePath());
         }
@@ -145,8 +144,8 @@ void ofApp::knobCallback(const SergeGUIEvent event){
 void ofApp::audioOut(float *output, int bufferSize, int nChannels){
     if(loaded){
         for(int i = 0; i < bufferSize; i++){
-            for(int k = 0; k < n_soundFiles; k++){
-                float val = soundFiles[k].tick();
+            for(int k = 0; k < soundFiles.size(); k++){
+                float val = soundFiles[k]->tick();
                 for(int j = 0; j < nChannels; j++){
                     output[(i * nChannels) + j] += val;
                 }
@@ -185,10 +184,10 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
         int start_frame = slices[playing_index]->values[1];
         int n_frames = slices[playing_index]->values[2];
                 
-        for(int i = 0; i < n_soundFiles; i++){
+        for(int i = 0; i < soundFiles.size(); i++){
             float gate = 0.f;
             if(i == file) gate = 1.f;
-            soundFiles[i].setPosGate(start_frame,n_frames,gate);
+            soundFiles[i]->setPosGate(sstart_frame,n_frames,gate);
         }
         
         for(int i = 0; i < 4; i++){
@@ -215,8 +214,8 @@ void ofApp::update(){
         
     } else {
         int sum = 0;
-        for(int i = 0; i < n_soundFiles; i++){
-            sum += soundFiles[i].isThreadRunning();
+        for(int i = 0; i < soundFiles.size(); i++){
+            sum += soundFiles[i]->isThreadRunning();
         }
         if(sum == 0){
             loaded = true;

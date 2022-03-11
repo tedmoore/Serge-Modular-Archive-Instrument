@@ -89,8 +89,7 @@ public:
 
     ofxKDTree kdTree_params;
 
-    int n_soundFiles = 0;
-    SoundFile soundFiles[10];
+    vector<unique_ptr<SoundFile>> soundFiles;
 
     int playing_index = -1;
 

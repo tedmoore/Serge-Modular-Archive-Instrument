@@ -24,6 +24,7 @@ public:
             env[i].setup(fade_dur_samps);
         }
         masterEnv.setup(fade_dur_samps);
+        startThread();
     }
     float tick();
     void setPosGate(int sample, int n_frames_, float gate);
