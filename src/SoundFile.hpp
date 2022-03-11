@@ -27,15 +27,41 @@ public:
         startThread();
     }
     float tick();
-    void setPosGate(int sample, int n_frames_, float gate);
     void flipPlayer();
-    void threadedFunction();
+    
+    void threadedFunction(){
+        if(ofFile::doesFileExist(path)){
+            audiofile.load(path);
+            if (!audiofile.loaded()){
+                ofLogError() << "error loading file, double check the file path";
+            }else{
+                cout << "successfully loaded " << path << endl;
+            }
+        } else {
+            ofLogError() << "error loading file, file path does not exist";
+        }
+    }
+
+    void setPosGate(int sample, int n_frames_, int gate){
+        
+        if(gate){
+            startPoint = sample;
+            endPoint = sample + (n_frames_ - fade_dur_samps);
+        }
+        
+        masterEnv.setTarget(gate);
+        flipPlayer();
+    }
+    
+    void post(){
+        cout << startPoint << " \t" << endPoint << " \t" << masterEnv.target << endl;
+    }
     
     ofxAudioFile audiofile;
     
-    int n_players = 6;
-    unsigned long playIndices[6];
-    SergeEnv env[6];
+    int n_players = 4;
+    unsigned long playIndices[4];
+    SergeEnv env[4];
 
     int samplerate;
     string path;

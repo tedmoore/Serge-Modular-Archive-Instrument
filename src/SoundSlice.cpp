@@ -42,6 +42,7 @@ vector<double> SoundSlice::draw(int x_off, int y_off, int width, int height, int
 
 void SoundSlice::post(){
     for(int i = 0; i < values.size(); i++){
-        cout << values[i] << endl;
+        cout << values[i] << " ";
     }
+    cout << endl;
 }

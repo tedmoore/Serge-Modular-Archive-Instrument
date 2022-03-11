@@ -33,12 +33,14 @@ void inline SergeEnv::setValue(float value_){
 }
 
 void inline SergeEnv::setTarget(float target_){
-    target = target_;
-    
-    rate = fabs(target - value) / dur;
-    
-    if(target > value) mode = UP;
-    if(target < value) mode = DOWN;
+    if(target_ != value){
+        target = target_;
+        
+        rate = fabs(target - value) / dur;
+        
+        if(target > value) mode = UP;
+        if(target < value) mode = DOWN;
+    }
 }
 
 float inline SergeEnv::tick(){

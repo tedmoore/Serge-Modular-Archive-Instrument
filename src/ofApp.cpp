@@ -13,6 +13,7 @@ void ofApp::loadDirectory(string path){
     
     for(int i = 0; i < files.size(); i++){
         if(files[i].getExtension() == "wav"){
+//            cout << "loading " << files[i].getAbsolutePath() << endl;
             soundFiles.push_back(move(unique_ptr<SoundFile>(new SoundFile)));
             soundFiles.back()->setup(files[i].getAbsolutePath(),SAMPLERATE);
         } else if(files[i].getExtension() == "csv") {
@@ -24,7 +25,8 @@ void ofApp::loadDirectory(string path){
 }
 
 void ofApp::setupSkeuomorph(){
-            
+    cout.precision(12);
+    
     guiItems.font.load(ofToDataPath("OpenSans-Light.ttf"), 16,true,true,true,0.f);
     guiItems.knob.load(ofToDataPath("images/Serge Gui Layout (2022)/DAVIES_KNOB.png"));
     guiItems.illumination.load(ofToDataPath("images/Serge Gui Layout (2022)/KNOB_ILLUMINATION.png"));
@@ -152,11 +154,6 @@ void ofApp::audioOut(float *output, int bufferSize, int nChannels){
             }
         }
     }
-    
-//    for(int i = 0; i < soundFiles[0].n_players; i++){
-//        cout << soundFiles[0].env[i].value << " ";
-//    }
-//    cout << endl;
 }
 
 void ofApp::find_nearest_xy(){
@@ -184,11 +181,16 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
         int start_frame = slices[playing_index]->values[1];
         int n_frames = slices[playing_index]->values[2];
                 
+//        cout << "switching to file: " << file << endl;
+        
         for(int i = 0; i < soundFiles.size(); i++){
-            float gate = 0.f;
-            if(i == file) gate = 1.f;
-            soundFiles[i]->setPosGate(sstart_frame,n_frames,gate);
+            int gate = 0;
+            if(i == file) gate = 1;
+            soundFiles[i]->setPosGate(start_frame,n_frames,gate);
+//            cout << "\tfile " << i << " "; soundFiles[i]->post();
         }
+        
+//        cout << endl;
         
         for(int i = 0; i < 4; i++){
             params_state.setAt(i,slices[playing_index]->values[10 + i]);
@@ -196,6 +198,8 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
         
         tkb.updateParamGuis(params_state.get());
         three_panel.updateParamGuis(params_state.get());
+        
+//        slices[playing_index]->post();
     }
 }
 
@@ -313,7 +317,6 @@ void ofApp::gui_keyPressed(ofKeyEventArgs& args){
 }
 
 void ofApp::masterKeyPressed(int key){
-//    cout << "key pressed " << key << "\n";
     // 3680 shift
     // 3682 control
     // 3684 option
@@ -345,7 +348,6 @@ void ofApp::gui_keyReleased(ofKeyEventArgs& args){
 }
 
 void ofApp::masterKeyReleased(int key){
-//    cout << "key released " << key << "\n";
     switch(key){
         case 3680:
             keyModifiers.shift = false;
@@ -364,12 +366,10 @@ void ofApp::masterKeyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-//    cout << "mouse moved: " << x << " " << y << endl;
     tkb.windowMouseMoved(x,y);
 }
 
 void ofApp::gui_mousePressed(ofMouseEventArgs& args){
-//    cout << "mouse pressed in gui window: " << args.x << " " << args.y << endl;
     three_panel.windowMousePressed(args.x,args.y,keyModifiers);
 }
 
