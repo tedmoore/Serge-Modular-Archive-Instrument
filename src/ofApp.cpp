@@ -67,9 +67,6 @@ void ofApp::setup(){
     // MIDI
     midi_manager.setup();
 
-    // print input ports to console
-//    midiIn.listInPorts();
-
     // open port by number (you may need to change this)
     midiIn.openPort(0);
     
@@ -79,9 +76,6 @@ void ofApp::setup(){
 
     // add ofApp as a listener
     midiIn.addListener(this);
-
-    // print received messages to the console
-//    midiIn.setVerbose(true);
 
     // =========== GRAPHICS ================
 	tkb.setDropdownOptions(midiIn.getInPortList());    
@@ -131,11 +125,16 @@ void ofApp::guiCallback(const SergeGUIEvent event){
 
 void ofApp::knobCallback(const SergeGUIEvent event){
     // if command is held, it's a mouse press, and this knob actually controls something:
+    
+    cout << "key modifier command: " << keyModifiers.command << endl;
+    cout << "event type:           " << event.eventType << endl;
+    cout << "event param:          " << event.param << endl;
+    cout << endl;
+    
     if(keyModifiers.command && (event.eventType == MOUSEPRESSED) && (event.param != -1)){
-        // TODO: implement midi learn via command+click
-        // we know which param it is meant to control
-        // but it's a little tricky because x = 0, y = 1, and param i = param i+2
-        // midi_manager
+        midi_manager.waitForAssignment(event.param);
+    } else if(keyModifiers.shift && (event.eventType == MOUSEPRESSED) && (event.param != -1)){
+        midi_manager.removeAssignment(event.param);
     } else {
         if(event.param != -1){
             params_state.setAt(event.param,event.val);
@@ -180,17 +179,12 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
         int file = slices[playing_index]->values[0];
         int start_frame = slices[playing_index]->values[1];
         int n_frames = slices[playing_index]->values[2];
-                
-//        cout << "switching to file: " << file << endl;
-        
+                        
         for(int i = 0; i < soundFiles.size(); i++){
             int gate = 0;
             if(i == file) gate = 1;
             soundFiles[i]->setPosGate(start_frame,n_frames,gate);
-//            cout << "\tfile " << i << " "; soundFiles[i]->post();
         }
-        
-//        cout << endl;
         
         for(int i = 0; i < 4; i++){
             params_state.setAt(i,slices[playing_index]->values[10 + i]);
@@ -198,8 +192,6 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
         
         tkb.updateParamGuis(params_state.get());
         three_panel.updateParamGuis(params_state.get());
-        
-//        slices[playing_index]->post();
     }
 }
 
@@ -312,17 +304,17 @@ void ofApp::keyPressed(int key){
     masterKeyPressed(key);
 }
 
-void ofApp::gui_keyPressed(ofKeyEventArgs& args){
+void ofApp::skeuomorphKeyPressed(ofKeyEventArgs& args){
     masterKeyPressed(args.key);
 }
 
 void ofApp::masterKeyPressed(int key){
-    // 3680 shift
-    // 3682 control
-    // 3684 option
-    // 3686 command
+//    cout << "master key pressed " << key << endl;
     switch(key){
         case 3680:
+            keyModifiers.shift = true;
+            break;
+        case 3681:
             keyModifiers.shift = true;
             break;
         case 3682:
@@ -331,7 +323,13 @@ void ofApp::masterKeyPressed(int key){
         case 3684:
             keyModifiers.option = true;
             break;
+        case 3685:
+            keyModifiers.option = true;
+            break;
         case 3686:
+            keyModifiers.command = true;
+            break;
+        case 3687:
             keyModifiers.command = true;
             break;
     }
@@ -343,7 +341,7 @@ void ofApp::keyReleased(int key){
     masterKeyReleased(key);
 }
 
-void ofApp::gui_keyReleased(ofKeyEventArgs& args){
+void ofApp::skeuomorphKeyReleased(ofKeyEventArgs& args){
     masterKeyReleased(args.key);
 }
 
@@ -352,13 +350,22 @@ void ofApp::masterKeyReleased(int key){
         case 3680:
             keyModifiers.shift = false;
             break;
+        case 3681:
+            keyModifiers.shift = false;
+            break;
         case 3682:
             keyModifiers.control = false;
             break;
         case 3684:
             keyModifiers.option = false;
             break;
+        case 3685:
+            keyModifiers.option = false;
+            break;
         case 3686:
+            keyModifiers.command = false;
+            break;
+        case 3687:
             keyModifiers.command = false;
             break;
     }
@@ -369,7 +376,7 @@ void ofApp::mouseMoved(int x, int y ){
     tkb.windowMouseMoved(x,y);
 }
 
-void ofApp::gui_mousePressed(ofMouseEventArgs& args){
+void ofApp::skeuomorphMousePressed(ofMouseEventArgs& args){
     three_panel.windowMousePressed(args.x,args.y,keyModifiers);
 }
 
@@ -381,21 +388,18 @@ bool ofApp::mouseInPlot(int x, int y){
     return left && right && top && bottom;
 }
 
-void ofApp::gui_mouseDragged(ofMouseEventArgs& args){
-//    cout << "mouse dragged in gui window: " << args.x << " " << args.y << endl;
+void ofApp::skeuomorphMouseDragged(ofMouseEventArgs& args){
     three_panel.windowMouseDragged(args.x,args.y);
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-//    cout << "ofApp::mousePressed: " << x << " " << y << " " << button << endl;
     processIncomingMouseXY(x,y);
     tkb.windowMousePressed(x,y,keyModifiers);
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-//    cout << "ofApp::mouseDragged: " << x << " " << y << " " << button << endl;
     processIncomingMouseXY(x,y);
     tkb.windowMouseDragged(x, y);
 }
@@ -412,7 +416,7 @@ void ofApp::mouseReleased(int x, int y, int button){
     tkb.windowMouseReleased(x,y);
 }
 
-void ofApp::gui_mouseReleased(ofMouseEventArgs& args){
+void ofApp::skeuomorphMouseReleased(ofMouseEventArgs& args){
     three_panel.windowMouseReleased(args.x,args.y);
 }
 
@@ -441,7 +445,7 @@ void ofApp::windowResized(int w, int h){
     drawPlot(false);
 }
 
-void ofApp::gui_windowResized(ofResizeEventArgs& args){
+void ofApp::skeuomorphResized(ofResizeEventArgs& args){
     skeuomorph_window_width = args.width;
     skeuomorph_window_height = args.height;
 }
@@ -459,14 +463,17 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 //--------------------------------------------------------------
 void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 
+//    cout << "new midi message " << msg.channel << " " << msg.control << " " << msg.value << " " << endl;
     int learned_midi = midi_manager.processIncomingMIDI(msg.channel,msg.control);
-
-    if(learned_midi == 0){
+    
+//    cout << "learned midi " << learned_midi << endl;
+    
+    if(learned_midi == 4){
         hid_xy.setAt(0,msg.value / 127.f);
-    } else if (learned_midi == 1){
+    } else if (learned_midi == 5){
         hid_xy.setAt(1,1.f - (msg.value / 127.f));
-    } else if(learned_midi < 6 && learned_midi > 1){
-        params_state.setAt(learned_midi - 2,msg.value / 127.f);
+    } else if(learned_midi < 4 && learned_midi >= 0){
+        params_state.setAt(learned_midi,msg.value / 127.f);
     }
 }
 

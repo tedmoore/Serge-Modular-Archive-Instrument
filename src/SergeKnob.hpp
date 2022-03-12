@@ -74,8 +74,6 @@ public:
     }
 
     void setup(nlohmann::json &json, ofImage &img_){
-        
-//        cout << json << endl;
         img = img_;
         parseJson(json);
     }
@@ -144,7 +142,6 @@ public:
     }
     
     void draw(float xoff, float yoff, float ratio){
-        // rotate around center https://forum.openframeworks.cc/t/how-to-rotate-around-center-of-mass/3942/3
         float w = img.getWidth() * ratio;
         float h = img.getHeight() * ratio;
         ofPushMatrix();
@@ -153,7 +150,6 @@ public:
             float iw = illumination.getWidth() * ratio;
             float ih = illumination.getHeight() * ratio;
             illumination.draw(0,0,iw,ih);
-//            cout << "param: " << param << "\tiw " << iw << "\tih: " << ih << endl;
         }
         ofRotateZDeg(val * 276);
         img.draw(0,0,w,h);
@@ -233,14 +229,6 @@ public:
         font = font_;
     }
     
-    void windowMouseMoved(int x, int y){
-        if(val > 0.5){
-            for(int i = 0; i < options.size(); i++){
-                options[i].highlight = options[i].rect.inside(x,y);
-            }
-        }
-    }
-    
     // TODO: resolve the issue that there are two "mouse pressed" functions
     /* TODO: when the nominal "mousePressed" function is called, it should check
     immediately if the mouse is inside one of the options (to highlight it),
@@ -252,8 +240,9 @@ public:
     }
     
     void windowMousePressed(float mousex, float mousey, KeyModifiers &modifiers){
+        cout << "SergeDropdown::windowMousePressed " << mousex << " " << mousey << endl;
         for(int i = 0; i < options.size(); i++){
-            if(options[i].rect.inside(x,y)){
+            if(options[i].rect.inside(mousex,mousey)){
                 dropdown_i = i;
                 dispatchEvent(DROPDOWN,MOUSEPRESSED);
                 current_selection = i;
@@ -264,6 +253,14 @@ public:
                 }
                 
                 break;
+            }
+        }
+    }
+    
+    void windowMouseMoved(int x, int y){
+        if(val > 0.5){
+            for(int i = 0; i < options.size(); i++){
+                options[i].highlight = options[i].rect.inside(x,y);
             }
         }
     }

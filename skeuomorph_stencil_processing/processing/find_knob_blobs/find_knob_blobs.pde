@@ -3,8 +3,8 @@ int dist_thresh = 50;
 void setup() {
   //size(1000, 1000);
  
-  processFolder( new File(dataPath("../../../bin/data/images/Serge GUI Layout (2022)/3-PANELS/")) );
-  processFolder( new File(dataPath("../../../bin/data/images/Serge GUI Layout (2022)/TAUC/")) );
+  processFolder( new File(dataPath("../../../../bin/data/images/Serge GUI Layout (2022)/3-PANELS/")) );
+  processFolder( new File(dataPath("../../../../bin/data/images/Serge GUI Layout (2022)/TAUC/")) );
 
   exit();
 }

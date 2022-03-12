@@ -15,7 +15,10 @@ enum EnvPosition {STILL, UP, DOWN};
 
 class SergeEnv{
 public:
-    void setup(float durSamples);
+    void setup(float durSamples){
+        dur = durSamples;
+        value = 0;
+    }
     float tick();
     void setTarget(float target_);
     void setValue(float value_);

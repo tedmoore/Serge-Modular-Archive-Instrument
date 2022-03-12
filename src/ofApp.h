@@ -23,7 +23,7 @@ public:
     void keyPressed(int key);
     void masterKeyPressed(int key);
     void keyReleased(int key);
-    void gui_keyReleased(ofKeyEventArgs& args);
+    void skeuomorphKeyReleased(ofKeyEventArgs& args);
     void masterKeyReleased(int key);
     
     void mouseMoved(int x, int y );
@@ -52,11 +52,11 @@ public:
 
     void drawSkeuomorph(ofEventArgs & args);
     void setupSkeuomorph();
-    void gui_keyPressed(ofKeyEventArgs& args);
-    void gui_mousePressed(ofMouseEventArgs& args);
-    void gui_mouseDragged(ofMouseEventArgs& args);
-    void gui_windowResized(ofResizeEventArgs& args);
-    void gui_mouseReleased(ofMouseEventArgs& args);
+    void skeuomorphKeyPressed(ofKeyEventArgs& args);
+    void skeuomorphMousePressed(ofMouseEventArgs& args);
+    void skeuomorphMouseDragged(ofMouseEventArgs& args);
+    void skeuomorphResized(ofResizeEventArgs& args);
+    void skeuomorphMouseReleased(ofMouseEventArgs& args);
 
     void processMIDI();
     void processOSC();

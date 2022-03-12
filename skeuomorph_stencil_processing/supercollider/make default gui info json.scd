@@ -1,9 +1,9 @@
 (
-~outpath = PathName(thisProcess.nowExecutingPath).pathOnly+/+"../bin/data/images/Serge Gui Layout (2022)/gui_info.json";
+~outpath = File.realpath(thisProcess.nowExecutingPath.dirname+/+"../../bin/data/images/Serge Gui Layout (2022)/gui_info.json");
 
-~plot_locations_path = PathName(thisProcess.nowExecutingPath).pathOnly+/+"../bin/data/images/Serge Gui Layout (2022)/TAUC/TAUC_knob_positions.csv";
+~plot_locations_path = File.realpath(thisProcess.nowExecutingPath.dirname+/+"../../bin/data/images/Serge Gui Layout (2022)/TAUC/TAUC_knob_positions.csv");
 
-~skeuomorph_locations_path = PathName(thisProcess.nowExecutingPath).pathOnly+/+"../bin/data/images/Serge Gui Layout (2022)/3-PANELS/3-PANELS_knob_positions.csv";
+~skeuomorph_locations_path = File.realpath(thisProcess.nowExecutingPath.dirname+/+"../../bin/data/images/Serge Gui Layout (2022)/3-PANELS/3-PANELS_knob_positions.csv");
 
 ~skeuomorph_locations = CSVFileReader.readInterpret(~skeuomorph_locations_path);
 ~plot_locations = CSVFileReader.readInterpret(~plot_locations_path);
@@ -99,4 +99,6 @@
 ~json["skeuomorph"][77]["param"] = 3;
 
 JSONWriter(~json,~outpath);
+
+~json.postln;
 )

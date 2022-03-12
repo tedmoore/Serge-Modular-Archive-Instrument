@@ -88,6 +88,7 @@ public:
     }
 
     void windowMousePressed(float x, float y, KeyModifiers &modifiers){
+        cout << "SergeSubView::windowMousePressed " << x << " " << y << endl;
         float mouse[2] = {x,y};
         if(windowPointInFrame(mouse)){
             bool active_dropdowns = false;

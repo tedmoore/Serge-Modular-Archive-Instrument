@@ -24,12 +24,12 @@ int main( ){
     mainApp->setupSkeuomorph();
     
     ofAddListener(guiWindow->events().draw,mainApp.get(),&ofApp::drawSkeuomorph);
-    ofAddListener(guiWindow->events().keyPressed,mainApp.get(),&ofApp::gui_keyPressed);
-    ofAddListener(guiWindow->events().keyReleased,mainApp.get(),&ofApp::gui_keyReleased);
-    ofAddListener(guiWindow->events().mousePressed,mainApp.get(),&ofApp::gui_mousePressed);
-    ofAddListener(guiWindow->events().mouseDragged,mainApp.get(),&ofApp::gui_mouseDragged);
-    ofAddListener(guiWindow->events().windowResized,mainApp.get(),&ofApp::gui_windowResized);
-    ofAddListener(guiWindow->events().mouseReleased,mainApp.get(),&ofApp::gui_mouseReleased);
+    ofAddListener(guiWindow->events().keyPressed,mainApp.get(),&ofApp::skeuomorphKeyPressed);
+    ofAddListener(guiWindow->events().keyReleased,mainApp.get(),&ofApp::skeuomorphKeyReleased);
+    ofAddListener(guiWindow->events().mousePressed,mainApp.get(),&ofApp::skeuomorphMousePressed);
+    ofAddListener(guiWindow->events().mouseDragged,mainApp.get(),&ofApp::skeuomorphMouseDragged);
+    ofAddListener(guiWindow->events().windowResized,mainApp.get(),&ofApp::skeuomorphResized);
+    ofAddListener(guiWindow->events().mouseReleased,mainApp.get(),&ofApp::skeuomorphMouseReleased);
 
     ofRunApp(mainWindow, mainApp);
     ofRunMainLoop();
