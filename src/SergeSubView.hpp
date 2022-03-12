@@ -229,7 +229,7 @@ public:
                 {
                     SergeKnob* knob = new SergeKnob;
                     knob->setup(json[i],guiItems.knob);
-                    if(illuminateKnobs) knob->setIllumination(guiItems.illumination);
+                    if(illuminateKnobs) knob->setIllumination(guiItems);
                     guis.push_back(knob);
                 }
                     break;

@@ -23,6 +23,7 @@ struct SergeGUIItems {
     ofImage push;
     ofImage led;
     ofImage illumination;
+    ofImage illuminationBlue;
     ofTrueTypeFont font;
 };
 
@@ -124,9 +125,11 @@ public:
     
     ofImage illumination;
     bool illuminateKnobs = false;
+    ofImage illuminationBlue;
     
-    void setIllumination(ofImage &knob_illumination){
-        illumination = knob_illumination;
+    void setIllumination(SergeGUIItems &guiItems){
+        illumination = guiItems.illumination;
+        illuminationBlue = guiItems.illuminationBlue;
         illuminateKnobs = true;
     }
     

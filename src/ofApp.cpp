@@ -30,6 +30,7 @@ void ofApp::setupSkeuomorph(){
     guiItems.font.load(ofToDataPath("OpenSans-Light.ttf"), 16,true,true,true,0.f);
     guiItems.knob.load(ofToDataPath("images/Serge Gui Layout (2022)/DAVIES_KNOB.png"));
     guiItems.illumination.load(ofToDataPath("images/Serge Gui Layout (2022)/KNOB_ILLUMINATION.png"));
+    guiItems.illuminationBlue.load(ofToDataPath("images/Serge Gui Layout (2022)/KNOB_ILLUMINATION_BLUE.png"));
     guiItems.push.load(ofToDataPath("images/Serge Gui Layout (2022)/BUTTON_PRESSED.png"));
     guiItems.led.load(ofToDataPath("images/Serge Gui Layout (2022)/LED_ON.png"));
 
@@ -43,7 +44,9 @@ void ofApp::setupSkeuomorph(){
     skeuomorph_window_height = 1972; // If this is not hard coded, it displays incorrectly. I had tried ofGetScreenHeight(), and even tried to offset for the menu bar, but it would always display incorrectly.
     
     hid_xy.resize(2);
+    hid_xy.setAll(0.5);
     params_state.resize(nParams);
+    params_state.setAll(0.5);
 }
 
 void ofApp::setup(){
