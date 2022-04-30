@@ -1,1234 +1,865 @@
 {
 	"skeuomorph":[ {
 			"y":282.8977,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":786.17395,
-			"radio":-1,
-			"index":0,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.922653,
-			"initial_value":0.5
+			"x":786.17395
 		}, {
 			"y":438.4884,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2508.373,
-			"radio":-1,
-			"index":1,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.913326,
-			"initial_value":0.5
+			"x":2508.373
 		}, {
 			"y":440.28067,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1567.3168,
-			"radio":-1,
-			"index":2,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.93766,
-			"initial_value":0.5
+			"x":1567.3168
 		}, {
 			"y":446.25922,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":786.192,
-			"radio":-1,
-			"index":3,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.931538,
-			"initial_value":0.5
+			"x":786.192
 		}, {
 			"y":587.12604,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2192.4104,
-			"radio":-1,
-			"index":4,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.936096,
-			"initial_value":0.5
+			"x":2192.4104
 		}, {
 			"y":753.6674,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":157.99399,
-			"radio":-1,
-			"index":5,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.912956,
-			"initial_value":0.5
+			"x":157.99399
 		}, {
 			"y":753.6204,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":630.4468,
-			"radio":-1,
-			"index":6,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.89985,
-			"initial_value":0.5
+			"x":630.4468
 		}, {
 			"y":753.67725,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":786.19574,
-			"radio":-1,
-			"index":7,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.946407,
-			"initial_value":0.5
+			"x":786.19574
 		}, {
 			"y":756.3452,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2508.3452,
-			"radio":-1,
-			"index":8,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.89,
-			"initial_value":0.5
+			"x":2508.3452
 		}, {
 			"y":917.0333,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":315.65952,
-			"radio":-1,
-			"index":9,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.926334,
-			"initial_value":0.5
+			"x":315.65952
 		}, {
 			"y":917.0818,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":470.87534,
-			"radio":-1,
-			"index":10,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.899624,
-			"initial_value":0.5
+			"x":470.87534
 		}, {
 			"y":917.079,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":786.1668,
-			"radio":-1,
-			"index":11,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.914276,
-			"initial_value":0.5
+			"x":786.1668
 		}, {
 			"y":1212.7992,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":296.0,
-			"radio":-1,
-			"index":12,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.87984,
-			"initial_value":0.5
+			"x":296.0
 		}, {
 			"y":1307.5906,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1248.6444,
-			"radio":-1,
-			"index":13,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.88934,
-			"initial_value":0.5
+			"x":1248.6444
 		}, {
 			"y":1313.4531,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1559.4419,
-			"radio":-1,
-			"index":14,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.90754,
-			"initial_value":0.5
+			"x":1559.4419
 		}, {
 			"y":1313.3843,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1713.2219,
-			"radio":-1,
-			"index":15,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.926888,
-			"initial_value":0.5
+			"x":1713.2219
 		}, {
 			"y":1367.6266,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":296.01364,
-			"radio":-1,
-			"index":16,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.910736,
-			"initial_value":0.5
+			"x":296.01364
 		}, {
 			"y":1426.8354,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":778.11456,
-			"radio":-1,
-			"index":17,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.88311,
-			"initial_value":0.5
+			"x":778.11456
 		}, {
 			"y":1427.4419,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1559.4531,
-			"radio":-1,
-			"index":18,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.90754,
-			"initial_value":0.5
+			"x":1559.4531
 		}, {
 			"y":1525.1277,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":296.0515,
-			"radio":-1,
-			"index":19,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.913273,
-			"initial_value":0.5
+			"x":296.0515
 		}, {
 			"y":1530.8646,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2194.692,
-			"radio":-1,
-			"index":20,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.91311,
-			"initial_value":0.5
+			"x":2194.692
 		}, {
 			"y":1530.8641,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2508.9382,
-			"radio":-1,
-			"index":21,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.92858,
-			"initial_value":0.5
+			"x":2508.9382
 		}, {
 			"y":1544.3129,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":778.12897,
-			"radio":-1,
-			"index":22,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.916798,
-			"initial_value":0.5
+			"x":778.12897
 		}, {
 			"y":1660.3855,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1248.6444,
-			"radio":-1,
-			"index":23,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.90829,
-			"initial_value":0.5
+			"x":1248.6444
 		}, {
 			"y":1661.907,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":778.1146,
-			"radio":-1,
-			"index":24,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.914085,
-			"initial_value":0.5
+			"x":778.1146
 		}, {
 			"y":1664.3896,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1713.2279,
-			"radio":-1,
-			"index":25,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.931046,
-			"initial_value":0.5
+			"x":1713.2279
 		}, {
 			"y":1688.9691,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":296.03085,
-			"radio":-1,
-			"index":26,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.868027,
-			"initial_value":0.5
+			"x":296.03085
 		}, {
 			"y":1779.4182,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":778.12683,
-			"radio":-1,
-			"index":27,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.930126,
-			"initial_value":0.5
+			"x":778.12683
 		}, {
 			"y":1783.0234,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1559.4027,
-			"radio":-1,
-			"index":28,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.908173,
-			"initial_value":0.5
+			"x":1559.4027
 		}, {
 			"y":1841.5779,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2034.2018,
-			"radio":-1,
-			"index":29,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.928905,
-			"initial_value":0.5
+			"x":2034.2018
 		}, {
 			"y":1841.5673,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2348.51,
-			"radio":-1,
-			"index":30,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.87279,
-			"initial_value":0.5
+			"x":2348.51
 		}, {
 			"y":1843.8505,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":296.03427,
-			"radio":-1,
-			"index":31,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.913326,
-			"initial_value":0.5
+			"x":296.03427
 		}, {
 			"y":1846.649,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2194.6675,
-			"radio":-1,
-			"index":32,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.921597,
-			"initial_value":0.5
+			"x":2194.6675
 		}, {
 			"y":1846.6609,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2508.9893,
-			"radio":-1,
-			"index":33,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.940453,
-			"initial_value":0.5
+			"x":2508.9893
 		}, {
 			"y":1896.951,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":778.14374,
-			"radio":-1,
-			"index":34,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.914577,
-			"initial_value":0.5
+			"x":778.14374
 		}, {
 			"y":1897.5262,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1248.6305,
-			"radio":-1,
-			"index":35,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.903404,
-			"initial_value":0.5
+			"x":1248.6305
 		}, {
 			"y":1897.0181,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1559.4086,
-			"radio":-1,
-			"index":36,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.900284,
-			"initial_value":0.5
+			"x":1559.4086
 		}, {
 			"y":1997.0,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":935.0537,
-			"radio":-1,
-			"index":37,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.87516,
-			"initial_value":0.5
+			"x":935.0537
 		}, {
 			"y":1997.0,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1097.2008,
-			"radio":-1,
-			"index":38,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.87984,
-			"initial_value":0.5
+			"x":1097.2008
 		}, {
 			"y":2001.3326,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":296.006,
-			"radio":-1,
-			"index":39,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.913,
-			"initial_value":0.5
+			"x":296.006
 		}, {
 			"y":2001.2803,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2035.8594,
-			"radio":-1,
-			"index":40,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.91405,
-			"initial_value":0.5
+			"x":2035.8594
 		}, {
 			"y":2001.2784,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2350.1328,
-			"radio":-1,
-			"index":41,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.92003,
-			"initial_value":0.5
+			"x":2350.1328
 		}, {
 			"y":2021.3147,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1713.2141,
-			"radio":-1,
-			"index":42,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.938747,
-			"initial_value":0.5
+			"x":1713.2141
 		}, {
 			"y":2285.1035,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":151.09319,
-			"radio":-1,
-			"index":43,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.87135,
-			"initial_value":0.5
+			"x":151.09319
 		}, {
 			"y":2458.4746,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":151.03186,
-			"radio":-1,
-			"index":44,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.928577,
-			"initial_value":0.5
+			"x":151.03186
 		}, {
 			"y":2513.1738,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":778.1023,
-			"radio":-1,
-			"index":45,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.92275,
-			"initial_value":0.5
+			"x":778.1023
 		}, {
 			"y":2613.6045,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":151.02708,
-			"radio":-1,
-			"index":46,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.916157,
-			"initial_value":0.5
+			"x":151.02708
 		}, {
 			"y":2630.8198,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":778.0973,
-			"radio":-1,
-			"index":47,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.91467,
-			"initial_value":0.5
+			"x":778.0973
 		}, {
 			"y":2748.2727,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":778.1272,
-			"radio":-1,
-			"index":48,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.927948,
-			"initial_value":0.5
+			"x":778.1272
 		}, {
 			"y":2754.5332,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1551.8175,
-			"radio":-1,
-			"index":49,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.91359,
-			"initial_value":0.5
+			"x":1551.8175
 		}, {
 			"y":2769.1248,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":151.08179,
-			"radio":-1,
-			"index":50,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.899548,
-			"initial_value":0.5
+			"x":151.08179
 		}, {
 			"y":2770.114,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1702.0319,
-			"radio":-1,
-			"index":51,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.921047,
-			"initial_value":0.5
+			"x":1702.0319
 		}, {
 			"y":2770.1248,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1859.9182,
-			"radio":-1,
-			"index":52,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.899548,
-			"initial_value":0.5
+			"x":1859.9182
 		}, {
 			"y":2770.0833,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2015.8674,
-			"radio":-1,
-			"index":53,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.89369,
-			"initial_value":0.5
+			"x":2015.8674
 		}, {
 			"y":2770.1035,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2169.0933,
-			"radio":-1,
-			"index":54,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.87131,
-			"initial_value":0.5
+			"x":2169.0933
 		}, {
 			"y":2770.1248,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2327.0818,
-			"radio":-1,
-			"index":55,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.899548,
-			"initial_value":0.5
+			"x":2327.0818
 		}, {
 			"y":2770.1035,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2482.9067,
-			"radio":-1,
-			"index":56,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.87131,
-			"initial_value":0.5
+			"x":2482.9067
 		}, {
 			"y":2865.8994,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":778.1006,
-			"radio":-1,
-			"index":57,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.86972,
-			"initial_value":0.5
+			"x":778.1006
 		}, {
 			"y":2922.2166,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":934.7835,
-			"radio":-1,
-			"index":58,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.922974,
-			"initial_value":0.5
+			"x":934.7835
 		}, {
 			"y":2922.1975,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1091.0072,
-			"radio":-1,
-			"index":59,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.890297,
-			"initial_value":0.5
+			"x":1091.0072
 		}, {
 			"y":2922.2207,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1241.5487,
-			"radio":-1,
-			"index":60,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.89804,
-			"initial_value":0.5
+			"x":1241.5487
 		}, {
 			"y":2922.1907,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1397.8682,
-			"radio":-1,
-			"index":61,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.927166,
-			"initial_value":0.5
+			"x":1397.8682
 		}, {
 			"y":2928.6123,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1701.4799,
-			"radio":-1,
-			"index":62,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.88949,
-			"initial_value":0.5
+			"x":1701.4799
 		}, {
 			"y":2928.6392,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1859.984,
-			"radio":-1,
-			"index":63,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.92411,
-			"initial_value":0.5
+			"x":1859.984
 		}, {
 			"y":2928.6626,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2015.872,
-			"radio":-1,
-			"index":64,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.92691,
-			"initial_value":0.5
+			"x":2015.872
 		}, {
 			"y":2928.616,
-			"param":0,
-			"type":0,
-			"axis":-1,
-			"x":2168.542,
-			"radio":-1,
-			"index":65,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.880814,
-			"initial_value":0.5
+			"x":2168.542
 		}, {
 			"y":2928.6392,
-			"param":1,
-			"type":0,
-			"axis":-1,
-			"x":2327.016,
-			"radio":-1,
-			"index":66,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.92402,
-			"initial_value":0.5
+			"x":2327.016
 		}, {
 			"y":2928.6194,
-			"param":2,
-			"type":0,
-			"axis":-1,
-			"x":2482.9465,
-			"radio":-1,
-			"index":67,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.909042,
-			"initial_value":0.5
+			"x":2482.9465
 		}, {
 			"y":2931.8752,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":151.08179,
-			"radio":-1,
-			"index":68,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.899548,
-			"initial_value":0.5
+			"x":151.08179
 		}, {
 			"y":2983.374,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":778.12164,
-			"radio":-1,
-			"index":69,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.926273,
-			"initial_value":0.5
+			"x":778.12164
 		}, {
 			"y":3080.5483,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1241.5371,
-			"radio":-1,
-			"index":70,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.90657,
-			"initial_value":0.5
+			"x":1241.5371
 		}, {
 			"y":3080.5598,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1397.8407,
-			"radio":-1,
-			"index":71,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.927505,
-			"initial_value":0.5
+			"x":1397.8407
 		}, {
 			"y":3084.1697,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":151.05171,
-			"radio":-1,
-			"index":72,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.917683,
-			"initial_value":0.5
+			"x":151.05171
 		}, {
 			"y":3084.8691,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":934.78986,
-			"radio":-1,
-			"index":73,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.911068,
-			"initial_value":0.5
+			"x":934.78986
 		}, {
 			"y":3084.864,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1091.0618,
-			"radio":-1,
-			"index":74,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.928486,
-			"initial_value":0.5
+			"x":1091.0618
 		}, {
 			"y":3097.2578,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1551.8468,
-			"radio":-1,
-			"index":75,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.95146,
-			"initial_value":0.5
+			"x":1551.8468
 		}, {
 			"y":3101.699,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":1859.0973,
-			"radio":-1,
-			"index":76,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.921886,
-			"initial_value":0.5
+			"x":1859.0973
 		}, {
 			"y":3101.7002,
-			"param":3,
-			"type":0,
-			"axis":-1,
-			"x":2326.1504,
-			"radio":-1,
-			"index":77,
+			"parent_id":1,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.929886,
-			"initial_value":0.5
+			"x":2326.1504
 		} ],
 	"plot":[ {
 			"y":103.814835,
-			"param":-1,
-			"type":2,
-			"axis":-1,
-			"x":151.04318,
-			"radio":-1,
-			"index":0,
+			"parent_id":0,
+			"gui_type":2,
+			"initial_value":0.5,
 			"radius":34.041904,
-			"initial_value":0.0
+			"x":151.04318
 		}, {
 			"y":116.597275,
-			"param":0,
-			"type":0,
-			"axis":-1,
-			"x":2639.0234,
-			"radio":-1,
-			"index":1,
+			"parent_id":0,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.908157,
-			"initial_value":0.5
+			"x":2639.0234
 		}, {
 			"y":121.08081,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2280.1907,
-			"radio":-1,
-			"index":2,
+			"parent_id":0,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.93156,
-			"initial_value":0.5
+			"x":2280.1907
 		}, {
 			"y":121.08016,
-			"param":-1,
-			"type":0,
-			"axis":-1,
-			"x":2438.8533,
-			"radio":-1,
-			"index":3,
+			"parent_id":0,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.931004,
-			"initial_value":0.5
+			"x":2438.8533
 		}, {
 			"y":118.603775,
-			"param":-1,
-			"type":1,
-			"axis":0,
-			"x":292.0,
-			"radio":0,
-			"index":4,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.754932,
-			"initial_value":1.0
+			"x":292.0
 		}, {
 			"y":118.65094,
-			"param":-1,
-			"type":1,
-			"axis":1,
-			"x":381.84906,
-			"radio":0,
-			"index":5,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.8931813,
-			"initial_value":0.0
+			"x":381.84906
 		}, {
 			"y":118.65094,
-			"param":-1,
-			"type":1,
-			"axis":2,
-			"x":471.15094,
-			"radio":0,
-			"index":6,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.8931813,
-			"initial_value":0.0
+			"x":471.15094
 		}, {
 			"y":118.603775,
-			"param":-1,
-			"type":1,
-			"axis":3,
-			"x":561.0,
-			"radio":0,
-			"index":7,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.754932,
-			"initial_value":0.0
+			"x":561.0
 		}, {
 			"y":118.5,
-			"param":-1,
-			"type":1,
-			"axis":4,
-			"x":650.5,
-			"radio":0,
-			"index":8,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.700877,
-			"initial_value":0.0
+			"x":650.5
 		}, {
 			"y":118.40566,
-			"param":-1,
-			"type":1,
-			"axis":5,
-			"x":740.0566,
-			"radio":0,
-			"index":9,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.912734,
-			"initial_value":0.0
+			"x":740.0566
 		}, {
 			"y":118.37383,
-			"param":-1,
-			"type":1,
-			"axis":6,
-			"x":829.8972,
-			"radio":0,
-			"index":10,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.946888,
-			"initial_value":0.0
+			"x":829.8972
 		}, {
 			"y":118.5,
-			"param":-1,
-			"type":1,
-			"axis":0,
-			"x":941.5,
-			"radio":1,
-			"index":11,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.700877,
-			"initial_value":0.0
+			"x":941.5
 		}, {
 			"y":118.5,
-			"param":-1,
-			"type":1,
-			"axis":1,
-			"x":1031.0377,
-			"radio":1,
-			"index":12,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.839567,
-			"initial_value":1.0
+			"x":1031.0377
 		}, {
 			"y":118.5,
-			"param":-1,
-			"type":1,
-			"axis":2,
-			"x":1120.6,
-			"radio":1,
-			"index":13,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.780119,
-			"initial_value":0.0
+			"x":1120.6
 		}, {
 			"y":118.5,
-			"param":-1,
-			"type":1,
-			"axis":3,
-			"x":1210.4,
-			"radio":1,
-			"index":14,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.780119,
-			"initial_value":0.0
+			"x":1210.4
 		}, {
 			"y":118.35514,
-			"param":-1,
-			"type":1,
-			"axis":4,
-			"x":1300.0374,
-			"radio":1,
-			"index":15,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.8881083,
-			"initial_value":0.0
+			"x":1300.0374
 		}, {
 			"y":118.245285,
-			"param":-1,
-			"type":1,
-			"axis":5,
-			"x":1389.8585,
-			"radio":1,
-			"index":16,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.842696,
-			"initial_value":0.0
+			"x":1389.8585
 		}, {
 			"y":118.27103,
-			"param":-1,
-			"type":1,
-			"axis":6,
-			"x":1479.0935,
-			"radio":1,
-			"index":17,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.896889,
-			"initial_value":0.0
+			"x":1479.0935
 		}, {
 			"y":118.5,
-			"param":-1,
-			"type":1,
-			"axis":0,
-			"x":1591.5,
-			"radio":2,
-			"index":18,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.700877,
-			"initial_value":1.0
+			"x":1591.5
 		}, {
 			"y":118.5,
-			"param":-1,
-			"type":1,
-			"axis":1,
-			"x":1681.0,
-			"radio":2,
-			"index":19,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.59017,
-			"initial_value":0.0
+			"x":1681.0
 		}, {
 			"y":118.5,
-			"param":-1,
-			"type":1,
-			"axis":2,
-			"x":1770.5,
-			"radio":2,
-			"index":20,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.700877,
-			"initial_value":0.0
+			"x":1770.5
 		}, {
 			"y":118.54205,
-			"param":-1,
-			"type":1,
-			"axis":3,
-			"x":1860.0747,
-			"radio":2,
-			"index":21,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.939799,
-			"initial_value":0.0
+			"x":1860.0747
 		}, {
 			"y":118.35514,
-			"param":-1,
-			"type":1,
-			"axis":4,
-			"x":1949.9626,
-			"radio":2,
-			"index":22,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.8881083,
-			"initial_value":0.0
+			"x":1949.9626
 		}, {
 			"y":118.38532,
-			"param":-1,
-			"type":1,
-			"axis":5,
-			"x":2039.5504,
-			"radio":2,
-			"index":23,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.8224306,
-			"initial_value":0.0
+			"x":2039.5504
 		}, {
 			"y":118.30189,
-			"param":-1,
-			"type":1,
-			"axis":6,
-			"x":2129.047,
-			"radio":2,
-			"index":24,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.8422174,
-			"initial_value":0.0
+			"x":2129.047
 		}, {
 			"y":236.18893,
-			"param":1,
-			"type":0,
-			"axis":-1,
-			"x":2639.0295,
-			"radio":-1,
-			"index":25,
+			"parent_id":0,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.91063,
-			"initial_value":0.5
+			"x":2639.0295
 		}, {
 			"y":292.1346,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":131.13461,
-			"radio":-1,
-			"index":26,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.7877274,
-			"initial_value":0.0
+			"x":131.13461
 		}, {
 			"y":292.1346,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":287.1346,
-			"radio":-1,
-			"index":27,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.7877274,
-			"initial_value":0.0
+			"x":287.1346
 		}, {
 			"y":292.15237,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":443.0,
-			"radio":-1,
-			"index":28,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.765606,
-			"initial_value":0.0
+			"x":443.0
 		}, {
 			"y":292.15237,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":599.0,
-			"radio":-1,
-			"index":29,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.765606,
-			"initial_value":0.0
+			"x":599.0
 		}, {
 			"y":292.1346,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":754.86536,
-			"radio":-1,
-			"index":30,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.7877436,
-			"initial_value":0.0
+			"x":754.86536
 		}, {
 			"y":292.1346,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":910.86536,
-			"radio":-1,
-			"index":31,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.7877436,
-			"initial_value":0.0
+			"x":910.86536
 		}, {
 			"y":292.0566,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":1066.4056,
-			"radio":-1,
-			"index":32,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.912697,
-			"initial_value":0.0
+			"x":1066.4056
 		}, {
 			"y":292.0566,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":1222.4056,
-			"radio":-1,
-			"index":33,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.912697,
-			"initial_value":0.0
+			"x":1222.4056
 		}, {
 			"y":292.0566,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":1378.4056,
-			"radio":-1,
-			"index":34,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.912697,
-			"initial_value":0.0
+			"x":1378.4056
 		}, {
 			"y":292.03775,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":1534.5,
-			"radio":-1,
-			"index":35,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.839557,
-			"initial_value":0.0
+			"x":1534.5
 		}, {
 			"y":292.1346,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":1690.1346,
-			"radio":-1,
-			"index":36,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.7877436,
-			"initial_value":0.0
+			"x":1690.1346
 		}, {
 			"y":292.1346,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":1846.1346,
-			"radio":-1,
-			"index":37,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.7877436,
-			"initial_value":0.0
+			"x":1846.1346
 		}, {
 			"y":292.1619,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":2001.9143,
-			"radio":-1,
-			"index":38,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.8436284,
-			"initial_value":0.0
+			"x":2001.9143
 		}, {
 			"y":292.12265,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":2157.953,
-			"radio":-1,
-			"index":39,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.855081,
-			"initial_value":0.0
+			"x":2157.953
 		}, {
 			"y":292.0566,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":2313.5942,
-			"radio":-1,
-			"index":40,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.912788,
-			"initial_value":0.0
+			"x":2313.5942
 		}, {
 			"y":292.09344,
-			"param":-1,
-			"type":1,
-			"axis":-1,
-			"x":2469.729,
-			"radio":-1,
-			"index":41,
+			"parent_id":0,
+			"gui_type":1,
+			"initial_value":0.5,
 			"radius":5.8969226,
-			"initial_value":0.0
+			"x":2469.729
 		}, {
 			"y":355.8896,
-			"param":2,
-			"type":0,
-			"axis":-1,
-			"x":2639.0889,
-			"radio":-1,
-			"index":42,
+			"parent_id":0,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.915466,
-			"initial_value":0.5
+			"x":2639.0889
 		}, {
 			"y":475.55942,
-			"param":3,
-			"type":0,
-			"axis":-1,
-			"x":2639.0327,
-			"radio":-1,
-			"index":43,
+			"parent_id":0,
+			"gui_type":0,
+			"initial_value":0.5,
 			"radius":39.92471,
-			"initial_value":0.5
+			"x":2639.0327
 		}, {
 			"y":135,
-			"param":-1,
-			"type":3,
-			"axis":-1,
-			"x":2366,
-			"radio":-1,
-			"index":44,
+			"parent_id":0,
+			"gui_type":3,
+			"initial_value":-1,
 			"radius":171,
-			"initial_value":-1
+			"x":2366
 		} ]
 }

@@ -10,8 +10,9 @@
 
 #include <stdio.h>
 #include "ofMain.h"
-#include "SergeKnob.hpp"
+#include "SergeGUI.hpp"
 #include "SergeRadio.hpp"
+#include "SergeDropdown.hpp"
 
 class SergeSubView{
 public:
@@ -26,10 +27,8 @@ public:
     int grabbed_knob_y = 0;
 
     vector<SergeGUI*> guis;
-    
     vector<SergeDropdown*> dropdowns;
     
-    vector<SergeRadio*> radios;
     function<void(SergeGUIEvent event)> callback;
 
 
@@ -88,13 +87,13 @@ public:
     }
 
     void windowMousePressed(float x, float y, KeyModifiers &modifiers){
-        cout << "SergeSubView::windowMousePressed " << x << " " << y << endl;
+//        cout << "SergeSubView::windowMousePressed " << x << " " << y << endl;
         float mouse[2] = {x,y};
         if(windowPointInFrame(mouse)){
             bool active_dropdowns = false;
             
             for(int i = 0; i < dropdowns.size(); i++){
-                if(dropdowns[i]->val > 0.5){
+                if(dropdowns[i]->showOptions){
                     active_dropdowns = true;
                     dropdowns[i]->windowMousePressed(x,y, modifiers);
                 }
@@ -104,7 +103,7 @@ public:
                 mouseIsCaptured = true;
                 scaleWindowPosToImage(mouse);
                 for(int i = 0; i < guis.size(); i++){
-                    if(guis[i]->inside(mouse)){
+                    if(guis[i]->isInside(mouse)){
                         grabbed_knob = i;
                         grabbed_knob_y = y;
                         guis[i]->mousePressed(x,y,modifiers);
@@ -140,18 +139,13 @@ public:
         bool active_dropdowns = false;
         
         for(int i = 0; i < dropdowns.size(); i++){
-            active_dropdowns = dropdowns[i]->val || active_dropdowns;
+            active_dropdowns = dropdowns[i]->showOptions || active_dropdowns;
         }
         
         return mouseIsCaptured || active_dropdowns;
     }
     
     void guiCallback(SergeGUIEvent event){
-        
-        if(event.radio != -1){
-            radios[event.radio]->update(event.index);
-        }
-        
         callback(event);
     }
     
@@ -160,29 +154,6 @@ public:
         callback = std::bind(listenerMethod, owner, std::placeholders::_1);
         for(int i = 0; i < guis.size(); i++){
             guis[i]->setCallback(this,&SergeSubView::guiCallback);
-        }
-    }
-    
-    void makeRadios(nlohmann::json json){
-        int max_radio = 0;
-        for(int i = 0; i < json.size(); i++){
-            if(json[i]["radio"].get<int>() > max_radio) max_radio = json[i]["radio"].get<int>();
-        }
-        
-        int n_radios = max_radio + 1;
-        
-        for(int i = 0; i < n_radios; i++){
-            SergeRadio* radio = new SergeRadio;
-            radios.push_back(radio);
-        }
-    }
-    
-    void updateParamGuis(const vector<double> &params){
-        for(int i = 0; i < guis.size(); i++){
-            if(guis[i]->param >= 0){
-                
-                guis[i]->setValue(params[guis[i]->param]);
-            }
         }
     }
 };
@@ -213,45 +184,41 @@ public:
         dropdownOptions = o;
     }
 
-    void load(string path,SergeGUIItems &guiItems,nlohmann::json &json,bool illuminateKnobs){
+    void load(string path,SergeGUIItems &guiItems,nlohmann::json &json){
         img.load(path);
-        readKnobPositions(guiItems,json,illuminateKnobs);
+        readGUIPositions(guiItems,json);
     }
 
-    void readKnobPositions(SergeGUIItems &guiItems,nlohmann::json &json,bool illuminateKnobs){
-        
-        makeRadios(json);
+    void readGUIPositions(SergeGUIItems &guiItems,nlohmann::json &json){
         
         for(int i = 0; i < json.size(); i++){
 
-            switch(json[i]["type"].get<int>()){
+            switch(json[i]["gui_type"].get<int>()){
                 case KNOB:
                 {
                     SergeKnob* knob = new SergeKnob;
-                    knob->setup(json[i],guiItems.knob);
-                    if(illuminateKnobs) knob->setIllumination(guiItems);
+                    knob->setup(json[i],guiItems,i);
                     guis.push_back(knob);
                 }
                     break;
                 case LED:
                 {
                     SergeLed* led = new SergeLed;
-                    led->setup(json[i],guiItems.led);
+                    led->setup(json[i],guiItems.led,i);
                     guis.push_back(led);
-                    if(json[i]["radio"].get<int>() != -1) radios[json[i]["radio"].get<int>()]->addGui(led);
                 }
                     break;
                 case PUSH:
                 {
                     SergePush* push = new SergePush;
-                    push->setup(json[i],guiItems.push);
+                    push->setup(json[i],guiItems.push,i);
                     guis.push_back(push);
                 }
                     break;
                 case DROPDOWN:
                 {
                     SergeDropdown* dd = new SergeDropdown;
-                    dd->setup(json[i],guiItems.led);
+                    dd->setup(json[i],guiItems.led,i);
                     dd->setOptions(dropdownOptions);
                     dd->setFont(guiItems.font);
                     dropdowns.push_back(dd);

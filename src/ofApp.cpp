@@ -13,11 +13,15 @@ void ofApp::loadDirectory(string path){
     
     for(int i = 0; i < files.size(); i++){
         if(files[i].getExtension() == "wav"){
-//            cout << "loading " << files[i].getAbsolutePath() << endl;
             soundFiles.push_back(move(unique_ptr<SoundFile>(new SoundFile)));
             soundFiles.back()->setup(files[i].getAbsolutePath(),SAMPLERATE);
         } else if(files[i].getExtension() == "csv") {
             readSoundSlicesData(files[i].getAbsolutePath());
+        } else if(files[i].getExtension() == "json") {
+            nlohmann::json patch_info_json;
+            std::ifstream pi(files[i].getAbsolutePath());
+            pi >> patch_info_json;
+            skeuomorph_knob_assignments = patch_info_json["skeuomorph_knob_assignments"].get<vector<int>>();
         }
     }
 
@@ -37,8 +41,8 @@ void ofApp::setupSkeuomorph(){
     std::ifstream i(ofToDataPath("images/Serge Gui Layout (2022)/gui_info.json"));
     i >> gui_info_json;
     
-    three_panel.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),guiItems,gui_info_json["skeuomorph"],true);
-    three_panel.setCallback(this, &ofApp::guiCallback);
+    skeuomorph.load(ofToDataPath("images/Serge GUI Layout (2022)/3-PANELS/3-PANELS.png"),guiItems,gui_info_json["skeuomorph"]);
+    skeuomorph.setCallback(this, &ofApp::guiCallback);
 
     skeuomorph_window_width = ofGetScreenWidth() / 2;
     skeuomorph_window_height = 1972; // If this is not hard coded, it displays incorrectly. I had tried ofGetScreenHeight(), and even tried to offset for the menu bar, but it would always display incorrectly.
@@ -82,71 +86,112 @@ void ofApp::setup(){
 
     // =========== GRAPHICS ================
 	tkb.setDropdownOptions(midiIn.getInPortList());    
-	tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),guiItems,gui_info_json["plot"],false);
+	tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),guiItems,gui_info_json["plot"]);
     tkb.setCallback(this,&ofApp::guiCallback);
     
-//    step_sequencer.randomize(slices.size());
+    for(int i = 0; i < nParams; i++){
+        skeuomorph.guis[skeuomorph_knob_assignments[i]]->setIlluminate(true);
+    }
+    
+    // radios
+    for(int i = 4; i <= 10; i++){
+        x_radio.addGui(tkb.guis[i]);
+    }
+    
+    x_radio.setIndex(0);
+  
+    for(int i = 11; i <= 17; i++){
+        y_radio.addGui(tkb.guis[i]);
+    }
+  
+    y_radio.setIndex(1);
+    
+    for(int i = 18; i <= 24; i++){
+        c_radio.addGui(tkb.guis[i]);
+    }
+
+    c_radio.setIndex(2);
+    
+    for(int i = 26; i <= 41; i++){
+        step_sequencer.radio.addGui(tkb.guis[i]);
+    }
+    
+    step_sequencer.updateIndex(0);
 }
 
 void ofApp::guiCallback(const SergeGUIEvent event){
-    cout << "guiType: " << event.guiType;
-    cout << "\teventType: " << event.eventType;
-    cout << "\tindex: " << event.index;
-    cout << "\tval: " << event.val;
-    cout << "\tparam: " << event.param;
-    cout << "\tradio: " << event.radio;
-    cout << "\tdropdown_i: " << event.dropdown_i;
-    cout << "\taxis: " << event.axis << endl;
+    
+    event.dump();
     
     switch (event.guiType) {
         case KNOB:
             knobCallback(event);
             break;
         case LED:
-            if(event.axis != -1){ // axis here refers to which descriptor it should set to the x, y, or color axes
-                switch(event.radio){ // radio is _which_ radio it is a part of
-                    case 0:
-                        x_index_i = axis_selection_lookup[event.axis];
-                        break;
-                    case 1:
-                        y_index_i = axis_selection_lookup[event.axis];
-                        break;
-                    case 2:
-                        c_index_i = axis_selection_lookup[event.axis];
-                        break;
-                    case 3:
-                        // this is the
-                        break;
-                }
-                drawPlot(true);
-            }
+            ledCallback(event);
             break;
         case PUSH:
+            if(playing_index >= 0) step_sequencer.assignCurrentStep(playing_index);
             break;
         case DROPDOWN:
             midiIn.closePort();
-            midiIn.openPort(event.dropdown_i);
+            midiIn.openPort(event.val_i);
         default:
             break;
     }
 }
 
+void ofApp::ledCallback(const SergeGUIEvent event){
+    
+    int i = step_sequencer.mousePressed(event.image_index);
+    
+    if(i >= 0) {
+        setPlayingIndex(i, true);
+        return;
+    }
+    
+    i = x_radio.update(event.image_index);
+    
+    if(i >= 0) {
+        drawPlot(true);
+        return;
+    }
+    
+    i = y_radio.update(event.image_index);
+
+    if(i >= 0) {
+        drawPlot(true);
+        return;
+    }
+
+    i = c_radio.update(event.image_index);
+
+    if(i >= 0) {
+        drawPlot(true);
+        return;
+    }
+}
+
 void ofApp::knobCallback(const SergeGUIEvent event){
-    // if command is held, it's a mouse press, and this knob actually controls something:
-    
-    cout << "key modifier command: " << keyModifiers.command << endl;
-    cout << "event type:           " << event.eventType << endl;
-    cout << "event param:          " << event.param << endl;
-    cout << endl;
-    
-    if(keyModifiers.command && (event.eventType == MOUSEPRESSED) && (event.param != -1)){
-        midi_manager.waitForAssignment(event.param);
-    } else if(keyModifiers.shift && (event.eventType == MOUSEPRESSED) && (event.param != -1)){
-        midi_manager.removeAssignment(event.param);
-    } else {
-        if(event.param != -1){
-            params_state.setAt(event.param,event.val);
-        }
+    switch(event.parent_id){
+        case 0: // plot controls
+            for(int i = 0; i < nParams; i++){
+                if(event.image_index == plot_control_param_knobs[i]){
+                    individualKnobCallback(event.eventType,i,event.val_f);
+                    break;
+                }
+            }
+            break;
+        case 1: // skeuomorph
+            for(int i = 0; i < nParams; i++){
+                if(event.image_index == skeuomorph_knob_assignments[i]){
+                    individualKnobCallback(event.eventType,i,event.val_f);
+                    break;
+                }
+            }
+            break;
+        default:
+            ofLogError() << "parent_id not recognized";
     }
 }
 
@@ -198,8 +243,9 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
             params_state.setAt(i,slices[playing_index]->values[10 + i]);
         }
         
-        tkb.updateParamGuis(params_state.get());
-        three_panel.updateParamGuis(params_state.get());
+        // TODO: have a way of setting the state for certain knobs
+//        tkb.updateParamGuis(params_state.get());
+//        three_panel.updateParamGuis(params_state.get());
     }
 }
 
@@ -287,7 +333,7 @@ void ofApp::loadingScreen(){
 
 void ofApp::drawSkeuomorph(ofEventArgs &args){
     if(loaded){
-        three_panel.drawCenteredScaled(skeuomorph_window_width,skeuomorph_window_height);
+        skeuomorph.drawCenteredScaled(skeuomorph_window_width,skeuomorph_window_height);
     } else {
         loadingScreen();
     }
@@ -300,6 +346,11 @@ void ofApp::drawPlot(bool buildKDTree){
     plot_fbo.begin();
     ofClear(255,255,255,255);
     ofFill();
+    
+    int x_index_i = axis_selection_lookup[x_radio.getCurrentIndex()];
+    int y_index_i = axis_selection_lookup[y_radio.getCurrentIndex()];
+    int c_index_i = axis_selection_lookup[c_radio.getCurrentIndex()];
+    
     for(SoundSlice *slice : slices){
         kdTree_2d.addPoint(slice->draw(0,0,plot_fbo.getWidth(),plot_fbo.getHeight(),x_index_i,y_index_i,c_index_i));
     }
@@ -390,7 +441,7 @@ void ofApp::mouseMoved(int x, int y ){
 }
 
 void ofApp::skeuomorphMousePressed(ofMouseEventArgs& args){
-    three_panel.windowMousePressed(args.x,args.y,keyModifiers);
+    skeuomorph.windowMousePressed(args.x,args.y,keyModifiers);
 }
 
 bool ofApp::mouseInPlot(int x, int y){
@@ -402,7 +453,7 @@ bool ofApp::mouseInPlot(int x, int y){
 }
 
 void ofApp::skeuomorphMouseDragged(ofMouseEventArgs& args){
-    three_panel.windowMouseDragged(args.x,args.y);
+    skeuomorph.windowMouseDragged(args.x,args.y);
 }
 
 //--------------------------------------------------------------
@@ -430,7 +481,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 }
 
 void ofApp::skeuomorphMouseReleased(ofMouseEventArgs& args){
-    three_panel.windowMouseReleased(args.x,args.y);
+    skeuomorph.windowMouseReleased(args.x,args.y);
 }
 
 //--------------------------------------------------------------

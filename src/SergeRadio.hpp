@@ -10,22 +10,53 @@
 
 #include <stdio.h>
 #include "ofMain.h"
-#include "SergeKnob.hpp"
+#include "SergeGUI.hpp"
 
 class SergeRadio {
 public:
-    vector<SergeGUI*> guis;
+    vector<SergeGUI*> leds;
+    int current_index = -1;
     
-    void addGui(SergeGUI* gui){
-        guis.push_back(gui);
+    void addGui(SergeGUI* led){
+        leds.push_back(led);
     }
     
-    void update(int active){
-        for(int i = 0; i < guis.size(); i++){
-            if(guis[i]->index == active){
-                guis[i]->setValue(1);
+    // the int it returns is if the radio index if the image index it was sent was found
+    // -1 if it was not found
+    int update(int image_index){
+        int found = -1;
+        for(int i = 0; i < leds.size(); i++){
+            if(leds[i]->image_index == image_index){
+                found = i;
+                current_index = i;
+                break;
+            }
+        }
+        
+        if(found >= 0){
+            for(int i = 0; i < leds.size(); i++){
+                if(i == found){
+                    leds[i]->setOn(true);
+                } else {
+                    leds[i]->setOn(false);
+                }
+            }
+        }
+        
+        return found;
+    }
+    
+    int getCurrentIndex(){
+        return current_index;
+    }
+    
+    void setIndex(int index){
+        current_index = index;
+        for(int i = 0; i < leds.size(); i++){
+            if(i == current_index){
+                leds[i]->setOn(true);
             } else {
-                guis[i]->setValue(0);
+                leds[i]->setOn(false);
             }
         }
     }

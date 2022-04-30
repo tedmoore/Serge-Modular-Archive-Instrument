@@ -97,7 +97,8 @@
 		285C051127D31749006D9800 /* ChangedAware.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ChangedAware.hpp; sourceTree = "<group>"; };
 		2863178927764A8C0032C5DD /* SergeSubView.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SergeSubView.hpp; sourceTree = "<group>"; };
 		28ADED15281D979A00654645 /* SergeStepSequencer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SergeStepSequencer.hpp; sourceTree = "<group>"; };
-		28E466D1278A57640036525D /* SergeKnob.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SergeKnob.hpp; sourceTree = "<group>"; };
+		28ADED18281DAB8900654645 /* SergeDropdown.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SergeDropdown.hpp; sourceTree = "<group>"; };
+		28E466D1278A57640036525D /* SergeGUI.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SergeGUI.hpp; sourceTree = "<group>"; };
 		2D13799635BB152B8F1A4E9A /* chvalid.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = chvalid.h; path = ../../../addons/ofxSvg/libs/libxml2/include/libxml/chvalid.h; sourceTree = SOURCE_ROOT; };
 		2FD4B0329909D3527F003494 /* UdpSocket.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = UdpSocket.h; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h; sourceTree = SOURCE_ROOT; };
 		375C1EB5EB0C6DB428BD21C4 /* xmlIO.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = xmlIO.h; path = ../../../addons/ofxSvg/libs/libxml2/include/libxml/xmlIO.h; sourceTree = SOURCE_ROOT; };
@@ -1155,7 +1156,8 @@
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				285A45692772BCB5002E99B5 /* MIDIManager.hpp */,
 				49626876B7135C66F09C8A6F /* SergeEnv.hpp */,
-				28E466D1278A57640036525D /* SergeKnob.hpp */,
+				28E466D1278A57640036525D /* SergeGUI.hpp */,
+				28ADED18281DAB8900654645 /* SergeDropdown.hpp */,
 				280EB356278BF91B00DEDD58 /* SergeRadio.hpp */,
 				2863178927764A8C0032C5DD /* SergeSubView.hpp */,
 				F20B91491823E7D1AC897970 /* SoundFile.hpp */,

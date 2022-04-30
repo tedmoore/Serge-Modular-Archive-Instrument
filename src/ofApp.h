@@ -64,6 +64,23 @@ public:
 
     void guiCallback(const SergeGUIEvent event);
     void knobCallback(const SergeGUIEvent event);
+    void ledCallback(const SergeGUIEvent event);
+    void individualKnobCallback(SergeEventType eventType, int param_control, float val){
+        // if it's a mouse drag, we're just setting the value of that param
+        if(eventType == MOUSEDRAGGED){
+            params_state.setAt(param_control, val);
+            
+        // if it's a mouse pressed we can either
+        } else if(eventType == MOUSEPRESSED){
+            
+            if(keyModifiers.command){
+                midi_manager.waitForAssignment(param_control);
+            } else if (keyModifiers.shift){
+                midi_manager.removeAssignment(param_control);
+            }
+            
+        }
+    }
 
     bool loaded = false;
 
@@ -77,26 +94,20 @@ public:
     bool is_moving = false;
     float interp = 0;
 
-    int x_index_i = 3;
-    int y_index_i = 4;
-    int c_index_i = 3;
-
     int axis_selection_lookup[7] = {3,4,7,8,9,5,6};
 
     int plot_x, plot_y, plot_w, plot_h;
     int margin = 10;
 
     ofxKDTree kdTree_2d;
-
     ofxKDTree kdTree_params;
-
     vector<unique_ptr<SoundFile>> soundFiles;
 
     int playing_index = -1;
 
     ofSoundStream soundstream;
 
-    SergeImage three_panel;
+    SergeImage skeuomorph;
     SergeImage tkb;
 
     ofxOscReceiver osc_receiver;
@@ -104,7 +115,7 @@ public:
     ChangedAware hid_xy;
     ChangedAware params_state;
     
-    int tkb_param_knobs[4] = {1,25,42,43};
+    int plot_control_param_knobs[4] = {1,25,42,43};
 
     // MIDI
     void newMidiMessage(ofxMidiMessage& eventArgs);
@@ -117,10 +128,12 @@ public:
     nlohmann::json gui_info_json;
         
     SergeGUIItems guiItems;
-
 	KeyModifiers keyModifiers;
     
     int nParams = 4;
+    vector<int> skeuomorph_knob_assignments;
     
     SergeStepSequencer step_sequencer;
+    
+    SergeRadio x_radio, y_radio, c_radio;
 };
