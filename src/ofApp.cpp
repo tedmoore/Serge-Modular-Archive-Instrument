@@ -84,6 +84,8 @@ void ofApp::setup(){
 	tkb.setDropdownOptions(midiIn.getInPortList());    
 	tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),guiItems,gui_info_json["plot"],false);
     tkb.setCallback(this,&ofApp::guiCallback);
+    
+//    step_sequencer.randomize(slices.size());
 }
 
 void ofApp::guiCallback(const SergeGUIEvent event){
@@ -101,8 +103,8 @@ void ofApp::guiCallback(const SergeGUIEvent event){
             knobCallback(event);
             break;
         case LED:
-            if(event.axis != -1){
-                switch(event.radio){
+            if(event.axis != -1){ // axis here refers to which descriptor it should set to the x, y, or color axes
+                switch(event.radio){ // radio is _which_ radio it is a part of
                     case 0:
                         x_index_i = axis_selection_lookup[event.axis];
                         break;
@@ -111,6 +113,9 @@ void ofApp::guiCallback(const SergeGUIEvent event){
                         break;
                     case 2:
                         c_index_i = axis_selection_lookup[event.axis];
+                        break;
+                    case 3:
+                        // this is the
                         break;
                 }
                 drawPlot(true);
@@ -335,6 +340,11 @@ void ofApp::masterKeyPressed(int key){
         case 3687:
             keyModifiers.command = true;
             break;
+        default:
+        {
+            int slice_id = step_sequencer.receiveQWERTY(key);
+            if(slice_id >=0) setPlayingIndex(slice_id,true);
+        }
     }
 
 }
@@ -465,18 +475,26 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 //--------------------------------------------------------------
 void ofApp::newMidiMessage(ofxMidiMessage& msg) {
-
-//    cout << "new midi message " << msg.channel << " " << msg.control << " " << msg.value << " " << endl;
-    int learned_midi = midi_manager.processIncomingMIDI(msg.channel,msg.control);
     
-//    cout << "learned midi " << learned_midi << endl;
-    
-    if(learned_midi == 4){
-        hid_xy.setAt(0,msg.value / 127.f);
-    } else if (learned_midi == 5){
-        hid_xy.setAt(1,1.f - (msg.value / 127.f));
-    } else if(learned_midi < 4 && learned_midi >= 0){
-        params_state.setAt(learned_midi,msg.value / 127.f);
+    switch(msg.status){
+        case MIDI_CONTROL_CHANGE:
+        {
+            int learned_midi = midi_manager.processIncomingMIDI(msg.channel,msg.control);
+            if(learned_midi == 4){
+                hid_xy.setAt(0,msg.value / 127.f);
+            } else if (learned_midi == 5){
+                hid_xy.setAt(1,1.f - (msg.value / 127.f));
+            } else if(learned_midi < 4 && learned_midi >= 0){
+                params_state.setAt(learned_midi,msg.value / 127.f);
+            }
+        }
+            break;
+        case MIDI_NOTE_ON:
+        {
+            int slice_id = step_sequencer.receiveMIDI(msg.pitch);
+            if(slice_id >= 0) setPlayingIndex(slice_id,true);
+        }
+            break;
     }
 }
 

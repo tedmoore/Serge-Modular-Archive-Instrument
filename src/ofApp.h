@@ -12,6 +12,7 @@
 #include "SergeSubView.hpp"
 #include "thirdparty/nlohmann/json.hpp"
 #include "ChangedAware.hpp"
+#include "SergeStepSequencer.hpp"
 
 class ofApp : public ofBaseApp, public ofxMidiListener {
 
@@ -80,7 +81,7 @@ public:
     int y_index_i = 4;
     int c_index_i = 3;
 
-    int axis_selection_lookup[7] = {3,4,5,6,7,8,9};
+    int axis_selection_lookup[7] = {3,4,7,8,9,5,6};
 
     int plot_x, plot_y, plot_w, plot_h;
     int margin = 10;
@@ -120,4 +121,6 @@ public:
 	KeyModifiers keyModifiers;
     
     int nParams = 4;
+    
+    SergeStepSequencer step_sequencer;
 };
