@@ -30,6 +30,8 @@ void ofApp::loadDirectory(string path){
 
 void ofApp::setupSkeuomorph(){
     
+    ofSetDataPathRoot("../Resources/data/");
+    
     guiItems.font.load(ofToDataPath("LTe50236.ttf"),20,true,true,true,0.f,182);
     guiItems.knob.load(ofToDataPath("images/Serge Gui Layout (2022)/DAVIES_KNOB.png"));
     guiItems.illumination.load(ofToDataPath("images/Serge Gui Layout (2022)/KNOB_ILLUMINATION.png"));
