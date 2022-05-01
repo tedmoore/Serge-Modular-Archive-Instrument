@@ -61,6 +61,7 @@ public:
 
     void processMIDI();
     void processOSC();
+    void drawOptionsMenu();
 
     void guiCallback(const SergeGUIEvent event);
     void knobCallback(const SergeGUIEvent event);
@@ -134,4 +135,13 @@ public:
     SergeStepSequencer step_sequencer;
     
     SergeRadio x_radio, y_radio, c_radio;
+    
+    bool show_options_menu = true;
+    int selected_midi_port = -1;
+    
+    vector<string> midi_ports;
+    
+    ofColor sergeRed = ofColor(202,76,69);
+    ofColor sergeBlue = ofColor(96,161,207);
+    ofColor background = ofColor(100);
 };

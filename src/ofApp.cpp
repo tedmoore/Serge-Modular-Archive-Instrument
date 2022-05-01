@@ -29,9 +29,8 @@ void ofApp::loadDirectory(string path){
 }
 
 void ofApp::setupSkeuomorph(){
-    cout.precision(12);
     
-    guiItems.font.load(ofToDataPath("OpenSans-Light.ttf"), 16,true,true,true,0.f);
+    guiItems.font.load(ofToDataPath("LTe50236.ttf"),20,true,true,true,0.f,182);
     guiItems.knob.load(ofToDataPath("images/Serge Gui Layout (2022)/DAVIES_KNOB.png"));
     guiItems.illumination.load(ofToDataPath("images/Serge Gui Layout (2022)/KNOB_ILLUMINATION.png"));
     guiItems.illuminationBlue.load(ofToDataPath("images/Serge Gui Layout (2022)/KNOB_ILLUMINATION_BLUE.png"));
@@ -56,7 +55,7 @@ void ofApp::setupSkeuomorph(){
 void ofApp::setup(){
     osc_receiver.setup(2884);
     ofSetFrameRate(30);
-    ofBackground(100);
+    ofBackground(background);
     ofEnableAntiAliasing();
         
     createColors();
@@ -114,6 +113,8 @@ void ofApp::setup(){
     
     step_sequencer.randomize(slices.size());
     step_sequencer.updateIndex(0);
+    
+    midi_ports = midiIn.getInPortList();
     
     windowResized(ofGetWidth(),ofGetHeight());
     drawPlot(true);
@@ -298,8 +299,43 @@ void ofApp::processOSC(){
 void ofApp::draw(){
     if(loaded){
         drawPlotWindow();
+        if(show_options_menu){
+            drawOptionsMenu();
+        }
     } else {
         loadingScreen();
+    }
+}
+
+void ofApp::drawOptionsMenu(){
+    
+    ofSetColor(background,128);
+    ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+    
+    int w = ofGetWidth() * 0.8;
+    int h = ofGetHeight() * 0.8;
+    int x = (ofGetWidth() - w) / 2;
+    int y =(ofGetHeight() - h) / 2;
+    int margin = 40;
+    ofFill();
+    ofSetColor(255);
+    ofDrawRectRounded(x,y,w,h,25);
+    ofNoFill();
+    ofSetLineWidth(10);
+    ofSetColor(sergeBlue);
+    ofDrawRectRounded(x,y,w,h,25);
+    
+    ofFill();
+    int text_height = guiItems.font.getLineHeight();
+    ofSetColor(0);
+    guiItems.font.drawStringAsShapes("Press a number to select a MIDI Port:", x + margin, y + margin + text_height);
+    for(int i = 0; i < midi_ports.size(); i++){
+        if(selected_midi_port == i){
+            ofSetColor(sergeRed);
+        } else {
+            ofSetColor(100);
+        }
+        guiItems.font.drawStringAsShapes(ofToString(i) + ": " + midi_ports[i],x + margin, y + margin + text_height + ((i+1)*text_height * 1.5));
     }
 }
 
@@ -330,6 +366,13 @@ void ofApp::loadingScreen(){
 void ofApp::drawSkeuomorph(ofEventArgs &args){
     if(loaded){
         skeuomorph.drawCenteredScaled(skeuomorph_window_width,skeuomorph_window_height);
+        
+        if(show_options_menu){
+            ofSetColor(background,128);
+            ofSetRectMode(OF_RECTMODE_CORNER);
+            ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+        }
+
     } else {
         loadingScreen();
     }
@@ -389,8 +432,21 @@ void ofApp::masterKeyPressed(int key){
             break;
         default:
         {
-            int slice_id = step_sequencer.receiveQWERTY(key);
-            if(slice_id >=0) setPlayingIndex(slice_id,true);
+            if(key == 'm' or key == 'M'){
+                show_options_menu = !show_options_menu;
+            } else {
+                if(show_options_menu){
+                    int number = key - '0';
+                    if(number >= 0 && number < midi_ports.size()){
+                        selected_midi_port = number;
+                        midiIn.closePort();
+                        midiIn.openPort(selected_midi_port);
+                    }
+                } else {
+                    int slice_id = step_sequencer.receiveQWERTY(key);
+                    if(slice_id >=0) setPlayingIndex(slice_id,true);
+                }
+            }
         }
     }
 
@@ -433,11 +489,11 @@ void ofApp::masterKeyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-    plot_controls.windowMouseMoved(x,y);
+
 }
 
 void ofApp::skeuomorphMousePressed(ofMouseEventArgs& args){
-    skeuomorph.windowMousePressed(args.x,args.y,keyModifiers);
+    if(!show_options_menu) skeuomorph.windowMousePressed(args.x,args.y,keyModifiers);
 }
 
 bool ofApp::mouseInPlot(int x, int y){
@@ -449,19 +505,23 @@ bool ofApp::mouseInPlot(int x, int y){
 }
 
 void ofApp::skeuomorphMouseDragged(ofMouseEventArgs& args){
-    skeuomorph.windowMouseDragged(args.x,args.y);
+    if(!show_options_menu) skeuomorph.windowMouseDragged(args.x,args.y);
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    processIncomingMouseXY(x,y);
-    plot_controls.windowMousePressed(x,y,keyModifiers);
+    if(!show_options_menu){
+        processIncomingMouseXY(x,y);
+        plot_controls.windowMousePressed(x,y,keyModifiers);
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-    processIncomingMouseXY(x,y);
-    plot_controls.windowMouseDragged(x, y);
+    if(!show_options_menu){
+        processIncomingMouseXY(x,y);
+        plot_controls.windowMouseDragged(x, y);
+    }
 }
 
 void ofApp::processIncomingMouseXY(int x, int y){
