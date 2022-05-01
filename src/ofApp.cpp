@@ -82,7 +82,6 @@ void ofApp::setup(){
     midiIn.addListener(this);
 
     // =========== GRAPHICS ================
-	plot_controls.setDropdownOptions(midiIn.getInPortList());
 	plot_controls.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),guiItems,gui_info_json["plot"]);
     plot_controls.setCallback(this,&ofApp::guiCallback);
     
@@ -135,10 +134,6 @@ void ofApp::guiCallback(const SergeGUIEvent event){
         case PUSH:
             if(playing_index >= 0) step_sequencer.assignCurrentStep(playing_index);
             break;
-        case DROPDOWN:
-            cout << "Dropdown detected\n";
-            midiIn.closePort();
-            midiIn.openPort(event.val_i);
         default:
             break;
     }

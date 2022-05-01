@@ -27,7 +27,7 @@ struct SergeGUIItems {
     ofTrueTypeFont font;
 };
 
-enum SergeGUIType { KNOB, LED, PUSH, DROPDOWN };
+enum SergeGUIType { KNOB, LED, PUSH };
 
 enum SergeEventType { MOUSEPRESSED, MOUSERELEASED, MOUSEDRAGGED };
 
