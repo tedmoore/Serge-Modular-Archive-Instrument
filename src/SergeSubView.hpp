@@ -87,7 +87,7 @@ public:
     }
 
     void windowMousePressed(float x, float y, KeyModifiers &modifiers){
-//        cout << "SergeSubView::windowMousePressed " << x << " " << y << endl;
+
         float mouse[2] = {x,y};
         if(windowPointInFrame(mouse)){
             bool active_dropdowns = false;
@@ -106,7 +106,7 @@ public:
                     if(guis[i]->isInside(mouse)){
                         grabbed_knob = i;
                         grabbed_knob_y = y;
-                        guis[i]->mousePressed(x,y,modifiers);
+                        guis[i]->windowMousePressed(x,y,modifiers);
                         break;
                     }
                 }
@@ -257,6 +257,10 @@ public:
             guis[grabbed_knob]->increment(grabbed_knob_y - y);
             grabbed_knob_y = y;
         }
+    }
+    
+    void updateGuiValue(int image_index, float val){
+        guis[image_index]->setValueF(val);
     }
 };
 #endif /* SergeSubView_hpp */

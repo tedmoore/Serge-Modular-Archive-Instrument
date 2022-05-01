@@ -70,7 +70,7 @@ public:
     virtual void draw(float xoff, float yoff, float ratio) {
         //        cout << "draw in base class\n";
     }
-    virtual void mousePressed(int mousex, int mousey, KeyModifiers &mods){
+    virtual void windowMousePressed(int mousex, int mousey, KeyModifiers &mods){
         //        cout << "mousePressed in base class\n";
     }
     
@@ -134,6 +134,7 @@ public:
         event.image_index = image_index;
         event.val_f = val_f;
         event.val_i = val_i;
+        event.parent_id = parent_id;
         callback(event);
     }
 
@@ -169,7 +170,7 @@ public:
         dispatchEvent(KNOB,MOUSEDRAGGED);
     }
     
-    void mousePressed(int mousex, int mousey, KeyModifiers &mods){
+    void windowMousePressed(int mousex, int mousey, KeyModifiers &mods){
         dispatchEvent(KNOB,MOUSEPRESSED);
     }
     
@@ -208,7 +209,7 @@ public:
         }
     }
     
-    void mousePressed(int mousex, int mousey, KeyModifiers &mods){
+    void windowMousePressed(int mousex, int mousey, KeyModifiers &mods){
         dispatchEvent(LED,MOUSEPRESSED);
     }
 
@@ -236,7 +237,7 @@ public:
         }
     }
 
-    void mousePressed(int mousex, int mousey, KeyModifiers &mods){
+    void windowMousePressed(int mousex, int mousey, KeyModifiers &mods){
         pushed = true;
         dispatchEvent(PUSH,MOUSEPRESSED);
     }

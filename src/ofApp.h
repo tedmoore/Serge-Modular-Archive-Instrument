@@ -66,6 +66,7 @@ public:
     void knobCallback(const SergeGUIEvent event);
     void ledCallback(const SergeGUIEvent event);
     void individualKnobCallback(SergeEventType eventType, int param_control, float val){
+        
         // if it's a mouse drag, we're just setting the value of that param
         if(eventType == MOUSEDRAGGED){
             params_state.setAt(param_control, val);
@@ -91,13 +92,10 @@ public:
 
     ofFbo plot_fbo;
 
-    bool is_moving = false;
-    float interp = 0;
-
     int axis_selection_lookup[7] = {3,4,7,8,9,5,6};
 
     int plot_x, plot_y, plot_w, plot_h;
-    int margin = 10;
+    const int margin = 10;
 
     ofxKDTree kdTree_2d;
     ofxKDTree kdTree_params;
@@ -108,7 +106,7 @@ public:
     ofSoundStream soundstream;
 
     SergeImage skeuomorph;
-    SergeImage tkb;
+    SergeImage plot_controls;
 
     ofxOscReceiver osc_receiver;
 
@@ -130,7 +128,7 @@ public:
     SergeGUIItems guiItems;
 	KeyModifiers keyModifiers;
     
-    int nParams = 4;
+    const int nParams = 4;
     vector<int> skeuomorph_knob_assignments;
     
     SergeStepSequencer step_sequencer;

@@ -66,9 +66,6 @@ void ofApp::setup(){
       loadDirectory(result.getPath());
     }
 
-    windowResized(ofGetWidth(),ofGetHeight());
-    drawPlot(true);
-
     soundstream.setup(2, 0, SAMPLERATE, 256, 4);
 
     // MIDI
@@ -85,9 +82,9 @@ void ofApp::setup(){
     midiIn.addListener(this);
 
     // =========== GRAPHICS ================
-	tkb.setDropdownOptions(midiIn.getInPortList());    
-	tkb.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),guiItems,gui_info_json["plot"]);
-    tkb.setCallback(this,&ofApp::guiCallback);
+	plot_controls.setDropdownOptions(midiIn.getInPortList());
+	plot_controls.load(ofToDataPath("images/Serge GUI Layout (2022)/TAUC/TAUC.png"),guiItems,gui_info_json["plot"]);
+    plot_controls.setCallback(this,&ofApp::guiCallback);
     
     for(int i = 0; i < nParams; i++){
         skeuomorph.guis[skeuomorph_knob_assignments[i]]->setIlluminate(true);
@@ -95,32 +92,37 @@ void ofApp::setup(){
     
     // radios
     for(int i = 4; i <= 10; i++){
-        x_radio.addGui(tkb.guis[i]);
+        x_radio.addGui(plot_controls.guis[i]);
     }
     
     x_radio.setIndex(0);
   
     for(int i = 11; i <= 17; i++){
-        y_radio.addGui(tkb.guis[i]);
+        y_radio.addGui(plot_controls.guis[i]);
     }
   
     y_radio.setIndex(1);
     
     for(int i = 18; i <= 24; i++){
-        c_radio.addGui(tkb.guis[i]);
+        c_radio.addGui(plot_controls.guis[i]);
     }
 
     c_radio.setIndex(2);
     
     for(int i = 26; i <= 41; i++){
-        step_sequencer.radio.addGui(tkb.guis[i]);
+        step_sequencer.radio.addGui(plot_controls.guis[i]);
     }
     
+    step_sequencer.randomize(slices.size());
     step_sequencer.updateIndex(0);
+    
+    windowResized(ofGetWidth(),ofGetHeight());
+    drawPlot(true);
 }
 
 void ofApp::guiCallback(const SergeGUIEvent event){
     
+    cout << "ofApp::guiCallback\n";
     event.dump();
     
     switch (event.guiType) {
@@ -134,6 +136,7 @@ void ofApp::guiCallback(const SergeGUIEvent event){
             if(playing_index >= 0) step_sequencer.assignCurrentStep(playing_index);
             break;
         case DROPDOWN:
+            cout << "Dropdown detected\n";
             midiIn.closePort();
             midiIn.openPort(event.val_i);
         default:
@@ -222,7 +225,7 @@ void ofApp::find_nearest_param(const vector<double> &p){
     vector<size_t> indexes;
     vector<double> distances;
     kdTree_params.getKNN(params_state.get(),1, indexes, distances);
-    setPlayingIndex(indexes[0],false);
+    setPlayingIndex(indexes[0],true);
 }
 
 void ofApp::setPlayingIndex(size_t index, bool updateSliders){
@@ -234,18 +237,16 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
         int n_frames = slices[playing_index]->values[2];
                         
         for(int i = 0; i < soundFiles.size(); i++){
-            int gate = 0;
-            if(i == file) gate = 1;
-            soundFiles[i]->setPosGate(start_frame,n_frames,gate);
+            soundFiles[i]->setPosGate(start_frame,n_frames,i == file);
         }
         
         for(int i = 0; i < 4; i++){
-            params_state.setAt(i,slices[playing_index]->values[10 + i]);
-        }
-        
-        // TODO: have a way of setting the state for certain knobs
-//        tkb.updateParamGuis(params_state.get());
-//        three_panel.updateParamGuis(params_state.get());
+            params_state.setAt(i,slices[playing_index]->values[10 + i],false);
+            if(updateSliders){
+                plot_controls.updateGuiValue(plot_control_param_knobs[i], params_state.getAt(i));
+                skeuomorph.updateGuiValue(skeuomorph_knob_assignments[i], params_state.getAt(i));
+            }
+        }        
     }
 }
 
@@ -309,7 +310,7 @@ void ofApp::draw(){
 
 void ofApp::drawPlotWindow(){
     ofSetColor(255,255,255,255);
-    tkb.draw();
+    plot_controls.draw();
     ofSetColor(255,255,255,255);
     ofSetRectMode(OF_RECTMODE_CORNER);
     plot_fbo.draw(plot_x,plot_y,plot_w,plot_h);
@@ -437,7 +438,7 @@ void ofApp::masterKeyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-    tkb.windowMouseMoved(x,y);
+    plot_controls.windowMouseMoved(x,y);
 }
 
 void ofApp::skeuomorphMousePressed(ofMouseEventArgs& args){
@@ -459,17 +460,17 @@ void ofApp::skeuomorphMouseDragged(ofMouseEventArgs& args){
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
     processIncomingMouseXY(x,y);
-    tkb.windowMousePressed(x,y,keyModifiers);
+    plot_controls.windowMousePressed(x,y,keyModifiers);
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
     processIncomingMouseXY(x,y);
-    tkb.windowMouseDragged(x, y);
+    plot_controls.windowMouseDragged(x, y);
 }
 
 void ofApp::processIncomingMouseXY(int x, int y){
-    if(mouseInPlot(x,y) && !tkb.hasMouseCaptured()){
+    if(mouseInPlot(x,y) && !plot_controls.hasMouseCaptured()){
         hid_xy.setAt(0,(double(x) - plot_x) / plot_w);
         hid_xy.setAt(1,(double(y) - plot_y) / plot_h);
     }
@@ -477,7 +478,7 @@ void ofApp::processIncomingMouseXY(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-    tkb.windowMouseReleased(x,y);
+    plot_controls.windowMouseReleased(x,y);
 }
 
 void ofApp::skeuomorphMouseReleased(ofMouseEventArgs& args){
@@ -497,14 +498,14 @@ void ofApp::mouseExited(int x, int y){
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
 
-    tkb.bottomScaled(w,h,margin);
+    plot_controls.bottomScaled(w,h,margin);
 
-    tkb.postDims();
+    plot_controls.postDims();
 
     plot_x = margin;
     plot_y = margin;
     plot_w = w - (plot_x + margin);
-    plot_h = h - ((margin * 3) + tkb.draw_h);
+    plot_h = h - ((margin * 3) + plot_controls.draw_h);
 
     drawPlot(false);
 }

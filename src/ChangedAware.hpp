@@ -14,9 +14,9 @@
 class ChangedAware {
     
 public:
-    void setAt(int index, double val){
+    void setAt(int index, double val, bool newChanged = true){
         vec[index] = val;
-        changed = true;
+        changed = changed || newChanged;
     }
     double getAt(int index){
         return vec[index];
