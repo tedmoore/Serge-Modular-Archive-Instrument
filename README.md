@@ -24,7 +24,7 @@ All of the control parameters (including _x_ and _y_ plot navigation, skeuomorph
 
 ## License
 
-The license for the code is BSD-3 while the license for the audio files and accompanying data licensed under Creative Commons [Attribution 4.0 International](http://creativecommons.org/licenses/by/4.0/).
+The license for the code is BSD-3 Clause and the license for the audio files and accompanying data is licensed under Creative Commons [Attribution 4.0 International](http://creativecommons.org/licenses/by/4.0/).
 
 ## Building
 
