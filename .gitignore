@@ -1,5 +1,5 @@
 bin/data/audio_files/*
-serge_01.xcodeproj/project.xcworkspace/xcuserdata/macprocomputer.xcuserdatad/UserInterfaceState.xcuserstate
+serge_01.xcodeproj
 audio_analysis/serge_patch_recordings
 audio_analysis/analyses
 bin/*.app
