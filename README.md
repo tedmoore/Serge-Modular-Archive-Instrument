@@ -15,7 +15,8 @@ The _Serge Modular Archive Instrument_ is created by [Jean Brazeau](https://221a
     - a `json` file containing some additional data needed for the software to load the data
 3. Open the application downloaded in step 1. 
     - The first thing that will happen is the software will ask you to choose a folder: select the folder downloaded in step 2.
-4. Make sound. Refer to the [User Manual](https://github.com/tedmoore/serge-archive-oF/blob/main/documentation/SMAI-User-Manual.pdf) (in-progress) found in this repo for more instructions.
+4. When the application is done loading the folder it will open and display a menu for selecting your MIDI device. Choose a MIDI device by pressing the number on your QWERTY keyboard next to the MIDI device you would like to use. Your selection should turn red. **To close this menu and begin using the application to make sound, hit the letter `m`**
+5. Make sound. Click on the plot, click on the knobs, etc. Refer to the [User Manual](https://github.com/tedmoore/serge-archive-oF/blob/main/documentation/SMAI-User-Manual.pdf) (in-progress) found in this repo for more instructions.
 
 ## How Does This Work?
 
