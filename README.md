@@ -6,11 +6,24 @@ The _Serge Modular Archive Instrument_ is created by [Jean Brazeau](https://221a
 
 ![Full SMAI](./documentation/figures/serge-full.jpg)
 
-## Recording & Analysis
+## How to Use This Application:
 
-For each patch included (currently there are five) we recorded tens of thousands of one-second samples of different parameter settings by systematically stepping through parameter combinations (sent to the Serge using the [Expert Sleepers ES-3](https://www.expert-sleepers.co.uk/es3.html). These samples were then analyzed using the [FluCoMa](https://www.flucoma.org/) Toolkit for analyses such as [pitch](https://learn.flucoma.org/reference/pitch/), [spectral descriptors](https://learn.flucoma.org/reference/spectralshape/), [timbral descriptors](https://learn.flucoma.org/reference/mfcc/), [loudness](https://learn.flucoma.org/reference/loudness/), and more. The data set created is then reduced to two dimensions using [PCA](https://learn.flucoma.org/reference/pca/) and then [UMAP](https://learn.flucoma.org/reference/umap/).
+1. You'll need to download the [latest release](https://github.com/tedmoore/serge-archive-oF/releases/latest) from this repo. 
+2. Download a patch (essentially a folder of files) from [this Google Drive folder](https://drive.google.com/drive/folders/1LRe2oOUYgVRhTToPmIJWTU4CTBDvpJhz?usp=sharing). It will contain:
+    - `wav` audio files containing the synth sounds
+    - a `csv` file containing the data of the audio analyses
+    - a `json` file containing some additional data needed for the software to load the data
+3. Open the application downloaded in step 1. 
+    - The first thing that will happen is the software will ask you to choose a folder: select the folder downloaded in step 2.
+4. Make sound. Refer to the User Manual (in-progress) found in this repo for more instructions.
 
-## Control 
+## How Does This Work?
+
+### Recording & Analysis
+
+For each patch included we recorded tens of thousands of one-second samples of different parameter settings by systematically stepping through parameter combinations (sent to the Serge using the [Expert Sleepers ES-3](https://www.expert-sleepers.co.uk/es3.html). These samples were then analyzed using the [FluCoMa](https://www.flucoma.org/) Toolkit for analyses such as [pitch](https://learn.flucoma.org/reference/pitch/), [spectral descriptors](https://learn.flucoma.org/reference/spectralshape/), [timbral descriptors](https://learn.flucoma.org/reference/mfcc/), [loudness](https://learn.flucoma.org/reference/loudness/), and more. The data set created is then reduced to two dimensions using [PCA](https://learn.flucoma.org/reference/pca/) and then [UMAP](https://learn.flucoma.org/reference/umap/).
+
+### Control 
 
 These audio samples can then be accessed by navigating a two-dimensional plot (plus color), which can show the sound samples according to pitch, pitch confidence, loudness, spectral centroid, spectral flatness, or either of the two UMAP dimensions. 
 
@@ -28,11 +41,15 @@ The license for the code is BSD-3 Clause and the license for the audio files and
 
 ## Building
 
-Currently, this project exists in XCode without a separate makefile.
+Currently, this project exists in XCode. The repo does contain a `Makefile` which does work for building. If you want to try building this on your local computer you'll need the dependencies below.
 
 ### Dependencies for Building
 
 * [openFrameworks](https://openframeworks.cc/) (and this repo needs to be in the appropriate `myApps` folder in the openFrameworks folder)
+* openFrameworks addon: [ofxAudioFile](https://github.com/npisanti/ofxAudioFile)
+* openFrameworks addon: [ofxKDTree](https://github.com/genekogan/ofxKDTree)
+* openFrameworks addon: **ofxMidi**: comes with openFrameworks
+* openFrameworks addon: **ofxOsc**: comes with openFrameworks
 
 ### Dependencies for generating some material used when building:
 

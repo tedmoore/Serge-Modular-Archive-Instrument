@@ -2,7 +2,7 @@ bin/data/audio_files/*
 serge_01.xcodeproj
 audio_analysis/serge_patch_recordings
 audio_analysis/analyses
-bin/*.app
+bin/*.app*
 Serge Archive Instrument.xcodeproj
 documentation/SERGE Modular Manual_ SFU Music Area
 obj
