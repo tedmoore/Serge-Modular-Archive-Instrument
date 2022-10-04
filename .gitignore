@@ -7,3 +7,5 @@ bin/serge_01Debug.app
 bin/Serge Archive Instrument.app
 Serge Archive Instrument.xcodeproj
 documentation/SERGE Modular Manual_ SFU Music Area
+bin/serge_01.app
+obj
