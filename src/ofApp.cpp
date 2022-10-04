@@ -124,9 +124,6 @@ void ofApp::setup(){
 
 void ofApp::guiCallback(const SergeGUIEvent event){
     
-//    cout << "ofApp::guiCallback\n";
-//    event.dump();
-//    
     switch (event.guiType) {
         case KNOB:
             knobCallback(event);
