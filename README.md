@@ -52,7 +52,8 @@ Currently, this project exists in XCode. The repo does contain a `Makefile` whic
 * openFrameworks addon: **ofxMidi**: comes with openFrameworks
 * openFrameworks addon: **ofxOsc**: comes with openFrameworks
 
-**This repo also uses the [nlohmann json c++ library](https://github.com/nlohmann/json) which is already included in the `thirdparty` folder of `src`**
+**This repo also uses the [nlohmann json c++ library](https://github.com/nlohmann/json) which is already included in the `thirdparty` folder of `src`**.  
+Lohmann, N. (2022). JSON for Modern C++ (Version 3.11.2) [Computer software]. https://github.com/nlohmann
 
 ### Dependencies for generating some material used when building:
 
