@@ -52,7 +52,7 @@ Currently, this project exists in XCode. The repo does contain a `Makefile` whic
 * openFrameworks addon: **ofxMidi**: comes with openFrameworks
 * openFrameworks addon: **ofxOsc**: comes with openFrameworks
 
-**This repo also uses the [nlohmann json c++ library](https://github.com/nlohmann/json)**
+**This repo also uses the [nlohmann json c++ library](https://github.com/nlohmann/json) which is already included in the `thirdparty` folder of `src`**
 
 ### Dependencies for generating some material used when building:
 
