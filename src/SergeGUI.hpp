@@ -63,8 +63,6 @@ public:
     int image_index = -1;
     
     function<void(const SergeGUIEvent event)> callback;
-    function<void()> proprietaryCallback;
-    bool hasProprietaryCallback = false;
 
     virtual void increment(float pixels) {
         //        cout << "increment in base class\n";
