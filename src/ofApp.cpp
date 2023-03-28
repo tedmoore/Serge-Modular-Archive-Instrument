@@ -355,6 +355,7 @@ void ofApp::drawOptionsMenu(){
         }
         guiItems.font.drawStringAsShapes(ofToString(i) + ": " + midi_ports[i],x + margin, y + margin + text_height + ((i+1)*text_height * 1.5));
     }
+    guiItems.font.drawStringAsShapes("Press 'M' to close", x + margin, (y + h) - margin);
 }
 
 void ofApp::drawPlotWindow(){
