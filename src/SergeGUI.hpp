@@ -63,6 +63,8 @@ public:
     int image_index = -1;
     
     function<void(const SergeGUIEvent event)> callback;
+    function<void()> proprietaryCallback;
+    bool hasProprietaryCallback = false;
 
     virtual void increment(float pixels) {
         //        cout << "increment in base class\n";
@@ -117,7 +119,7 @@ public:
     void setCallback(T* owner, void (ListenerClass::*listenerMethod)(args)){
         callback = std::bind(listenerMethod, owner, std::placeholders::_1);
     }
-    
+        
     void setCallback(function<void(SergeGUIEvent event)> cb){
         callback = cb;
     }
