@@ -117,7 +117,7 @@ public:
     void setCallback(T* owner, void (ListenerClass::*listenerMethod)(args)){
         callback = std::bind(listenerMethod, owner, std::placeholders::_1);
     }
-    
+        
     void setCallback(function<void(SergeGUIEvent event)> cb){
         callback = cb;
     }

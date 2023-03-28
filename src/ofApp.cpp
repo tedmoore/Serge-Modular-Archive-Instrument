@@ -113,6 +113,18 @@ void ofApp::setup(){
         step_sequencer.radio.addGui(plot_controls.guis[i]);
     }
     
+    // override the default call back function for the x and y knobs
+    
+    // 'x' knob
+    plot_controls.guis[plot_x_knob_index]->setCallback([&](SergeGUIEvent event){
+        hid_xy.setAt(0,event.val_f);
+    });
+    
+    // 'x' knob
+    plot_controls.guis[plot_y_knob_index]->setCallback([&](SergeGUIEvent event){
+        hid_xy.setAt(1,event.val_f);
+    });
+    
     step_sequencer.randomize(slices.size());
     step_sequencer.updateIndex(0);
     
@@ -206,6 +218,7 @@ void ofApp::audioOut(float *output, int bufferSize, int nChannels){
     }
 }
 
+// x and y are normalized 0 to 1
 void ofApp::find_nearest_xy(){
     
     vector<size_t> indexes;
@@ -223,7 +236,7 @@ void ofApp::find_nearest_param(const vector<double> &p){
     setPlayingIndex(indexes[0],true);
 }
 
-void ofApp::setPlayingIndex(size_t index, bool updateSliders){
+void ofApp::setPlayingIndex(int index, bool updateHandles){
     if(index != playing_index){
         playing_index = index;
 
@@ -237,11 +250,17 @@ void ofApp::setPlayingIndex(size_t index, bool updateSliders){
         
         for(int i = 0; i < 4; i++){
             params_state.setAt(i,slices[playing_index]->values[10 + i],false);
-            if(updateSliders){
+            if(updateHandles){
                 plot_controls.updateGuiValue(plot_control_param_knobs[i], params_state.getAt(i));
                 skeuomorph.updateGuiValue(skeuomorph_knob_assignments[i], params_state.getAt(i));
             }
-        }        
+        }
+        
+        // update the x and y knobs (if the knobs are being used, this is redundant, but it's ok.
+        // if the mouse is interacting with the plot, this is not redundant, which is probably
+        // the more common use case)
+        plot_controls.guis[plot_x_knob_index]->setValueF(slices[playing_index]->current_pos.x);
+        plot_controls.guis[plot_y_knob_index]->setValueF(slices[playing_index]->current_pos.y);
     }
 }
 

@@ -41,7 +41,7 @@ public:
     void find_nearest_param(const vector<double> &p);
     bool mouseInPlot(int x, int y);
     void audioOut(float *output, int bufferSize, int nChannels);
-    void setPlayingIndex(size_t index, bool updateSliders);
+    void setPlayingIndex(int index, bool updateSliders);
     void createColors();
     void readSoundSlicesData(string csv_path);
     void createPointKDTree();
@@ -93,6 +93,8 @@ public:
 
     ofFbo plot_fbo;
 
+    // the dimension in the data to acess for the seven leds
+    // umap 1, umap 2, pitch, pitch conf, loudness, centroid, flatness
     int axis_selection_lookup[7] = {3,4,7,8,9,5,6};
 
     int plot_x, plot_y, plot_w, plot_h;
@@ -114,7 +116,10 @@ public:
     ChangedAware hid_xy;
     ChangedAware params_state;
     
+    // the four 'param' knobs on the right side of the tkb controller
     int plot_control_param_knobs[4] = {1,25,42,43};
+    int plot_x_knob_index = 2;
+    int plot_y_knob_index = 3;
 
     // MIDI
     void newMidiMessage(ofxMidiMessage& eventArgs);
