@@ -127,6 +127,7 @@ public:
     void newMidiNoteOn(int note, int vel);
     ofxMidiIn midiIn;
     MIDIManager midi_manager;
+    bool redrawPlotNextUpdate = false;
 
     int skeuomorph_window_width;
     int skeuomorph_window_height;

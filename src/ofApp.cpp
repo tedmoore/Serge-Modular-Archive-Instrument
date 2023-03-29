@@ -272,6 +272,11 @@ void ofApp::update(){
     if(loaded){
         processOSC();
         
+        if(redrawPlotNextUpdate){
+            drawPlot(true);
+            redrawPlotNextUpdate = false;
+        }
+        
         if (hid_xy.changed){
             find_nearest_xy();
             hid_xy.changed = false;
@@ -293,7 +298,6 @@ void ofApp::update(){
 }
 
 void ofApp::processOSC(){
-    bool drawPlotAfterOSC = false;
     // ==================== OSC ================================
     while(osc_receiver.hasWaitingMessages()){
         ofxOscMessage oscMsg;
@@ -315,21 +319,19 @@ void ofApp::processOSC(){
             hid_xy.setAt(1,1.f - oscMsg.getArgAsFloat(0));
         } else if (address == "/x-axis"){
             x_radio.setIndex(oscMsg.getArgAsInt(0));
-            drawPlotAfterOSC = true;
+            redrawPlotNextUpdate = true;
         } else if (address == "/y-axis"){
             y_radio.setIndex(oscMsg.getArgAsInt(0));
-            drawPlotAfterOSC = true;
+            redrawPlotNextUpdate = true;
         } else if (address == "/color-axis"){
             c_radio.setIndex(oscMsg.getArgAsInt(0));
-            drawPlotAfterOSC = true;
+            redrawPlotNextUpdate = true;
         } else if (address == "/step-seq"){
             setPlayingIndex(step_sequencer.goToStep(oscMsg.getArgAsInt(0) - 1), true);
         } else if (address == "/step-seq-advance"){
             setPlayingIndex(step_sequencer.advance(), true);
         }
     }
-    
-    if(drawPlotAfterOSC) drawPlot(true);
 }
 
 //--------------------------------------------------------------
@@ -656,19 +658,19 @@ void ofApp::newMidiControlChange(int cc, int val, int channel){
         case 101: // set x axis
             if(val >= 0 and val < 7){
                 x_radio.setIndex(val);
-                drawPlot(true);
+                redrawPlotNextUpdate = true;
             }
             break;
         case 102: // set y axis
             if(val >= 0 and val < 7){
                 y_radio.setIndex(val);
-                drawPlot(true);
+                redrawPlotNextUpdate = true;
             }
             break;
         case 103: // set color axis
             if(val >= 0 and val < 7){
                 c_radio.setIndex(val);
-                drawPlot(true);
+                redrawPlotNextUpdate = true;
             }
             break;
         default: // if it is not one of the reserved cc
@@ -683,11 +685,20 @@ void ofApp::newMidiControlChange(int cc, int val, int channel){
 
 void ofApp::newMidiNoteOn(int note, int vel){
     
-    // this will return -1 if this midi note is not one
-    // that the step sequencer is listening for
-    int slice_id = step_sequencer.receiveMIDI(note);
-    
-    if(slice_id >= 0 and slice_id < slices.size()) setPlayingIndex(slice_id,true);
+    switch(note){
+        case 100:
+            setPlayingIndex(step_sequencer.advance(), true);
+            break;
+        default:
+        {
+            // this will return -1 if this midi note is not one
+            // that the step sequencer is listening for
+            int slice_id = step_sequencer.receiveMIDI(note);
+            
+            if(slice_id >= 0 and slice_id < slices.size()) setPlayingIndex(slice_id,true);
+        }
+            break;
+    }
 }
 
 void ofApp::createColors(){
