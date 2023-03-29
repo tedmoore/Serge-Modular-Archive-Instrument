@@ -240,7 +240,7 @@ void ofApp::find_nearest_param(const vector<double> &p){
 }
 
 void ofApp::setPlayingIndex(int index, bool updateHandles){
-    if(index != playing_index){
+    if(index != playing_index and index >= 0 and index < slices.size()){
         playing_index = index;
 
         int file = slices[playing_index]->values[0];
@@ -272,6 +272,11 @@ void ofApp::update(){
     if(loaded){
         processOSC();
         
+        if(redrawPlotNextUpdate){
+            drawPlot(true);
+            redrawPlotNextUpdate = false;
+        }
+        
         if (hid_xy.changed){
             find_nearest_xy();
             hid_xy.changed = false;
@@ -300,11 +305,7 @@ void ofApp::processOSC(){
 
         string address = oscMsg.getAddress();
 
-        if(address == "/x"){
-            hid_xy.setAt(0,oscMsg.getArgAsFloat(0));
-        } else if (address == "/y"){
-            hid_xy.setAt(1,1.f - oscMsg.getArgAsFloat(0));
-        } else if (address == "/param1"){
+        if(address == "/param1"){
             params_state.setAt(0,oscMsg.getArgAsFloat(0));
         } else if (address == "/param2"){
             params_state.setAt(1,oscMsg.getArgAsFloat(0));
@@ -312,6 +313,23 @@ void ofApp::processOSC(){
             params_state.setAt(2,oscMsg.getArgAsFloat(0));
         } else if (address == "/param4"){
             params_state.setAt(3,oscMsg.getArgAsFloat(0));
+        } else if (address == "/x"){
+            hid_xy.setAt(0,oscMsg.getArgAsFloat(0));
+        } else if (address == "/y"){
+            hid_xy.setAt(1,1.f - oscMsg.getArgAsFloat(0));
+        } else if (address == "/x-axis"){
+            x_radio.setIndex(oscMsg.getArgAsInt(0));
+            redrawPlotNextUpdate = true;
+        } else if (address == "/y-axis"){
+            y_radio.setIndex(oscMsg.getArgAsInt(0));
+            redrawPlotNextUpdate = true;
+        } else if (address == "/color-axis"){
+            c_radio.setIndex(oscMsg.getArgAsInt(0));
+            redrawPlotNextUpdate = true;
+        } else if (address == "/step-seq"){
+            setPlayingIndex(step_sequencer.goToStep(oscMsg.getArgAsInt(0) - 1), true);
+        } else if (address == "/step-seq-advance"){
+            setPlayingIndex(step_sequencer.advance(), true);
         }
     }
 }
@@ -403,7 +421,6 @@ void ofApp::drawSkeuomorph(ofEventArgs &args){
 void ofApp::drawPlot(bool buildKDTree){
     if(buildKDTree) kdTree_2d.clear();
 
-    plot_fbo.allocate(plot_w, plot_h);
     plot_fbo.begin();
     ofClear(255,255,255,255);
     ofFill();
@@ -542,7 +559,7 @@ void ofApp::mousePressed(int x, int y, int button){
 void ofApp::mouseDragged(int x, int y, int button){
     if(!show_options_menu){
         processIncomingMouseXY(x,y);
-        plot_controls.windowMouseDragged(x, y);
+        plot_controls.windowMouseDragged(x,y);
     }
 }
 
@@ -584,6 +601,8 @@ void ofApp::windowResized(int w, int h){
     plot_w = w - (plot_x + margin);
     plot_h = h - ((margin * 3) + plot_controls.draw_h);
 
+    plot_fbo.allocate(plot_w, plot_h);
+    
     drawPlot(false);
 }
 
@@ -607,21 +626,76 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
     
     switch(msg.status){
         case MIDI_CONTROL_CHANGE:
-        {
-            int learned_midi = midi_manager.processIncomingMIDI(msg.channel,msg.control);
-            if(learned_midi == 4){
-                hid_xy.setAt(0,msg.value / 127.f);
-            } else if (learned_midi == 5){
-                hid_xy.setAt(1,1.f - (msg.value / 127.f));
-            } else if(learned_midi < 4 && learned_midi >= 0){
-                params_state.setAt(learned_midi,msg.value / 127.f);
-            }
-        }
+            newMidiControlChange(msg.control, msg.value,msg.channel);
             break;
         case MIDI_NOTE_ON:
+            newMidiNoteOn(msg.pitch, msg.velocity);
+            break;
+    }
+}
+
+void ofApp::newMidiControlChange(int cc, int val, int channel){
+    
+    switch(cc){
+        case 1:
+            params_state.setAt(0,val / 127.f);
+            break;
+        case 2:
+            params_state.setAt(1,val / 127.f);
+            break;
+        case 3:
+            params_state.setAt(2,val / 127.f);
+            break;
+        case 4:
+            params_state.setAt(3,val / 127.f);
+            break;
+        case 5: // set x position on plot
+            hid_xy.setAt(0,val / 127.f);
+            break;
+        case 6: // set y postiion on plot
+            hid_xy.setAt(1,1.f - (val / 127.f));
+            break;
+        case 101: // set x axis
+            if(val >= 0 and val < 7){
+                x_radio.setIndex(val);
+                redrawPlotNextUpdate = true;
+            }
+            break;
+        case 102: // set y axis
+            if(val >= 0 and val < 7){
+                y_radio.setIndex(val);
+                redrawPlotNextUpdate = true;
+            }
+            break;
+        case 103: // set color axis
+            if(val >= 0 and val < 7){
+                c_radio.setIndex(val);
+                redrawPlotNextUpdate = true;
+            }
+            break;
+        default: // if it is not one of the reserved cc
+            // this will return a -1 if there is nothing assigned at this channel & cc
+            int learned_midi = midi_manager.processIncomingMIDI(channel,cc);
+            if(learned_midi < 4 && learned_midi >= 0){
+                params_state.setAt(learned_midi, val / 127.f);
+            }
+            break;
+    }
+}
+
+void ofApp::newMidiNoteOn(int note, int vel){
+    
+    switch(note){
+        case 100:
+            setPlayingIndex(step_sequencer.advance(), true);
+            break;
+        default:
         {
-            int slice_id = step_sequencer.receiveMIDI(msg.pitch);
-            if(slice_id >= 0) setPlayingIndex(slice_id,true);
+            // this will return -1 if this midi note is not one
+            // that the step sequencer is listening for
+            int slice_id = step_sequencer.receiveMIDI(note);
+            
+            if(slice_id >= 0 and slice_id < slices.size()) setPlayingIndex(slice_id,true);
         }
             break;
     }

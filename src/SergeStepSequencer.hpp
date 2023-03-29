@@ -58,8 +58,7 @@ public:
     int receiveMIDI(int note){
         if(note >= midi_note_step1 && note < midi_note_step1 + n_steps){
             int index = note - midi_note_step1;
-            radio.setIndex(index);
-            return saved_slice_ids[index];
+            return goToStep(index);
         }
         return -1;
     }
@@ -87,6 +86,19 @@ public:
             }
         }
         return -1;
+    }
+    
+    int goToStep(int n){
+        if(n < n_steps and n >= 0){
+            radio.setIndex(n);
+            return saved_slice_ids[n];
+        }
+        return -1;
+    }
+    
+    int advance(){
+        int n = radio.advance();
+        return saved_slice_ids[n];
     }
 };
 

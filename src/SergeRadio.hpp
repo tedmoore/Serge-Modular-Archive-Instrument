@@ -21,7 +21,7 @@ public:
         leds.push_back(led);
     }
     
-    // the int it returns is if the radio index if the image index it was sent was found
+    // the int it returns is if the radio index of the image index it was sent was found
     // -1 if it was not found
     int update(int image_index){
         int found = -1;
@@ -34,24 +34,13 @@ public:
         }
         
         if(found >= 0){
-            for(int i = 0; i < leds.size(); i++){
-                if(i == found){
-                    leds[i]->setOn(true);
-                } else {
-                    leds[i]->setOn(false);
-                }
-            }
+            updateLEDs();
         }
         
         return found;
     }
     
-    int getCurrentIndex(){
-        return current_index;
-    }
-    
-    void setIndex(int index){
-        current_index = index;
+    void updateLEDs(){
         for(int i = 0; i < leds.size(); i++){
             if(i == current_index){
                 leds[i]->setOn(true);
@@ -59,6 +48,23 @@ public:
                 leds[i]->setOn(false);
             }
         }
+    }
+    
+    int getCurrentIndex(){
+        return current_index;
+    }
+    
+    void setIndex(int index){
+        if(index >=0 and index < leds.size()){
+            current_index = index;
+            updateLEDs();
+        }
+    }
+    
+    int advance(){
+        current_index = (current_index + 1) % leds.size();
+        updateLEDs();
+        return current_index;
     }
 };
 #endif /* SergeRadio_hpp */
