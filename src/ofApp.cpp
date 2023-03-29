@@ -240,7 +240,7 @@ void ofApp::find_nearest_param(const vector<double> &p){
 }
 
 void ofApp::setPlayingIndex(int index, bool updateHandles){
-    if(index != playing_index){
+    if(index != playing_index and index >= 0 and index < slices.size()){
         playing_index = index;
 
         int file = slices[playing_index]->values[0];
@@ -293,6 +293,7 @@ void ofApp::update(){
 }
 
 void ofApp::processOSC(){
+    bool drawPlotAfterOSC = false;
     // ==================== OSC ================================
     while(osc_receiver.hasWaitingMessages()){
         ofxOscMessage oscMsg;
@@ -300,11 +301,7 @@ void ofApp::processOSC(){
 
         string address = oscMsg.getAddress();
 
-        if(address == "/x"){
-            hid_xy.setAt(0,oscMsg.getArgAsFloat(0));
-        } else if (address == "/y"){
-            hid_xy.setAt(1,1.f - oscMsg.getArgAsFloat(0));
-        } else if (address == "/param1"){
+        if(address == "/param1"){
             params_state.setAt(0,oscMsg.getArgAsFloat(0));
         } else if (address == "/param2"){
             params_state.setAt(1,oscMsg.getArgAsFloat(0));
@@ -312,8 +309,27 @@ void ofApp::processOSC(){
             params_state.setAt(2,oscMsg.getArgAsFloat(0));
         } else if (address == "/param4"){
             params_state.setAt(3,oscMsg.getArgAsFloat(0));
+        } else if (address == "/x"){
+            hid_xy.setAt(0,oscMsg.getArgAsFloat(0));
+        } else if (address == "/y"){
+            hid_xy.setAt(1,1.f - oscMsg.getArgAsFloat(0));
+        } else if (address == "/x-axis"){
+            x_radio.setIndex(oscMsg.getArgAsInt(0));
+            drawPlotAfterOSC = true;
+        } else if (address == "/y-axis"){
+            y_radio.setIndex(oscMsg.getArgAsInt(0));
+            drawPlotAfterOSC = true;
+        } else if (address == "/color-axis"){
+            c_radio.setIndex(oscMsg.getArgAsInt(0));
+            drawPlotAfterOSC = true;
+        } else if (address == "/step-seq"){
+            setPlayingIndex(step_sequencer.goToStep(oscMsg.getArgAsInt(0) - 1), true);
+        } else if (address == "/step-seq-advance"){
+            setPlayingIndex(step_sequencer.advance(), true);
         }
     }
+    
+    if(drawPlotAfterOSC) drawPlot(true);
 }
 
 //--------------------------------------------------------------
