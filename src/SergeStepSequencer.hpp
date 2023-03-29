@@ -20,10 +20,17 @@ private:
     int saved_slice_ids[16] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
     
     const int midi_note_step1 = 60;
+    SergeGUI* pushButton;
     
 public:
     
+    bool bAwaitingAssignment = false;
+    int idWaitingToAssign = -1;
     SergeRadio radio;
+    
+    void setPushButtonPtr(SergeGUI* pb){
+        pushButton = pb;
+    }
     
     void associateStep(int step, int slice_id){
         saved_slice_ids[step] = slice_id;
@@ -71,7 +78,13 @@ public:
     int mousePressed(int image_index){
         int i = radio.update(image_index);
         if(i >= 0){
-            return saved_slice_ids[i];
+            if(bAwaitingAssignment){
+                associateStep(i, idWaitingToAssign);
+                pushButton->setValueI(0);
+                bAwaitingAssignment = false;
+            }else{
+                return saved_slice_ids[i];
+            }
         }
         return -1;
     }

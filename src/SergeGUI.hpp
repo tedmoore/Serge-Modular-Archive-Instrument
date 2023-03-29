@@ -27,7 +27,7 @@ struct SergeGUIItems {
     ofTrueTypeFont font;
 };
 
-enum SergeGUIType { KNOB, LED, PUSH };
+enum SergeGUIType { KNOB, LED, TOGGLE };
 
 enum SergeEventType { MOUSEPRESSED, MOUSERELEASED, MOUSEDRAGGED };
 
@@ -222,13 +222,11 @@ public:
     }
 };
 
-class SergePush : public SergeGUI {
+class SergeToggle : public SergeGUI {
 public:
     
-    bool pushed = false;
-    
     void draw(float xoff, float yoff, float ratio){
-        if(pushed){
+        if(val_i == 1){
             float size = img.getWidth() * ratio;
             ofPushMatrix();
             ofTranslate((x * ratio) + xoff,(y * ratio) + yoff);
@@ -238,12 +236,8 @@ public:
     }
 
     void windowMousePressed(int mousex, int mousey, KeyModifiers &mods){
-        pushed = true;
-        dispatchEvent(PUSH,MOUSEPRESSED);
-    }
-
-    void mouseReleased(){
-        pushed = false;
+        val_i = 1;
+        dispatchEvent(TOGGLE,MOUSEPRESSED);
     }
 };
 
