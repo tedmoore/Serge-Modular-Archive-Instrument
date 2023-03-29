@@ -179,9 +179,9 @@ public:
                     guis.push_back(led);
                 }
                     break;
-                case PUSH:
+                case TOGGLE:
                 {
-                    SergePush* push = new SergePush;
+                    SergeToggle* push = new SergeToggle;
                     push->setup(json[i],guiItems.push,i);
                     guis.push_back(push);
                 }

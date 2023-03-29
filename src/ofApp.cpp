@@ -125,8 +125,10 @@ void ofApp::setup(){
         hid_xy.setAt(1,event.val_f);
     });
     
+    // setup step squencer
     step_sequencer.randomize(slices.size());
     step_sequencer.updateIndex(0);
+    step_sequencer.setPushButtonPtr(plot_controls.guis[0]);
     
     midi_ports = midiIn.getInPortList();
     
@@ -143,8 +145,9 @@ void ofApp::guiCallback(const SergeGUIEvent event){
         case LED:
             ledCallback(event);
             break;
-        case PUSH:
-            if(playing_index >= 0) step_sequencer.assignCurrentStep(playing_index);
+        case TOGGLE:
+            step_sequencer.idWaitingToAssign = playing_index;
+            step_sequencer.bAwaitingAssignment = true;
             break;
         default:
             break;
