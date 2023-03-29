@@ -123,6 +123,8 @@ public:
 
     // MIDI
     void newMidiMessage(ofxMidiMessage& eventArgs);
+    void newMidiControlChange(int cc, int val, int channel);
+    void newMidiNoteOn(int note, int vel);
     ofxMidiIn midiIn;
     MIDIManager midi_manager;
 
