@@ -626,7 +626,7 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
     
     switch(msg.status){
         case MIDI_CONTROL_CHANGE:
-            newMidiControlChange(msg.control, msg.value,msg.channel);
+            newMidiControlChange(msg.control, msg.value, msg.channel);
             break;
         case MIDI_NOTE_ON:
             newMidiNoteOn(msg.pitch, msg.velocity);
@@ -675,7 +675,7 @@ void ofApp::newMidiControlChange(int cc, int val, int channel){
             break;
         default: // if it is not one of the reserved cc
             // this will return a -1 if there is nothing assigned at this channel & cc
-            int learned_midi = midi_manager.processIncomingMIDI(channel,cc);
+            int learned_midi = midi_manager.processIncomingMIDI(channel-1,cc);
             if(learned_midi < 4 && learned_midi >= 0){
                 params_state.setAt(learned_midi, val / 127.f);
             }

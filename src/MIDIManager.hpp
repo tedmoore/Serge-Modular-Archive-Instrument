@@ -45,6 +45,18 @@ public:
         }
         return midi_learn[chan][cc];
     }
+    
+    void print(){
+        cout << "MIDIManager::print()\n";
+        for(int chan = 0; chan < 16; chan++){
+            for(int cc = 0; cc < 128; cc++){
+                if(midi_learn[chan][cc] != -1){
+                    cout << "\tChan: " << chan << " \tControl: " << cc << " \tValue: " << midi_learn[chan][cc] << endl;
+                }
+            }
+        }
+        cout << "currently_assigning_handle: " << currently_assigning_handle << endl;
+    }
 
     int midi_learn[16][128];
     int currently_assigning_handle = -1;
