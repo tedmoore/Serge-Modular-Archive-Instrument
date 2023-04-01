@@ -133,7 +133,7 @@ void ofApp::setup(){
     midi_ports = midiIn.getInPortList();
     
     windowResized(ofGetWidth(),ofGetHeight());
-    drawPlot(true);
+    drawPlot(true,false);
 }
 
 void ofApp::guiCallback(const SergeGUIEvent event){
@@ -166,21 +166,21 @@ void ofApp::ledCallback(const SergeGUIEvent event){
     i = x_radio.update(event.image_index);
     
     if(i >= 0) {
-        drawPlot(true);
+        drawPlot(true,true);
         return;
     }
     
     i = y_radio.update(event.image_index);
 
     if(i >= 0) {
-        drawPlot(true);
+        drawPlot(true,true);
         return;
     }
 
     i = c_radio.update(event.image_index);
 
     if(i >= 0) {
-        drawPlot(true);
+        drawPlot(true,false);
         return;
     }
 }
@@ -262,9 +262,13 @@ void ofApp::setPlayingIndex(int index, bool updateHandles){
         // update the x and y knobs (if the knobs are being used, this is redundant, but it's ok.
         // if the mouse is interacting with the plot, this is not redundant, which is probably
         // the more common use case)
-        plot_controls.guis[plot_x_knob_index]->setValueF(slices[playing_index]->current_pos.x);
-        plot_controls.guis[plot_y_knob_index]->setValueF(slices[playing_index]->current_pos.y);
+        updateXYKnobs();
     }
+}
+
+void ofApp::updateXYKnobs(){
+    plot_controls.guis[plot_x_knob_index]->setValueF(slices[playing_index]->current_pos.x);
+    plot_controls.guis[plot_y_knob_index]->setValueF(slices[playing_index]->current_pos.y);
 }
 
 //--------------------------------------------------------------
@@ -273,7 +277,7 @@ void ofApp::update(){
         processOSC();
         
         if(redrawPlotNextUpdate){
-            drawPlot(true);
+            drawPlot(true,true);
             redrawPlotNextUpdate = false;
         }
         
@@ -418,7 +422,7 @@ void ofApp::drawSkeuomorph(ofEventArgs &args){
     }
 }
 
-void ofApp::drawPlot(bool buildKDTree){
+void ofApp::drawPlot(bool buildKDTree, bool update_xy_knobs){
     if(buildKDTree) kdTree_2d.clear();
 
     plot_fbo.begin();
@@ -434,6 +438,7 @@ void ofApp::drawPlot(bool buildKDTree){
     }
     plot_fbo.end();
     if(buildKDTree) kdTree_2d.constructKDTree();
+    if(update_xy_knobs) updateXYKnobs();
 }
 
 //--------------------------------------------------------------
@@ -603,7 +608,7 @@ void ofApp::windowResized(int w, int h){
 
     plot_fbo.allocate(plot_w, plot_h);
     
-    drawPlot(false);
+    drawPlot(false,false);
 }
 
 void ofApp::skeuomorphResized(ofResizeEventArgs& args){
