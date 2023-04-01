@@ -89,8 +89,6 @@ public:
     vector<SoundSlice*> slices;
     vector<ofColor> rainbow_colors;
 
-    ofColor qualitative_colors[12];
-
     ofFbo plot_fbo;
 
     // the dimension in the data to acess for the seven leds

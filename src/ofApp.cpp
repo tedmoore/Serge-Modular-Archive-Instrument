@@ -702,12 +702,6 @@ void ofApp::newMidiNoteOn(int note, int vel){
 }
 
 void ofApp::createColors(){
-    // "bold" from https://carto.com/carto-colors/
-    int hexes[12] = {0x7F3C8D,0x11A579,0x3969AC,0xF2B701,0xE73F74,0x80BA5A,0xE68310,0x008695,0xCF1C90,0xf97b72,0x4b4b8f,0xA5AA99};
-
-    for(int i = 0; i < 12; i++){
-        qualitative_colors[i] = ofColor::fromHex(hexes[i]);
-    }
 
     ofPixels rainbow_pixels;
     ofLoadImage(rainbow_pixels, ofToDataPath("colormaps/color options-01.png"));
@@ -731,7 +725,7 @@ void ofApp::readSoundSlicesData(string csv_path){
         getline(data, line);
 
         SoundSlice* soundSlice = new SoundSlice;
-        soundSlice->setup(rainbow_colors,qualitative_colors,line);
+        soundSlice->setup(rainbow_colors,line);
 
         slices.push_back(soundSlice);
     }
