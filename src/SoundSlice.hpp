@@ -13,9 +13,8 @@
 
 class SoundSlice {
 public:
-    void setup(vector<ofColor> &rainbow_colors_, ofColor* qualitative_colors_, string csv_line){
+    void setup(vector<ofColor> &rainbow_colors_, string csv_line){
         rainbow_colors = rainbow_colors_;
-        category_colors = qualitative_colors_;
         current_pos_double.resize(2);
         parse_csv_line(csv_line);
     }
@@ -58,7 +57,6 @@ public:
     vector<double> current_pos_double;
     
     vector<ofColor> rainbow_colors;
-    ofColor* category_colors;
 };
 
 #endif /* Slice_hpp */
