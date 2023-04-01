@@ -36,7 +36,8 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
-    void drawPlot(bool buildKDTree);
+    void drawPlot(bool buildKDTree, bool update_xy_knobs);
+    void updateXYKnobs();
     void find_nearest_xy();
     void find_nearest_param(const vector<double> &p);
     bool mouseInPlot(int x, int y);
