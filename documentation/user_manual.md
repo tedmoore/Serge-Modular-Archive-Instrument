@@ -61,11 +61,61 @@ To store a desired sound:
 2. Press the digital button labeled "Save Position to Touchpad"
 3. Click on which of the sixteen steps in which it should be stored
 
+**MIDI and OSC Control**
+
 While this sequencer does not have a tempo or step advancement control, it is [controllable via MIDI and OSC](#midi-and-osc-control) (see below). The benefit of having 16 settable presets in the SMAI is that one can natively select and store 16 of the tens of thousands of possible sounds with a interactive GUI and then trigger those 16 sounds programmatically from a different software
+
+**QWERTY Control**
+
+The 16 steps of the Touch Activated Keyboard Controller can also be accessed via the QWERTY Keyboard (as long as the 3D plot window is focused). The layout of the QWERTY Keyboard is very similar to what one would find in many DAWs, using the ASDF row of keys for the white keys of a keyboard and the QWERTY row of keys for the black keys of the keyboard with these associations:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Sequence Step} & \textbf{QWERTY Letter} & \textbf{Keyboard "Note"} \\
+\hline
+1 & A & C \\
+\hline
+2 & W & C\# \\
+\hline
+3 & S & D \\
+\hline
+4 & E & D\# \\
+\hline
+5 & D & E \\
+\hline
+6 & F & F \\
+\hline
+7 & T & F\# \\
+\hline
+8 & G & G \\
+\hline
+9 & Y & G\# \\
+\hline
+10 & H & A \\
+\hline
+11 & U & A\# \\
+\hline
+12 & J & B \\
+\hline
+13 & K & C \\
+\hline
+14 & O & C\# \\
+\hline
+15 & L & D \\
+\hline
+16 & P & D\# \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Controlling the Touch Activated Keyboard Sequencer with the QWERTY Keyboard}
+\label{tab:osc-commands}
+\end{table}
 
 ## MIDI and OSC Control
 
-Rather than add a limited set of modulation sources, such as LFOs, to the SMAI we decided to maximize the controllability of the software by opening up all the parameters for control via MIDI and OSC. Users are able to design their own LFOs, gestural mappings, sequencing strategies, and other performative techniques in exiting tools such as Max, SuperCollider, or Pure Data and send control information to the SMAI. See the tables below for the relevant MIDI Messages and OSC commands.
+Rather than add a limited set of modulation sources, such as LFOs, to the SMAI we decided to maximize the controllability of the software by opening up all the parameters for control via MIDI and OSC. Users are able to design their own LFOs, gestural mappings, sequencing strategies, and other performative techniques in exiting tools such as Max, SuperCollider, or Pure Data and send control information to the SMAI. See the tables below for the relevant MIDI Messages and OSC commands. SMAI listens for incoming OSC messages on Port 2884 (this number can also be found on the "metal" label on the [Touch Activated Keyboard Sequencer](#touch-activated-keyboard-sequencer)).
 
 \begin{table}[h]
 \begin{center}
